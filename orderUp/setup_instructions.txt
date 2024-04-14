@@ -1,0 +1,14 @@
+This file will help you to know how to install all project dependecies after clone.
+Don't forget also to check .envExample; this file is also necessary because you need to create 
+a .env in the main folder and configure it same way as the example before running project.
+Feel free to download the project; it can be very usefull for your studies.
+
+First, you need to open the terminal inside the folder OrderUp in the project;
+
+Then, run the command bellow:
+
+"node setup_dependecies.js"
+
+It will install all dependecies automaticaly for you.
+
+Now you just need to check .envExample and configure .env as the same way;
