@@ -6,7 +6,9 @@ const dependencies = [
   'express',
   'dotenv',
   'cookie-parser',
-  'cors'
+  'cors',
+  'pg',
+  'pg-format'
 ];
 
 // Function to install all dependencies
