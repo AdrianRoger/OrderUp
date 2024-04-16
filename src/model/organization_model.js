@@ -1,4 +1,4 @@
-export default class organization {
+class Organization {
     constructor({ id, name, cnpj, email, telephone, zipcode, street, number, city, state, expire_date }) {
         this.id = id;
         this.name = name;
@@ -13,3 +13,5 @@ export default class organization {
         this.expire_date = expire_date;
     }
 }
+
+module.exports = Organization;
