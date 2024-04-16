@@ -1,13 +1,3 @@
-/*
-Tasks for tomorrow:
-
-1 create inserts for all tables;
-2 update coneptual model; OK
-3 update logica model; OK
-4 create app.js;
-5 prepare SPA for frnt end;
-*/
-
 /*CREATE DATABASE orderup;*/
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -45,7 +35,7 @@ CREATE TYPE type_enum AS ENUM ('mesa', 'cozinha', 'balcao');
 CREATE TABLE device(
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   type type_enum NOT NULL,
-  name VARCHAR(80) NOT NULL,
+  name VARCHAR(80) NOT NULL UNIQUE,
   hashcode VARCHAR(32) NOT NULL,
   fk_organization_id UUID NOT NULL REFERENCES organization(id)
 );
