@@ -1,8 +1,8 @@
 class Dinning{
-    constructor({ id, closed, device_id }){
+    constructor({ id, closed, deviceId }){
         this.id = id;
         this.closed = closed;
-        this.fk_device_id = device_id;
+        this.deviceId = deviceId;
     }
 }
 

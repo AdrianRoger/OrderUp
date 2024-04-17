@@ -1,10 +1,10 @@
 class Device{
-    constructor({ id, type, name, hashcode, organiation_id }){
+    constructor({ id, type, name, hashcode, organizationId }){
         this.id = id;
         this.type = type;
         this.name = name;
         this.hashcode = hashcode;
-        this.fk_organiation_id = organiation_id;
+        this.organizationId = organizationId;
     }
 }
 
