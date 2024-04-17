@@ -1,4 +1,4 @@
-require('dotenv').config();
+const { config } = require('dotenv');
 const pg = require('pg');
 
 class Database {
@@ -30,13 +30,13 @@ class Database {
       const result = await client.query(query, args);
       await client.query("COMMIT");
 
-      client.realease();
+      client.release();
       return result.rows;
 
     }catch (error) {
 
       await client.query("ROLLBACK");
-      client.realease();
+      client.release();
       throw error;
     }
   }

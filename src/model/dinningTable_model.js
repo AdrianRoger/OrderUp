@@ -6,6 +6,4 @@ class Dinning{
     }
 }
 
-module.exports = {
-    Dinning
-}
+module.exports = Dinning;
