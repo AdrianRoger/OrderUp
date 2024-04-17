@@ -1,4 +1,4 @@
-require('dotenv').config();
+const { config } = require('dotenv');
 const pg = require('pg');
 
 class Database {
@@ -19,9 +19,11 @@ class Database {
       port : process.env.PGPORT,
       max: 20,
     });
+
+    this.#pool.query('SET search_path TO orderup_schema');
   }
 
-  async excuteQuery({query, args}) {
+  async executeQuery({query, args}) {
     const client = await this.#pool.connect();
 
     try{
@@ -30,7 +32,7 @@ class Database {
       const result = await client.query(query, args);
       await client.query("COMMIT");
 
-      client.realease();
+      client.release();
       return result.rows;
 
     }catch (error) {
