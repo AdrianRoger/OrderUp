@@ -19,8 +19,6 @@ class Database {
       port : process.env.PGPORT,
       max: 20,
     });
-
-    this.#pool.query('SET search_path TO orderup_schema');
   }
 
   async executeQuery({query, args}) {
@@ -38,7 +36,7 @@ class Database {
     }catch (error) {
 
       await client.query("ROLLBACK");
-      client.realease();
+      client.release();
       throw error;
     }
   }
