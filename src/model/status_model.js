@@ -1,7 +1,7 @@
   class Status {
-    constructor({ id, organization_id, name, }) {
+    constructor({ id, organizationId, name, }) {
       this.id = id;
-      this.organization_id = organization_id;
+      this.organizationId = organizationId;
       this.name = name;
     }
   }
