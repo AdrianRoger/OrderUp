@@ -1,13 +1,13 @@
 class Admin {
-    constructor({ id, name, cpf, email, telephone, birth_date, password, organization_id }) {
+    constructor({ id, name, cpf, email, telephone, birthDate, password, organizationId }) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
         this.email = email;
         this.telephone = telephone;
-        this.birth_date = birth_date;
+        this.birth_date = birthDate;
         this.password = password;
-        this.organization_id = organization_id;
+        this.organization_id = organizationId;
     }
 }
 
