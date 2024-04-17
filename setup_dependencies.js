@@ -8,7 +8,9 @@ const dependencies = [
   'cookie-parser',
   'cors',
   'pg',
-  'pg-format'
+  'pg-format',
+  'jsonwebtoken',
+  'cookie-parser'
 ];
 
 // Function to install all dependencies
