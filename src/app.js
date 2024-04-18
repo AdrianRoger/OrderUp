@@ -13,11 +13,11 @@ app.use(cockieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-const routes = require('./routes');
-app.use('/api', routes);
+const { router } = require('./routes');
+app.use('/api', router);
 
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em:  https:/localhost:${PORT}`);
+  console.log(`Servidor rodando em:  http://localhost:${PORT}`);
 });
 
 //não esquecer de continuar, precisa fazer as router para continuar
