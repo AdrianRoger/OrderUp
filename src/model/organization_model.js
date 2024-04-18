@@ -1,5 +1,5 @@
 class Organization {
-    constructor({ id, name, cnpj, email, telephone, zipcode, street, number, city, state, expire_date }) {
+    constructor({ id, name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate }) {
         this.id = id;
         this.name = name;
         this.cnpj = cnpj;
@@ -10,7 +10,7 @@ class Organization {
         this.number = number;
         this.city = city;
         this.state = state;
-        this.expire_date = expire_date;
+        this.expire_date = expireDate;
     }
 }
 
