@@ -1,4 +1,4 @@
-require('dotenv').config();
+const config = require('dotenv');
 const pg = require('pg');
 
 class Database {
@@ -9,11 +9,11 @@ class Database {
   }
 
   #configDatabase() {
-    config();
-
+    config.config();
+    
     this.#pool = new pg.Pool({
       user : process.env.PGUSER,
-      host :  process.env.PGHOST,
+      host : process.env.PGHOST,
       database : process.env.PGDATABASE,
       password : process.env.PGPASSWORD,
       port : process.env.PGPORT,
@@ -21,7 +21,7 @@ class Database {
     });
   }
 
-  async excuteQuery({query, args}) {
+  async executeQuery({query, args}) {
     const client = await this.#pool.connect();
 
     try{
@@ -30,13 +30,13 @@ class Database {
       const result = await client.query(query, args);
       await client.query("COMMIT");
 
-      client.realease();
+      client.release();
       return result.rows;
 
     }catch (error) {
 
       await client.query("ROLLBACK");
-      client.realease();
+      client.release();
       throw error;
     }
   }
