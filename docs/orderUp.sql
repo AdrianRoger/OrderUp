@@ -5,7 +5,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE organization(
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   name VARCHAR(80) NOT NULL,
-  cnpj VARCHAR(14) NOT NULL,
+  cnpj VARCHAR(14) UNIQUE NOT NULL,
   email VARCHAR(80) UNIQUE NOT NULL,
   telephone VARCHAR(11) NOT NULL,
   zipcode VARCHAR(8) NOT NULL,
@@ -17,14 +17,17 @@ CREATE TABLE organization(
   CONSTRAINT valid_email CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
 );
 
+CREATE TYPE type_admin AS ENUM ('admin');
+
 CREATE TABLE admin(
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   name VARCHAR(80) NOT NULL,
-  cpf VARCHAR(11) NOT NULL,
+  cpf VARCHAR(11) UNIQUE NOT NULL,
   email VARCHAR(80) UNIQUE NOT NULL,
   telephone VARCHAR(11) NOT NULL,
   birth_date DATE NOT NULL,
   password VARCHAR(32) NOT NULL,
+  type type_admin DEFAULT 'admin',
   fk_organization_id UUID NOT NULL REFERENCES organization(id),
   CONSTRAINT check_valid_email CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
   CONSTRAINT check_valid_cpf CHECK (cpf ~ '^\d{11}$')
@@ -36,7 +39,7 @@ CREATE TABLE device(
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   type type_enum NOT NULL,
   name VARCHAR(80) NOT NULL UNIQUE,
-  hashcode VARCHAR(32) NOT NULL,
+  hashcode VARCHAR(32) UNIQUE DEFAULT uuid_generate_v4(),
   fk_organization_id UUID NOT NULL REFERENCES organization(id)
 );
 
@@ -52,15 +55,10 @@ CREATE TABLE product(
   name VARCHAR(80) NOT NULL,
   price MONEY NOT NULL,
   description VARCHAR(200) NOT NULL,
+  image_name varchar(255) UNIQUE NOT NULL,
   fk_organization_id UUID NOT NULL REFERENCES organization(id),
   fk_category_id UUID NOT NULL REFERENCES category(id),
   CONSTRAINT check_valid_price CHECK (price > '0'::MONEY)
-);
-
-CREATE TABLE status(
-  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  name VARCHAR(80) NOT NULL,
-  fk_organization_id UUID NOT NULL REFERENCES organization(id)
 );
 
 CREATE TABLE dinning_table(
@@ -76,9 +74,11 @@ CREATE TABLE ordering(
   fk_dinning_table_id UUID NOT NULL REFERENCES dinning_table(id)
 );
 
+CREATE TYPE status_enum AS ENUM ('Em Espera', 'Em Preparo', 'Pronto');
+
 CREATE TABLE ordering_product(
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  fk_status_id UUID NOT NULL REFERENCES status(id),
+  status status_enum NOT NULL DEFAULT 'Em Espera',
   fk_ordering_id UUID NOT NULL REFERENCES ordering(id),
   fk_product_id UUID NOT NULL REFERENCES product(id)
 );
