@@ -21,7 +21,7 @@ class Database {
     });
   }
 
-  async excuteQuery({query, args}) {
+  async executeQuery({query, args}) {
     const client = await this.#pool.connect();
 
     try{
