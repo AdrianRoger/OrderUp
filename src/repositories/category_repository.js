@@ -1,29 +1,25 @@
 const database = require("../database/database.js");
 const Category = require("../model/category_model.js");
-const Organization = require("../model/organization_model.js");
 
 class CategoryRepository {
-  async getCategories() {
+  async getCategories(categoryOrganizationId) {
     try {
       const results = await database.executeQuery({
-        query: `SELECT category.*, organization.name AS organization, organization.id AS org_id FROM category
-                INNER JOIN organization ON category.fk_organization_id = organization.id WHERE organization.name = 'Restaurante ABC';`,
+        query: `SELECT * from category WHERE fk_organization_id = $1`,
+        args: [categoryOrganizationId],
       });
 
       const categories = results.map((result) => {
         return new Category({
           id: result.id,
+          organizationID: result.fk_organization_id,
           name: result.name,
           description: result.description,
-          organizationId: new Organization({
-            id: result.org_id,
-            name: result.organization,
-          }),
         });
       });
       return categories ?? [];
     } catch (error) {
-      console.error(`CategoryRepository::getCategories error [${error}]`);
+      console.error(`CategoryRepository::getCategoryByUserId error [${error}]`);
       throw new InternalServerException();
     }
   }
@@ -55,28 +51,6 @@ class CategoryRepository {
     }
   }
 
-  async getCategoriesByOrganizationId(categoryOrganizationId) {
-    try {
-      const results = await database.executeQuery({
-        query: `SELECT * from category WHERE organization_id = $1`,
-        args: [categoryOrganizationId],
-      });
-
-      const categories = results.map((result) => {
-        return new Category({
-          id: result.id,
-          organizationId: result.organization_id,
-          name: result.name,
-          description: result.description,
-        });
-      });
-      return categories ?? [];
-    } catch (error) {
-      console.error(`CategoryRepository::getCategoryByUserId error [${error}]`);
-      throw new InternalServerException();
-    }
-  }
-  
   async createCategory({
     categoryOrganizationId,
     categoryName,

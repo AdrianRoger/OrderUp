@@ -1,9 +1,10 @@
 const categoryRepository = require("../repositories/category_repository.js");
 
+
 class CategoryService {
-  async getCategories() {
+  async getCategories(organizationId) {
     try {
-      return await categoryRepository.getCategories();
+      return await categoryRepository.getCategories(organizationId);
     } catch (exception) {
       throw exception;
     }
