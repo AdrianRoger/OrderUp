@@ -38,25 +38,19 @@ VALUES
   ('Pizzas', 'Sabores variados de pizzas', (SELECT id FROM organization WHERE name = 'Pizzaria 123'));
 
 -- Inserts para a tabela de produto
-INSERT INTO product (name, price, description, fk_organization_id, fk_category_id)
+INSERT INTO product (name, price, description, image_name, fk_organization_id, fk_category_id)
 VALUES 
-  ('Refrigerante', 5.99, 'Refrigerante em lata sabor guaraná', (SELECT id FROM organization WHERE name = 'Restaurante ABC'), (SELECT id FROM category WHERE name = 'Bebidas')),
-  ('Café Expresso', 3.50, 'Café expresso tradicional', (SELECT id FROM organization WHERE name = 'Restaurante ABC'), (SELECT id FROM category WHERE name = 'Cafés e outros')),
-  ('Pastel de Calabresa', 25.00, 'Pastel com calabresa e queijo', (SELECT id FROM organization WHERE name = 'Restaurante ABC'), (SELECT id FROM category WHERE name = 'Pasteis'));
-
--- Inserts para a tabela de status
-INSERT INTO status (name, fk_organization_id)
-VALUES 
-  ('Aguardando', (SELECT id FROM organization WHERE name = 'Restaurante ABC')),
-  ('Em Preparo', (SELECT id FROM organization WHERE name = 'Restaurante ABC')),
-  ('Entregue', (SELECT id FROM organization WHERE name = 'Restaurante ABC'));
+  ('Refrigerante', 5.99, 'Refrigerante em lata sabor guaraná','118-536x354' , (SELECT id FROM organization WHERE name = 'Restaurante ABC'), (SELECT id FROM category WHERE name = 'Bebidas')),
+  ('Café Expresso', 3.50, 'Café expresso tradicional', '149-536x354', (SELECT id FROM organization WHERE name = 'Restaurante ABC'), (SELECT id FROM category WHERE name = 'Cafés e outros')),
+  ('Pastel de Calabresa', 25.00, 'Pastel com calabresa e queijo', '162-536x354', (SELECT id FROM organization WHERE name = 'Restaurante ABC'), (SELECT id FROM category WHERE name = 'Pasteis'));
 
 -- Inserts para a tabela de mesa de jantar
 INSERT INTO dinning_table (closed, fk_device_id)
-SELECT false, d.id
-FROM device d
-JOIN organization o ON d.fk_organization_id = o.id
-WHERE o.name = 'Restaurante ABC' AND d.name IN ('Mesa 1', 'Mesa 2', 'Mesa 3');
+VALUES 
+  (false, (SELECT id FROM device WHERE name = 'Mesa 1')),
+  (false, (SELECT id FROM device WHERE name = 'Mesa 2')),
+  (false, (SELECT id FROM device WHERE name = 'Mesa 3'));
+
 
 -- Inserts para a tabela de pedido
 INSERT INTO ordering (fk_dinning_table_id)
@@ -66,8 +60,8 @@ VALUES
   ((SELECT id FROM dinning_table WHERE fk_device_id = (SELECT id FROM device WHERE name = 'Mesa 3')));
 
 -- Inserts para a tabela de produto do pedido
-INSERT INTO ordering_product (fk_status_id, fk_ordering_id, fk_product_id)
+INSERT INTO ordering_product (status, fk_ordering_id, fk_product_id)
 VALUES 
-  ((SELECT id FROM status WHERE name = 'Aguardando'), (SELECT id FROM ordering WHERE fk_dinning_table_id = (SELECT id FROM dinning_table WHERE fk_device_id = (SELECT id FROM device WHERE name = 'Mesa 1'))), (SELECT id FROM product WHERE name = 'Refrigerante')),
-  ((SELECT id FROM status WHERE name = 'Aguardando'), (SELECT id FROM ordering WHERE fk_dinning_table_id = (SELECT id FROM dinning_table WHERE fk_device_id = (SELECT id FROM device WHERE name = 'Mesa 2'))), (SELECT id FROM product WHERE name = 'Café Expresso')),
-  ((SELECT id FROM status WHERE name = 'Aguardando'), (SELECT id FROM ordering WHERE fk_dinning_table_id = (SELECT id FROM dinning_table WHERE fk_device_id = (SELECT id FROM device WHERE name = 'Mesa 3'))), (SELECT id FROM product WHERE name = 'Pastel de Calabresa'));
+  ('Em Espera' , (SELECT id FROM ordering WHERE fk_dinning_table_id = (SELECT id FROM dinning_table WHERE fk_device_id = (SELECT id FROM device WHERE name = 'Mesa 1'))), (SELECT id FROM product WHERE name = 'Refrigerante')),
+  ('Em Espera' , (SELECT id FROM ordering WHERE fk_dinning_table_id = (SELECT id FROM dinning_table WHERE fk_device_id = (SELECT id FROM device WHERE name = 'Mesa 2'))), (SELECT id FROM product WHERE name = 'Café Expresso')),
+  ('Em Espera' , (SELECT id FROM ordering WHERE fk_dinning_table_id = (SELECT id FROM dinning_table WHERE fk_device_id = (SELECT id FROM device WHERE name = 'Mesa 3'))), (SELECT id FROM product WHERE name = 'Pastel de Calabresa'));
