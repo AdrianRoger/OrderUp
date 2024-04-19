@@ -8,7 +8,6 @@ class AdminController{
             const name = String(req.body.name ?? '');
             const password = String(req.body.password ?? '');
             if(name.length === 0 || password.length === 0){
-                console.log("entrou");
                 throw new Error('The username and password must be a non-empty string');
             }
 
@@ -19,7 +18,7 @@ class AdminController{
             res.status(200).json({ "auth":true, "token":token });
         } catch (exception) {
             console.error(exception);
-            res.status(500).json({"auth":false, "error":exception});
+            res.status(400).json({"auth":false, "error":exception});
         }
     }
 }

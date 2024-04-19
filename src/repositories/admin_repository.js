@@ -22,7 +22,7 @@ class AdminRepository{
             return results;
         } catch (error) {
             console.error('Error during login:', error);
-            throw error;
+            throw new Error({ codeError: 500, message: 'Internal error in login!' });
         }
     }
 }
