@@ -31,7 +31,7 @@ class OrganizationRepository {
     }
   }
 
-  async getOrganizationsById(organizationId) {
+  async getOrganizationById(organizationId) {
     try {
       const result = await database.executeQuery({
         query: `SELECT * FROM organization WHERE id = $1`,

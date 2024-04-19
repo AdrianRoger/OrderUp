@@ -1,5 +1,5 @@
 const database = require('../database/database.js');
-const Admin = require('../model/admin_model.js');
+const Admin = require('../model/Admin_model.js');
 
 class AdminRepository{
   async login({ name, password }) { //trocar name para email

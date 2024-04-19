@@ -1,5 +1,5 @@
 class Admin {
-    constructor({ id, name, cpf, email, telephone, birthDate, password, organizationId }) {
+    constructor({ id, name, cpf, email, telephone, birthDate, password, type, organizationId }) {
         this.id = id;
         this.name = name;
         this.cpf = cpf;
@@ -7,6 +7,7 @@ class Admin {
         this.telephone = telephone;
         this.birth_date = birthDate;
         this.password = password;
+        this.type = type;
         this.organization_id = organizationId;
     }
 }
