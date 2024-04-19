@@ -1,12 +1,9 @@
 import adminPage from './pages/admin_page.js';
-// import sessionMiddlewares from '../../../middlewares/sessionMiddlewares.js'
 
 function createRouter(){
-    // sessionMiddlewares.verifyJWT(sessionStorage.getItem('token'));
-    // console.log(sessionStorage.getItem('token'));
-
     const router = {
         '/': function() { return adminPage() },
+        '/cozinha': function() { return },
         getPage: (path) => router[path]()
     }
 
