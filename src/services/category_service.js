@@ -36,6 +36,27 @@ class CategoryService {
       throw exception;
     }
   }
+
+  async updateCategory({ categoryId, categoryName, categoryDescription }) {
+    try {
+      const categoryToUpdate = await categoryRepository.getCategoryById(categoryId);
+
+      if (!categoryToUpdate) {
+        throw NotFoundException("category not found");
+      }
+
+      const updatedCategory = await categoryRepository.updateCategory({
+        categoryId,
+        categoryName,
+        categoryDescription,
+      });
+
+      return updatedCategory;
+    } catch (exception) {
+      throw exception;
+    }
+  }
+  
 }
 
 const categoryService = new CategoryService();

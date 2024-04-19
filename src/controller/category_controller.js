@@ -9,7 +9,7 @@ class CategoryController {
         
          const response = new HttpResponse({
            statusCode: 200,
-           data: recipes,
+           data: categories,
          });
   
         res.status(response.statusCode).json(response);
@@ -58,6 +58,49 @@ class CategoryController {
         res.status(response.statusCode).json(response);
       }
     }
+
+    async updateCategoryById(req, res) {
+      try {
+        const categoryId = String(req.params.id ?? "");
+        const categoryName = String(req.body.name ?? "");
+        const categoryDescription = String(req.body.description ?? "");
+  
+        if (categoryId.length === 0) {
+          throw new BadRequestException("category id must be a non-empty string");
+        }
+  
+        if (categoryName.length === 0) {
+          throw new BadRequestException(
+            "category name must be a non-empty string",
+          );
+        }
+  
+        if (categoryDescription.length === 0) {
+          throw new BadRequestException(
+            "category description must be a non-empty string",
+          );
+        }
+  
+        const updatedCategory = await categoryService.updateCategory({
+          categoryId,
+          categoryName,
+          categoryDescription,
+        });
+  
+        const response = new HttpResponse({
+          statusCode: 200,
+          data: updatedCategory,
+        });
+  
+        res.status(response.statusCode).json(response);
+      } catch (exception) {
+        const response = HttpResponse.fromException(exception);
+        res.status(response.statusCode).json(response);
+      }
+    }
+  
+ 
+
 }
 
 const categoryController = new CategoryController();
