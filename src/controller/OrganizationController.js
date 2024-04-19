@@ -48,7 +48,7 @@ class OrganizationController {
       const city = req.body.city;
       const state = req.body.state;
       const expireDate = req.body.expireDate;
-      
+     
       const createdOrganization = await organizationService.createOrganization(name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate);
       
       const response = new HttpResponse({
@@ -68,7 +68,6 @@ class OrganizationController {
       const organizationId = req.params.id;
       
       const name = req.body.name;
-      const cnpj = req.body.cnpj;
       const email = req.body.email;
       const telephone = req.body.telephone;
       const zipcode = req.body.zipcode;
@@ -77,8 +76,8 @@ class OrganizationController {
       const city = req.body.city;
       const state = req.body.state;
       const expireDate = req.body.expireDate;
-
-      const updatedOrganization = await organizationService.updateOrganization(organizationId, name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate);
+      
+      const updatedOrganization = await organizationService.updateOrganization(organizationId, name, email, telephone, zipcode, street, number, city, state, expireDate);
 
       const response = new HttpResponse({
         statusCode: 200,
@@ -94,9 +93,19 @@ class OrganizationController {
 
   async deleteOrganization (req, res) {
     try {
+      const organizationId = req.params.id;
 
+      const deletedOrganization = await organizationService.deleteOrganization(organizationId);
+
+      const response = new HttpResponse({
+        statusCode: 200,
+        data: deletedOrganization,
+      });
+
+      res.status(response.statusCode).json(response);
     } catch (exception) {
-      exception;
+      const response = HttpResponse.fromException(exception);
+      res.status(response.statusCode).json(response);
     }
   }
 }

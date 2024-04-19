@@ -26,8 +26,8 @@ class OrganizationRepository {
 
       return organizations ?? [];
 
-    } catch (error) {
-      console.log("Erro get repository");
+    } catch (exception) {
+      console.log(exception);
     }
   }
 
@@ -91,15 +91,15 @@ class OrganizationRepository {
     }
   }
 
-  async updateOrganization(organizationId, name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate) {
+  async updateOrganization(organizationId, name, email, telephone, zipcode, street, number, city, state, expireDate) {
     try {
       const result = await database.executeQuery({
         query:
-        `UPDATE organization SET name = $2, cnpj = $3, email = $4, telephone = $5, zipcode = $6, street = $7, 
-          number = $8, city = $9, state = $10, expire_date = $11 WHERE id = $1 RETURNING *`,
-        args: [organizationId, name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate]
+        `UPDATE organization SET name = $2, email = $3, telephone = $4, zipcode = $5, street = $6, 
+          number = $7, city = $8, state = $9, expire_date = $10 WHERE id = $1 RETURNING *`,
+        args: [organizationId, name, email, telephone, zipcode, street, number, city, state, expireDate]
       });
-      console.log(result);
+      
       const updatedOrganization = new Organization({
         id: result[0].id,
         name: result[0].name,
@@ -113,7 +113,7 @@ class OrganizationRepository {
         state: result[0].state,
         expireDate: result[0].expire_date
       });
-      console.log(updatedOrganization);
+      
       return updatedOrganization;
     } catch (exception) {
       console.log(exception);

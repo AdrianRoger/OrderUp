@@ -29,15 +29,15 @@ class OrganizationService {
     }
   }
 
-  async updateOrganization(organizationId, name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate) {
+  async updateOrganization(organizationId, name, email, telephone, zipcode, street, number, city, state, expireDate) {
     try {
       const organizationToUpdate = await organizationRepository.getOrganizationById(organizationId);
-
+      
       if (!organizationToUpdate) {
         throw console.log("Organization not found"); //NotFoundException("Recipe Not Found");
       }
 
-      const updatedOrganization = await organizationRepository.updateOrganization(name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate);
+      const updatedOrganization = await organizationRepository.updateOrganization(organizationId, name, email, telephone, zipcode, street, number, city, state, expireDate);
 
       return updatedOrganization;
     } catch (exception) {
