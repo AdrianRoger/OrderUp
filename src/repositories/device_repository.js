@@ -1,10 +1,11 @@
 const database = require('../database/database.js');
 const device = require('../model/device_model.js');
+const { InternalServerException } = require('../utils/exception.js');
 
 class DeviceRepository{
     async list(){
         try {
-            const result = await database.excuteQuery({
+            const result = await database.executeQuery({
                 query: 'SELECT * FROM device'
             })
     
@@ -21,13 +22,13 @@ class DeviceRepository{
             return devices ?? [];   
         } catch (error) {
             console.error(`Error during list: ${error}`);
-            throw new Error({ errorCode: 500, message: 'Internal Error in list!' });
+            throw new InternalServerException();
         }
     }
 
     async getDeviceById(id){
         try {
-            const result = await database.excuteQuery({
+            const result = await database.executeQuery({
                 query: 'SELECT * FROM device WHERE id = $1',
                 args: [id]
             });
@@ -47,11 +48,99 @@ class DeviceRepository{
             return deviceSelected
         } catch (error) {
             console.error(`Device dont found ${error}`);
-            throw new Error({ codeError: 500, message: 'Internal error in search Device!' });
+            throw new InternalServerException();
+        }
+    }
+    
+    async getDeviceByOrganizationId(id){
+        try {
+            const results = await database.executeQuery({
+                query: 'SELECT * FROM device WHERE fk_organization_id = $1',
+                args: [id]
+            });
+
+            const deviceSelected = results.map(result => {
+                return new device({
+                    id: result.id,
+                    type: result.closed,
+                    name: result.name,
+                    hashcode: result.hashcode,
+                    organizationId: result.fk_organization_id
+                });
+            });
+
+            return deviceSelected ?? [];
+        } catch (error) {
+            console.error(`Error in search Device ${error}`);
+            throw new InternalServerException();
         }
     }
 
-    
+    async create({ type, name, hashcode, organizationId }){
+        try {
+            const result = await database.executeQuery({
+                query: 'INSERT INTO device (type, name, hashcode, fk_organization_id) VALUES ($1, $2, $3, $4) RETURNING *',
+                args: [type, name, hashcode, organizationId]
+            });
+
+            const createDevice = new device({
+                id: result[0].id,
+                type: result[0].type,
+                name: result[0].name,
+                hashcode: result[0].hashcode,
+                organizationId: result[0].fk_organization_id
+            });
+
+            return createDevice
+        } catch (error) {
+            console.error('Error in create the Device: ', error);
+            throw new InternalServerException();
+        }
+    }
+
+    async update({ type, name, organizationId, id }){
+        try {
+            const result = await database.executeQuery({
+                query: 'UPDATE device SET type = $1, name = $2, fk_organization_id = $3 WHERE id = $4 RETURNING *',
+                args: [type, name, organizationId, id]
+            });
+
+            const updateDevice = new device({
+                id: result[0].id,
+                type: result[0].type,
+                name: result[0].name,
+                hashcode: result[0].hashcode,
+                organizationId: result[0].fk_organization_id
+            });
+
+            return updateDevice;
+        } catch (error) {
+            console.error(`Internal Server Error ${error}`);
+            throw new InternalServerException();
+        }
+    }
+
+    async delete(id){
+        try {
+            const result = await database.executeQuery({
+                query: 'DELETE FROM device WHERE id = $1 RETURNING *',
+                args: [id]
+            });
+
+            const deleteDevice = new device({
+                id: result[0].id,
+                type: result[0].type,
+                name: result[0].name,
+                hashcode: result[0].hashcode,
+                organizationId: result[0].fk_organization_id
+            });
+
+            return deleteDevice;
+        } catch (error) {
+            console.error(`Error in delete ${error}`);
+            throw new InternalServerException();
+        }
+    }
 }
 
 const deviceRepository = new DeviceRepository();

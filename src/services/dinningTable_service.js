@@ -1,5 +1,6 @@
 const dinningTableRepository = require('../repositories/dinningTable_repository.js');
 const deviceRepository = require('../repositories/device_repository.js');
+const { NotFoundException } = require('../utils/exception.js');
 
 class DinningTableService{
     async list(){
@@ -18,7 +19,7 @@ class DinningTableService{
             const dinningTable = await dinningTableRepository.getDinningTableById(id);
 
             if(!dinningTable){
-                throw new Error('Dinning table not found');
+                throw new NotFoundException();
             }
 
             return dinningTable;
@@ -32,7 +33,7 @@ class DinningTableService{
             const device = await deviceRepository.getDeviceById(id);
 
             if(!device){
-                throw new Error('Device not found');
+                throw new NotFoundException();
             }
 
             const dinningTable = await dinningTableRepository.getDinningTableToDeviceId(id);
@@ -48,7 +49,7 @@ class DinningTableService{
             const device = deviceRepository.getDeviceById(deviceId);
 
             if(!device){
-                throw new Error('Device not found!');
+                throw new NotFoundException();
             }
 
             const createDinningTable = dinningTableRepository.create({ closed, deviceId });
@@ -64,12 +65,12 @@ class DinningTableService{
         try {
             const dinningTableToUpdate = await dinningTableRepository.getDinningTableById(id);
             if(!dinningTableToUpdate){
-                throw new Error('Dinning Table not found!');
+                throw new NotFoundException();
             }
 
             const device = await deviceRepository.getDeviceById(dinningTableToUpdate.deviceId);
             if(!device){
-                throw new Error('Device not found!');
+                throw new NotFoundException();
             }
 
             const updateDinningTable = await dinningTableRepository.update({ closed, id });
@@ -86,7 +87,7 @@ class DinningTableService{
             const dinningTable = await dinningTableRepository.getDinningTableById(id);
             
             if(!dinningTable){
-                throw new Error('Dinning Table not found');
+                throw new NotFoundException();
             }
 
             const deletedDinningTable = await dinningTableRepository.delete(id);

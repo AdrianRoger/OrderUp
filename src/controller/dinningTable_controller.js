@@ -1,15 +1,22 @@
-const { json } = require('express');
+const deviceService = require('../services/device_service.js');
 const dinningTableService = require('../services/dinningTable_service.js');
+const { BadRequestException } = require('../utils/exception.js');
+const httpResponse = require('../utils/HttpResponse.js');
 
 class DinningTableController{
     async list(req, res){
         try {
             const dinningTable = await dinningTableService.list();
 
-            res.status(200).json(dinningTable);
+            const response = await new httpResponse({
+                statusCode: 200,
+                data: dinningTable
+            });
+
+            res.status(response.statusCode).json(response.data);
         } catch (exception) {
-            console.error(exception);
-            res.status(400).json(exception);
+            const response = httpResponse.fromException(exception);
+            res.status(response.statusCode).json(response);
         }
     }
 
@@ -18,15 +25,20 @@ class DinningTableController{
             const id = String(req.params.id ?? '');
 
             if(id.length === 0){
-                throw new Error('Dinning Table id error');
+                throw new BadRequestException('Dinning Table ID must be a non-empty string');
             }
 
             const dinningTable = await dinningTableService.getDinningTableById(id);
 
-            res.status(200).json(dinningTable);
+            const response = await new httpResponse({
+                statusCode: 200,
+                data: dinningTable
+            });
+
+            res.status(response.statusCode).json(response.data);
         } catch (exception) {
-            console.error(exception);
-            res.status(400).json(exception);
+            const response = httpResponse.fromException(exception);
+            res.status(response.statusCode).json(response);
         }
     }
 
@@ -35,15 +47,21 @@ class DinningTableController{
             const id = String(req.params.id ?? '');
 
             if(id.length === 0){
-                throw new Error('Dinning Table id must be valid');
+                throw new BadRequestException('Dinning Table ID must be valid');
             }
 
-            const dinningTable = await dinningTableService.getDinningTableToDeviceId(id);
+            const device = await deviceService.getDeviceByOrganizationId(id);
 
-            res.status(200).json(dinningTable);
-        } catch (error) {
-            console.error(error);
-            res.status(400).json(error);
+            const response = await new httpResponse({
+                statusCode: 200,
+                data: device
+            });
+
+            res.status(response.statusCode).json(response.data);
+        } catch (exception) {
+            console.log(exception)
+            const response = httpResponse.fromException(exception);
+            res.status(response.statusCode).json(response);
         }
     }
 
@@ -53,18 +71,23 @@ class DinningTableController{
             const deviceId = String(req.body.deviceId ?? '');
     
             if(typeof(closed) !== 'boolean'){
-                throw new Error('Bad Request!');
+                throw new BadRequestException('Dinning Table closed must be a non-empty Boolean!');
             }
             if(deviceId.length === 0){
-                throw new Error('Device Id must be a non-empty string');
+                throw new BadRequestException('Dinning Table ID must be a non-empty string');
             }
     
             const createdDinningTable = await dinningTableService.create({ closed, deviceId });
     
-            res.status(200).json(createdDinningTable);   
+            const response = await new httpResponse({
+                statusCode: 201,
+                data: createdDinningTable
+            });
+
+            res.status(response.statusCode).json(response.data);  
         } catch (exception) {
-            console.error(exception)
-            res.status(400).json(exception);
+            const response = httpResponse.fromException(exception);
+            res.status(response.statusCode).json(response);
         }
     }
 
@@ -74,15 +97,20 @@ class DinningTableController{
             const id = String(req.params.id ?? '');
 
             if(typeof(closed) !== 'boolean'){
-                throw new Error('Bad Request!');
+                throw new BadRequestException('Dinning Table closed must be a non-empty Boolean!');
             }
 
             const updatedDinningTable = await dinningTableService.update({ closed, id });
 
-            res.status(200).json(updatedDinningTable)
+            const response = await new httpResponse({
+                statusCode: 200,
+                data: updatedDinningTable
+            });
+
+            res.status(response.statusCode).json(response.data);
         } catch (exception) {
-            console.error(exception);
-            res.status(400).json(exception);
+            const response = httpResponse.fromException(exception);
+            res.status(response.statusCode).json(response);
         }
     }
 
@@ -91,15 +119,20 @@ class DinningTableController{
             const id = String(req.params.id ?? '');
 
             if(id.length === 0){
-                throw new Error('Dinning Table Id must be a non-empty string');
+                throw new BadRequestException('Dinning Table closed must be a non-empty String!');
             }
 
             const deletedDinningTable = await dinningTableService.delete(id);
 
-            res.status(200).json(deletedDinningTable);
+            const response = await new httpResponse({
+                statusCode: 200,
+                data: deletedDinningTable
+            });
+
+            res.status(response.statusCode).json(response.data);
         } catch (exception) {
-            console.error(exception);
-            res.status(400).json(exception);
+            const response = httpResponse.fromException(exception);
+            res.status(response.statusCode).json(response);
         }
     }
 }
