@@ -1,4 +1,4 @@
-const config = require('dotenv');
+const {config} = require('dotenv');
 const pg = require('pg');
 
 class Database {
@@ -9,7 +9,7 @@ class Database {
   }
 
   #configDatabase() {
-    config.config();
+    config();
     
     this.#pool = new pg.Pool({
       user : process.env.PGUSER,
@@ -20,6 +20,8 @@ class Database {
       max: 20,
     });
   }
+
+
 
   async executeQuery({query, args}) {
     const client = await this.#pool.connect();
@@ -45,4 +47,3 @@ class Database {
 const database = new Database();
 
 module.exports = database;
-

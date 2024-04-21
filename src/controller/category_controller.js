@@ -1,12 +1,14 @@
 const categoryService = require("../services/category_service.js");
 const { BadRequestException } = require("../utils/exceptions.js");
-const HttpResponse = require("../utils/http_response.js");
+const HttpResponse = require("../utils/HttpResponse.js");
 
 class CategoryController {
   async getCategories(req, res) {
     try {
-      const organizationId =  String(req.params.organization_id ?? "");
+      //const organizationId = String(req.cookies.organization_id ?? "");
+      const organizationId = String(req.params.organization_id ?? "");
       const categories = await categoryService.getCategories(organizationId);
+
       if (organizationId.length === 0) {
         throw new BadRequestException(
           "Organization id must be a non-empty string"
@@ -97,6 +99,28 @@ class CategoryController {
       const response = new HttpResponse({
         statusCode: 200,
         data: updatedCategory,
+      });
+
+      res.status(response.statusCode).json(response);
+    } catch (exception) {
+      const response = HttpResponse.fromException(exception);
+      res.status(response.statusCode).json(response);
+    }
+  }
+
+  async deleteCategoryById(req, res) {
+    try {
+      const categoryId = String(req.params.id ?? "");
+
+      if (categoryId.length === 0) {
+        throw new BadRequestException("category id must be a non-empty string");
+      }
+
+      const deletedCategory = await categoryService.deleteCategoryById(categoryId);
+
+      const response = new HttpResponse({
+        statusCode: 200,
+        data: deletedCategory,
       });
 
       res.status(response.statusCode).json(response);

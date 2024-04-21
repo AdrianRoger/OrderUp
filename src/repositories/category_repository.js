@@ -1,14 +1,14 @@
 const database = require("../database/database.js");
 const Category = require("../model/category_model.js");
+const {InternalServerException} = require('../utils/exceptions.js');
 
 class CategoryRepository {
   async getCategories(categoryOrganizationId) {
     try {
       const results = await database.executeQuery({
-        query: `SELECT * from category WHERE fk_organization_id = $1`,
+        query: `SELECT * FROM category WHERE fk_organization_id = $1`,
         args: [categoryOrganizationId],
       });
-
       const categories = results.map((result) => {
         return new Category({
           id: result.id,
@@ -19,7 +19,7 @@ class CategoryRepository {
       });
       return categories ?? [];
     } catch (error) {
-      console.error(`CategoryRepository::getCategoryByUserId error [${error}]`);
+      console.error(`CategoryRepository::getCategoryByOrganizationId error [${error}]`);
       throw new InternalServerException();
     }
   }
@@ -97,6 +97,29 @@ class CategoryRepository {
       throw new InternalServerException();
     }
   }
+
+  async deleteCategoryById(categoryId) {
+    try {
+      console.log(categoryId);
+      const result = await database.executeQuery({
+        query: "DELETE FROM category WHERE id = $1 RETURNING *",
+        args: [categoryId],
+      });
+
+      const deletedCategory = new Category({
+        id: result[0].id,
+        organizationId: result[0].organization_id,
+        name: result[0].name,
+        description: result[0].description,
+      });
+
+      return deletedCategory;
+    } catch (error) {
+      console.error(`CategoryRepository::deleteCategoryById error [${error}]`);
+      throw new InternalServerException();
+    }
+  }
+
 }
 
 const categoryRepository = new CategoryRepository();

@@ -1,5 +1,5 @@
 const categoryRepository = require("../repositories/category_repository.js");
-
+const { NotFoundException } = require("../utils/exceptions.js");
 
 class CategoryService {
   async getCategories(organizationId) {
@@ -16,15 +16,6 @@ class CategoryService {
     categoryDescription,
   }) {
     try {
-    
-      // const categoryOrganization =
-      //   await organizationRepository.getOrganizationById(
-      //     categoryOrganizationId
-      //   );
-
-      // if (!categoryOrganization) {
-      //   throw new NotFoundException("Organization not found");
-      // }
 
       const createdCategory = await categoryRepository.createCategory({
         categoryOrganizationId,
@@ -43,7 +34,7 @@ class CategoryService {
       const categoryToUpdate = await categoryRepository.getCategoryById(categoryId);
 
       if (!categoryToUpdate) {
-        throw NotFoundException("category not found");
+        throw new NotFoundException("category not found");
       }
 
       const updatedCategory = await categoryRepository.updateCategory({
@@ -53,6 +44,22 @@ class CategoryService {
       });
 
       return updatedCategory;
+    } catch (exception) {
+      throw exception;
+    }
+  }
+
+  async deleteCategoryById(categoryId) {
+    try {
+      const categoryToDelete = await categoryRepository.getCategoryById(categoryId);
+      console.log(categoryToDelete);
+      if (!categoryToDelete) {
+        throw new NotFoundException("category not found");
+      }
+
+      const deletedCategory = await categoryRepository.deleteCategoryById(categoryId);
+
+      return deletedCategory;
     } catch (exception) {
       throw exception;
     }
