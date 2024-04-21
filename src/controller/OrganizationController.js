@@ -20,7 +20,7 @@ class OrganizationController {
 
   async getOrganizationById (req, res) {
     try {
-      const organizationId = req.params.id ?? NaN;
+      const organizationId = req.params.id;
 
       const organization = await organizationService.getOrganizationById(organizationId);
       
@@ -53,7 +53,7 @@ class OrganizationController {
       
       const response = new HttpResponse({
         statusCode: 200,
-        data: createdOrganization,
+        data: createdOrganization
       });
 
       res.status(response.statusCode).json(response);
@@ -100,6 +100,7 @@ class OrganizationController {
       const response = new HttpResponse({
         statusCode: 200,
         data: deletedOrganization,
+        message: "Organization deleted!"
       });
 
       res.status(response.statusCode).json(response);
