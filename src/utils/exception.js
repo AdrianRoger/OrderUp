@@ -52,5 +52,5 @@ class UnsuportedMediaTypeException extends Exception{
 }
 
 module.exports = {
-    Exception, InternalServerException, BadRequestException, UnauthorizedException, NotFoundException, PaymentRequiredException, ConflictException
+    Exception, InternalServerException, BadRequestException, UnauthorizedException, NotFoundException, PaymentRequiredException
 }

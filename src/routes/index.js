@@ -1,7 +1,7 @@
 const express = require('express');
 const adminRouter = require('./admin_router.js');
-const dinningTableRouter = require('./dinningTableRouter.js');
-const deviceRouter = require('./deviceRouter.js');
+const dinningTableRouter = require('./DinningTableRouter.js');
+const deviceRouter = require('./DeviceRouter.js');
 const organizationRouter = require('./organization_router.js');
 
 const router = express.Router();

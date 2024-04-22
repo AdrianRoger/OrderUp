@@ -1,11 +1,11 @@
-const deviceRepository = require('../repositories/deviceRepository.js');
+const deviceRepository = require('../repositories/DeviceRepository.js');
 const organizationRepository = require('../repositories/organization_repository.js');
 const { NotFoundException } = require('../utils/Exception.js');
 
 class DeviceService{
     async getDevices(){
         try {
-            const device = await deviceRepository.list();
+            const device = await deviceRepository.getDevices();
 
             return device;
         } catch (exception) {
@@ -53,7 +53,7 @@ class DeviceService{
                 throw new NotFoundException();
             }
 
-            const createDevice = deviceRepository.create({ type, name, hashcode, organizationId });
+            const createDevice = deviceRepository.createDevice({ type, name, hashcode, organizationId });
 
             return createDevice;
         } catch (exception) {
@@ -74,7 +74,7 @@ class DeviceService{
                 throw new NotFoundException();
             }
 
-            const updateDevice = await deviceRepository.update({ type, name, organizationId, id });
+            const updateDevice = await deviceRepository.updateDevice({ type, name, organizationId, id });
 
             return updateDevice;
         } catch (exception) {
@@ -91,7 +91,7 @@ class DeviceService{
                 throw new NotFoundException();
             }
 
-            const deleteDevice = await deviceRepository.delete(id);
+            const deleteDevice = await deviceRepository.deleteDevice(id);
 
             return deleteDevice;
         } catch (exception) {

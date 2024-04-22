@@ -1,11 +1,11 @@
-const deviceService = require('../services/deviceService.js');
+const deviceService = require('../services/DeviceService.js');
 const { BadRequestException } = require('../utils/Exception.js');
 const httpResponse = require('../utils/HttpResponse.js');
 
 class DeviceController{
     async getDevices(req, res){
         try {
-            const devices = await deviceService.list();
+            const devices = await deviceService.getDevices();
 
             const response = await new httpResponse({
                 statusCode: 200,
@@ -76,7 +76,7 @@ class DeviceController{
                 throw new BadRequestException('Organization ID or Device NAME, HASHCODE must be a non-empty string');
             }
     
-            const createDevice = await deviceService.create({ type, name, hashcode, organizationId });
+            const createDevice = await deviceService.createDevice({ type, name, hashcode, organizationId });
     
             const response = await new httpResponse({
                 statusCode: 201,
@@ -101,7 +101,7 @@ class DeviceController{
                 throw new BadRequestException('Device Type, Name or OrganizationId must be a non-empty String!');
             }
 
-            const updatedDevice = await deviceService.update({ type, name, organizationId, id });
+            const updatedDevice = await deviceService.updateDevice({ type, name, organizationId, id });
 
             const response = await new httpResponse({
                 statusCode: 200,
@@ -124,7 +124,7 @@ class DeviceController{
                 throw new BadRequestException('Device closed must be a non-empty String!');
             }
 
-            const deletedDevice = await deviceService.delete(id);
+            const deletedDevice = await deviceService.deleteDevice(id);
 
             const response = await new httpResponse({
                 statusCode: 200,

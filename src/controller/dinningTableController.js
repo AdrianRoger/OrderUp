@@ -1,12 +1,12 @@
-const deviceService = require('../services/deviceService.js');
-const dinningTableService = require('../services/dinningTableService.js');
+const deviceService = require('../services/DeviceService.js');
+const dinningTableService = require('../services/DinningTableService.js');
 const { BadRequestException } = require('../utils/Exception.js');
 const httpResponse = require('../utils/HttpResponse.js');
 
 class DinningTableController{
     async getDinningTable(req, res){
         try {
-            const dinningTable = await dinningTableService.list();
+            const dinningTable = await dinningTableService.getDinningTable();
 
             const response = await new httpResponse({
                 statusCode: 200,
@@ -50,7 +50,7 @@ class DinningTableController{
                 throw new BadRequestException('Dinning Table ID must be valid');
             }
 
-            const device = await deviceService.getDeviceByOrganizationId(id);
+            const device = await dinningTableService.getDinningTableByDeviceId(id);
 
             const response = await new httpResponse({
                 statusCode: 200,
@@ -77,7 +77,7 @@ class DinningTableController{
                 throw new BadRequestException('Dinning Table ID must be a non-empty string');
             }
     
-            const createdDinningTable = await dinningTableService.create({ closed, deviceId });
+            const createdDinningTable = await dinningTableService.createDinningTable({ closed, deviceId });
     
             const response = await new httpResponse({
                 statusCode: 201,
@@ -100,7 +100,7 @@ class DinningTableController{
                 throw new BadRequestException('Dinning Table closed must be a non-empty Boolean!');
             }
 
-            const updatedDinningTable = await dinningTableService.update({ closed, id });
+            const updatedDinningTable = await dinningTableService.updateDinningTable({ closed, id });
 
             const response = await new httpResponse({
                 statusCode: 200,
@@ -122,7 +122,7 @@ class DinningTableController{
                 throw new BadRequestException('Dinning Table closed must be a non-empty String!');
             }
 
-            const deletedDinningTable = await dinningTableService.delete(id);
+            const deletedDinningTable = await dinningTableService.deleteDinningTable(id);
 
             const response = await new httpResponse({
                 statusCode: 200,

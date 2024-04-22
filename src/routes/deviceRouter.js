@@ -1,5 +1,5 @@
 const express = require('express');
-const deviceController = require('../controller/deviceController.js');
+const deviceController = require('../controller/DeviceController.js');
 
 const deviceRouter = express.Router();
 

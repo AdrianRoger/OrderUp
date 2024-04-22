@@ -1,5 +1,5 @@
 const express = require('express');
-const dinningTableController = require('../controller/dinningTableController.js');
+const dinningTableController = require('../controller/DinningTableController.js');
 
 const dinningTableRouter = express.Router();
 

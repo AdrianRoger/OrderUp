@@ -1,5 +1,5 @@
 const database = require('../database/database.js');
-const dinningTable = require('../model/dinningTableModel.js');
+const dinningTable = require('../model/DinningTableModel.js');
 const { InternalServerException } = require('../utils/Exception.js')
 
 class DinningTableRepository{

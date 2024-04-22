@@ -1,5 +1,5 @@
 const database = require('../database/database.js');
-const device = require('../model/deviceModel.js');
+const device = require('../model/DeviceModel.js');
 const { InternalServerException } = require('../utils/Exception.js');
 
 class DeviceRepository{
