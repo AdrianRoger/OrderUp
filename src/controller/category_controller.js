@@ -68,7 +68,7 @@ class CategoryController {
     }
   }
 
-  async updateCategoryById(req, res) {
+  async updateCategory(req, res) {
     try {
       const categoryId = String(req.params.id ?? "");
       const categoryName = String(req.body.name ?? "");
@@ -108,7 +108,7 @@ class CategoryController {
     }
   }
 
-  async deleteCategoryById(req, res) {
+  async deleteCategory(req, res) {
     try {
       const categoryId = String(req.params.id ?? "");
 
@@ -116,7 +116,7 @@ class CategoryController {
         throw new BadRequestException("category id must be a non-empty string");
       }
 
-      const deletedCategory = await categoryService.deleteCategoryById(categoryId);
+      const deletedCategory = await categoryService.deleteCategory(categoryId);
 
       const response = new HttpResponse({
         statusCode: 200,

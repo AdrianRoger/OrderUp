@@ -49,7 +49,7 @@ class CategoryService {
     }
   }
 
-  async deleteCategoryById(categoryId) {
+  async deleteCategory(categoryId) {
     try {
       const categoryToDelete = await categoryRepository.getCategoryById(categoryId);
       console.log(categoryToDelete);
@@ -57,7 +57,7 @@ class CategoryService {
         throw new NotFoundException("category not found");
       }
 
-      const deletedCategory = await categoryRepository.deleteCategoryById(categoryId);
+      const deletedCategory = await categoryRepository.deleteCategory(categoryId);
 
       return deletedCategory;
     } catch (exception) {

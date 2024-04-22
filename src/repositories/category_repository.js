@@ -57,6 +57,7 @@ class CategoryRepository {
     categoryDescription,
   }) {
     try {
+     
       const result = await database.executeQuery({
         query:
           "INSERT INTO category(name,description,fk_organization_id) VALUES ($1, $2, $3) RETURNING *",
@@ -98,7 +99,7 @@ class CategoryRepository {
     }
   }
 
-  async deleteCategoryById(categoryId) {
+  async deleteCategory(categoryId) {
     try {
       console.log(categoryId);
       const result = await database.executeQuery({
