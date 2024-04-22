@@ -1,9 +1,9 @@
-const deviceRepository = require('../repositories/device_repository.js');
+const deviceRepository = require('../repositories/deviceRepository.js');
 const organizationRepository = require('../repositories/organization_repository.js');
-const { NotFoundException } = require('../utils/exception.js');
+const { NotFoundException } = require('../utils/Exception.js');
 
 class DeviceService{
-    async list(){
+    async getDevices(){
         try {
             const device = await deviceRepository.list();
 
@@ -45,7 +45,7 @@ class DeviceService{
         }
     }
 
-    async create({ type, name, hashcode, organizationId }){
+    async createDevice({ type, name, hashcode, organizationId }){
         try {
             const organization = organizationRepository.getOrganizationById(organizationId);
 
@@ -62,7 +62,7 @@ class DeviceService{
         }
     }
 
-    async update({ type, name, organizationId, id }){
+    async updateDevice({ type, name, organizationId, id }){
         try {
             const deviceUpdate = await deviceRepository.getDeviceById(id);
             if(!deviceUpdate){
@@ -83,7 +83,7 @@ class DeviceService{
         }
     }
 
-    async delete(id){
+    async deleteDevice(id){
         try {
             const device = await deviceRepository.getDeviceById(id);
             

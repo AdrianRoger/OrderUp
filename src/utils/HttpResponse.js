@@ -22,15 +22,3 @@ class HttpResponse {
 }
 
 module.exports = HttpResponse;
-
-// Using mode
-// Usade in controller
-//
-// Code:
-// const response = new HttpResponse({
-//  statusCode: | 201 (For creating) or 200 (For outher things) |
-// });
-//
-// Case is a exception, use the code.
-// Code:
-// const response = HttpResponse.fromException(exception);

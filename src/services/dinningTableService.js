@@ -1,9 +1,9 @@
-const dinningTableRepository = require('../repositories/dinningTable_repository.js');
-const deviceRepository = require('../repositories/device_repository.js');
-const { NotFoundException } = require('../utils/exception.js');
+const dinningTableRepository = require('../repositories/dinningTableRespository.js');
+const deviceRepository = require('../repositories/deviceRepository.js');
+const { NotFoundException } = require('../utils/Exception.js');
 
 class DinningTableService{
-    async list(){
+    async getDinningTable(){
         try {
             const dinningTables = await dinningTableRepository.list();
 
@@ -28,7 +28,7 @@ class DinningTableService{
         }
     }
 
-    async getDinningTableToDeviceId(id){
+    async getDinningTableByDeviceId(id){
         try {
             const device = await deviceRepository.getDeviceById(id);
 
@@ -44,7 +44,7 @@ class DinningTableService{
         }
     }
 
-    async create({ closed, deviceId }){
+    async createDinningTable({ closed, deviceId }){
         try {
             const device = deviceRepository.getDeviceById(deviceId);
 
@@ -61,7 +61,7 @@ class DinningTableService{
         }
     }
 
-    async update({ closed, id }){
+    async updateDinningTable({ closed, id }){
         try {
             const dinningTableToUpdate = await dinningTableRepository.getDinningTableById(id);
             if(!dinningTableToUpdate){
@@ -82,7 +82,7 @@ class DinningTableService{
         }
     }
 
-    async delete(id){
+    async deleteDinningTable(id){
         try {
             const dinningTable = await dinningTableRepository.getDinningTableById(id);
             

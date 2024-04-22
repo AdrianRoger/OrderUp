@@ -1,9 +1,9 @@
-const deviceService = require('../services/device_service.js');
-const { BadRequestException } = require('../utils/exception.js');
+const deviceService = require('../services/deviceService.js');
+const { BadRequestException } = require('../utils/Exception.js');
 const httpResponse = require('../utils/HttpResponse.js');
 
 class DeviceController{
-    async list(req, res){
+    async getDevices(req, res){
         try {
             const devices = await deviceService.list();
 
@@ -41,7 +41,7 @@ class DeviceController{
         }
     }
 
-    async getDeviceToOrganizationId(req, res){
+    async getDeviceByOrganizationId(req, res){
         try {
             const id = String(req.params.id ?? '');
 
@@ -64,7 +64,7 @@ class DeviceController{
         }
     }
 
-    async create(req, res){
+    async createDevice(req, res){
         try {
             const type = String(req.body.type ?? '');
             const name = String(req.body.name ?? '');
@@ -90,7 +90,7 @@ class DeviceController{
         }
     }
 
-    async update(req, res){
+    async updateDevice(req, res){
         try {
             const type = String(req.body.type ?? '');
             const name = String(req.body.name ?? '');
@@ -116,7 +116,7 @@ class DeviceController{
         }
     }
 
-    async delete(req, res){
+    async deleteDevice(req, res){
         try {
             const id = String(req.params.id ?? '');
 

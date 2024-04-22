@@ -1,10 +1,10 @@
-const deviceService = require('../services/device_service.js');
-const dinningTableService = require('../services/dinningTable_service.js');
-const { BadRequestException } = require('../utils/exception.js');
+const deviceService = require('../services/deviceService.js');
+const dinningTableService = require('../services/dinningTableService.js');
+const { BadRequestException } = require('../utils/Exception.js');
 const httpResponse = require('../utils/HttpResponse.js');
 
 class DinningTableController{
-    async list(req, res){
+    async getDinningTable(req, res){
         try {
             const dinningTable = await dinningTableService.list();
 
@@ -42,7 +42,7 @@ class DinningTableController{
         }
     }
 
-    async getDinningTableToDeviceId(req, res){
+    async getDinningTableByDeviceId(req, res){
         try {
             const id = String(req.params.id ?? '');
 
@@ -65,7 +65,7 @@ class DinningTableController{
         }
     }
 
-    async create(req, res){
+    async createDinningTable(req, res){
         try {
             const closed = req.body.closed;
             const deviceId = String(req.body.deviceId ?? '');
@@ -91,7 +91,7 @@ class DinningTableController{
         }
     }
 
-    async update(req, res){
+    async updateDinningTable(req, res){
         try {
             const closed = req.body.closed;
             const id = String(req.params.id ?? '');
@@ -114,7 +114,7 @@ class DinningTableController{
         }
     }
 
-    async delete(req, res){
+    async deleteDinningTable(req, res){
         try {
             const id = String(req.params.id ?? '');
 

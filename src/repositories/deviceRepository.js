@@ -1,9 +1,9 @@
 const database = require('../database/database.js');
-const device = require('../model/device_model.js');
-const { InternalServerException } = require('../utils/exception.js');
+const device = require('../model/deviceModel.js');
+const { InternalServerException } = require('../utils/Exception.js');
 
 class DeviceRepository{
-    async list(){
+    async getDevices(){
         try {
             const result = await database.executeQuery({
                 query: 'SELECT * FROM device'
@@ -76,7 +76,7 @@ class DeviceRepository{
         }
     }
 
-    async create({ type, name, hashcode, organizationId }){
+    async createDevice({ type, name, hashcode, organizationId }){
         try {
             const result = await database.executeQuery({
                 query: 'INSERT INTO device (type, name, hashcode, fk_organization_id) VALUES ($1, $2, $3, $4) RETURNING *',
@@ -98,7 +98,7 @@ class DeviceRepository{
         }
     }
 
-    async update({ type, name, organizationId, id }){
+    async updateDevice({ type, name, organizationId, id }){
         try {
             const result = await database.executeQuery({
                 query: 'UPDATE device SET type = $1, name = $2, fk_organization_id = $3 WHERE id = $4 RETURNING *',
@@ -120,7 +120,7 @@ class DeviceRepository{
         }
     }
 
-    async delete(id){
+    async deleteDevice(id){
         try {
             const result = await database.executeQuery({
                 query: 'DELETE FROM device WHERE id = $1 RETURNING *',

@@ -1,9 +1,9 @@
 const database = require('../database/database.js');
-const dinningTable = require('../model/dinningTable_model.js');
-const { InternalServerException } = require('../utils/exception.js')
+const dinningTable = require('../model/dinningTableModel.js');
+const { InternalServerException } = require('../utils/Exception.js')
 
 class DinningTableRepository{
-    async list(){
+    async getDinningTable(){
         try {
             const result = await database.executeQuery({
                 query: 'SELECT * FROM dinning_table'
@@ -48,7 +48,7 @@ class DinningTableRepository{
         }
     }
 
-    async getDinningTableToDeviceId(id){
+    async getDinningTableByDeviceId(id){
         try {
             const results = await database.executeQuery({
                 query: 'SELECT * FROM dinning_table WHERE fk_device_id = $1',
@@ -70,7 +70,7 @@ class DinningTableRepository{
         }
     }
 
-    async create({ closed, deviceId }){
+    async createDinningTable({ closed, deviceId }){
         try {
             const result = await database.executeQuery({
                 query: 'INSERT INTO dinning_table (closed, fk_device_id) VALUES ($1, $2) RETURNING *',
@@ -90,7 +90,7 @@ class DinningTableRepository{
         }
     }
 
-    async update({ closed, id }){
+    async updateDinningTable({ closed, id }){
         try {
             const result = await database.executeQuery({
                 query: 'UPDATE dinning_table SET closed = $1 WHERE id = $2 RETURNING *',
@@ -110,7 +110,7 @@ class DinningTableRepository{
         }
     }
 
-    async delete(id){
+    async deleteDinningTable(id){
         try {
             const result = await database.executeQuery({
                 query: 'DELETE FROM dinning_table WHERE id = $1 RETURNING *',

@@ -45,9 +45,9 @@ class PaymentRequiredException extends Exception{
     }
 }
 
-class ConflictException extends Exception{
+class UnsuportedMediaTypeException extends Exception{
     constructor(error){
-        super({ error: error, statusCode: 409 });
+        super({ error: error, statusCode: 415 });
     }
 }
 
