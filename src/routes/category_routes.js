@@ -3,7 +3,8 @@ const categoryController = require('../controller/category_controller.js');
 
 const categoryRouter = express.Router();
 
-categoryRouter.get("/:organization_id", categoryController.getCategories);
+categoryRouter.get("/", categoryController.getCategories);
+categoryRouter.get("/:id", categoryController.getCategoryById);
 categoryRouter.post("/", categoryController.createCategory);
 categoryRouter.put("/:id", categoryController.updateCategory);
 categoryRouter.delete("/:id", categoryController.deleteCategory);

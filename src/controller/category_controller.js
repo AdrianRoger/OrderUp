@@ -6,7 +6,7 @@ class CategoryController {
   async getCategories(req, res) {
     try {
       //const organizationId = String(req.cookies.organization_id ?? "");
-      const organizationId = String(req.params.organization_id ?? "");
+      const organizationId = String(req.body.organization_id ?? "");
       const categories = await categoryService.getCategories(organizationId);
 
       if (organizationId.length === 0) {
@@ -17,6 +17,29 @@ class CategoryController {
       const response = new HttpResponse({
         statusCode: 200,
         data: categories,
+      });
+
+      res.status(response.statusCode).json(response);
+    } catch (exception) {
+      const response = HttpResponse.fromException(exception);
+      res.status(response.statusCode).json(response);
+    }
+  }
+
+  async getCategoryById(req, res) {
+    try {
+      const categoryId = String(req.params.id ?? "");
+      if (categoryId.length === 0) {
+        throw new BadRequestException(
+          "category id must be a non-empty string"
+        );
+      }
+      const category = await categoryService.getCategoryById(
+        categoryId
+      );
+      const response = new HttpResponse({
+        statusCode: 200,
+        data: category,
       });
 
       res.status(response.statusCode).json(response);

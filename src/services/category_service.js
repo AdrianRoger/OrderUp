@@ -10,6 +10,14 @@ class CategoryService {
     }
   }
 
+  async getCategoryById(categoryId) {
+    try {
+      return await categoryRepository.getCategoryById(categoryId);
+    } catch (exception) {
+      throw exception;
+    }
+  }
+
   async createCategory({
     categoryOrganizationId,
     categoryName,
