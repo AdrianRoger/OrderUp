@@ -1,5 +1,8 @@
-const orderingRepository = require("../repositories/ordering_repository.js");
-const { NotFoundException,UnauthorizedException } = require("../utils/exceptions.js");
+const orderingRepository = require("../repositories/OrderingRepository.js");
+const {
+  NotFoundException,
+  UnauthorizedException,
+} = require("../utils/exceptions.js");
 
 class OrderingService {
   async getOrderingsByTable(dinningTableId) {
@@ -20,32 +23,35 @@ class OrderingService {
 
   async createOrdering({
     orderingDinningTableId,
-        orderingDt,
-        orderingFinished,
+    orderingDt,
+    orderingFinished,
   }) {
     try {
-    
       const createdOrdering = await orderingRepository.createOrdering({
         orderingDinningTableId,
         orderingDt,
         orderingFinished,
       });
-      
+
       return createdOrdering;
     } catch (exception) {
       throw exception;
     }
   }
 
-  async updateOrdering({ orderingId,orderingFinished }) {
+  async updateOrdering({ orderingId, orderingFinished }) {
     try {
-      const orderingToUpdate = await orderingRepository.getOrderingById(orderingId);
-      
+      const orderingToUpdate = await orderingRepository.getOrderingById(
+        orderingId
+      );
+
       if (!orderingToUpdate) {
         throw new NotFoundException("ordering not found");
       }
       if (orderingToUpdate.finished === true) {
-        throw new UnauthorizedException("ordering alredy finished can't be updated");
+        throw new UnauthorizedException(
+          "ordering alredy finished can't be updated"
+        );
       }
       const updatedOrdering = await orderingRepository.updateOrdering({
         orderingId,
@@ -60,18 +66,24 @@ class OrderingService {
 
   async deleteOrdering(orderingId) {
     try {
-      const orderingToDelete = await orderingRepository.getOrderingById(orderingId);
+      const orderingToDelete = await orderingRepository.getOrderingById(
+        orderingId
+      );
       console.log(orderingToDelete);
-     
+
       if (!orderingToDelete) {
         throw new NotFoundException("ordering not found");
       }
 
       if (orderingToDelete.finished === false) {
-        throw new UnauthorizedException("ordering not finished can't be deleted");
+        throw new UnauthorizedException(
+          "ordering not finished can't be deleted"
+        );
       }
 
-      const deletedOrdering = await orderingRepository.deleteOrdering(orderingId);
+      const deletedOrdering = await orderingRepository.deleteOrdering(
+        orderingId
+      );
 
       return deletedOrdering;
     } catch (exception) {

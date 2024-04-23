@@ -1,42 +1,37 @@
-const {config} = require('dotenv');
-const pg = require('pg');
+const {config} = require("dotenv");
+const pg = require("pg");
 
 class Database {
   #pool;
 
-  constructor(){
+  constructor() {
     this.#configDatabase();
   }
 
   #configDatabase() {
     config();
-    
+
     this.#pool = new pg.Pool({
-      user : process.env.PGUSER,
-      host : process.env.PGHOST,
-      database : process.env.PGDATABASE,
-      password : process.env.PGPASSWORD,
-      port : process.env.PGPORT,
-      max: 20,
+      user:process.env.PGUSER,
+      host:process.env.PGHOST,
+      database:process.env.PGDATABASE,
+      password:process.env.PGPASSWORD,
+      port:process.env.PGPORT,
+      max:20,
     });
   }
 
-
-
-  async executeQuery({query, args}) {
+  async executeQuery({ query, args }) {
     const client = await this.#pool.connect();
 
-    try{
-
+    try {
       await client.query("BEGIN");
       const result = await client.query(query, args);
       await client.query("COMMIT");
 
       client.release();
       return result.rows;
-
-    }catch (error) {
-
+    } catch (error) {
       await client.query("ROLLBACK");
       client.release();
       throw error;

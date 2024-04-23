@@ -24,13 +24,12 @@ class CategoryService {
     categoryDescription,
   }) {
     try {
-
       const createdCategory = await categoryRepository.createCategory({
         categoryOrganizationId,
         categoryName,
         categoryDescription,
       });
-      
+
       return createdCategory;
     } catch (exception) {
       throw exception;
@@ -39,7 +38,9 @@ class CategoryService {
 
   async updateCategory({ categoryId, categoryName, categoryDescription }) {
     try {
-      const categoryToUpdate = await categoryRepository.getCategoryById(categoryId);
+      const categoryToUpdate = await categoryRepository.getCategoryById(
+        categoryId
+      );
 
       if (!categoryToUpdate) {
         throw new NotFoundException("category not found");
@@ -59,20 +60,23 @@ class CategoryService {
 
   async deleteCategory(categoryId) {
     try {
-      const categoryToDelete = await categoryRepository.getCategoryById(categoryId);
+      const categoryToDelete = await categoryRepository.getCategoryById(
+        categoryId
+      );
       console.log(categoryToDelete);
       if (!categoryToDelete) {
         throw new NotFoundException("category not found");
       }
 
-      const deletedCategory = await categoryRepository.deleteCategory(categoryId);
+      const deletedCategory = await categoryRepository.deleteCategory(
+        categoryId
+      );
 
       return deletedCategory;
     } catch (exception) {
       throw exception;
     }
   }
-  
 }
 
 const categoryService = new CategoryService();

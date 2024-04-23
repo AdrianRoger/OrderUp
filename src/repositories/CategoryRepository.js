@@ -1,6 +1,6 @@
 const database = require("../database/database.js");
 const Category = require("../model/category_model.js");
-const {InternalServerException} = require('../utils/exceptions.js');
+const { InternalServerException } = require("../utils/exceptions.js");
 
 class CategoryRepository {
   async getCategories(categoryOrganizationId) {
@@ -19,7 +19,9 @@ class CategoryRepository {
       });
       return categories ?? [];
     } catch (error) {
-      console.error(`CategoryRepository::getCategoryByOrganizationId error [${error}]`);
+      console.error(
+        `CategoryRepository::getCategoryByOrganizationId error [${error}]`
+      );
       throw new InternalServerException();
     }
   }
@@ -57,7 +59,6 @@ class CategoryRepository {
     categoryDescription,
   }) {
     try {
-     
       const result = await database.executeQuery({
         query:
           "INSERT INTO category(name,description,fk_organization_id) VALUES ($1, $2, $3) RETURNING *",
@@ -120,7 +121,6 @@ class CategoryRepository {
       throw new InternalServerException();
     }
   }
-
 }
 
 const categoryRepository = new CategoryRepository();

@@ -30,13 +30,9 @@ class CategoryController {
     try {
       const categoryId = String(req.params.id ?? "");
       if (categoryId.length === 0) {
-        throw new BadRequestException(
-          "category id must be a non-empty string"
-        );
+        throw new BadRequestException("category id must be a non-empty string");
       }
-      const category = await categoryService.getCategoryById(
-        categoryId
-      );
+      const category = await categoryService.getCategoryById(categoryId);
       const response = new HttpResponse({
         statusCode: 200,
         data: category,

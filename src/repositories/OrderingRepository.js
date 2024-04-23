@@ -24,10 +24,9 @@ class OrderingRepository {
     }
   }
 
-  
   async getOrderingById(orderingId) {
     try {
-        const result = await database.executeQuery({
+      const result = await database.executeQuery({
         query: "SELECT * FROM ordering WHERE id = $1",
         args: [orderingId],
       });
@@ -36,7 +35,7 @@ class OrderingRepository {
         return null;
       }
 
-     const ordering =  new Ordering({
+      const ordering = new Ordering({
         id: result[0].id,
         dinningTableID: result[0].fk_dinning_table_id,
         orderingDt: result[0].ordering_dt,
@@ -45,9 +44,7 @@ class OrderingRepository {
 
       return ordering;
     } catch (error) {
-      console.error(
-        `orderingRepository::getorderingById error [${error}]`
-      );
+      console.error(`orderingRepository::getorderingById error [${error}]`);
       throw new InternalServerException();
     }
   }
@@ -58,7 +55,6 @@ class OrderingRepository {
     orderingFinished,
   }) {
     try {
-      
       const result = await database.executeQuery({
         query:
           "INSERT INTO ordering (ordering_dt,finished,fk_dinning_table_id) VALUES ($1, $2, $3) RETURNING *",
@@ -71,7 +67,7 @@ class OrderingRepository {
         finished: result[0].finished,
         dinningTableId: result[0].fk_dinning_table_id,
       });
-      
+
       return createdOrdering;
     } catch (error) {
       console.error(`OrderingRepository::createOrdering error [${error}]`);
@@ -79,12 +75,11 @@ class OrderingRepository {
     }
   }
 
-  async updateOrdering( {orderingId,orderingFinished}) {
+  async updateOrdering({ orderingId, orderingFinished }) {
     try {
       const result = await database.executeQuery({
-        query:
-          "UPDATE ordering SET finished = $2 WHERE id = $1 RETURNING *",
-        args: [orderingId,orderingFinished],
+        query: "UPDATE ordering SET finished = $2 WHERE id = $1 RETURNING *",
+        args: [orderingId, orderingFinished],
       });
       const updatedOrdering = new Ordering({
         id: result[0].id,
@@ -92,7 +87,7 @@ class OrderingRepository {
         finished: result[0].finished,
         dinningTableId: result[0].fk_dinning_table_id,
       });
-     
+
       return updatedOrdering;
     } catch (error) {
       console.error(`OrderingRepository::editOrdering error [${error}]`);
@@ -121,7 +116,6 @@ class OrderingRepository {
       throw new InternalServerException();
     }
   }
-
 }
 
 const orderingRepository = new OrderingRepository();
