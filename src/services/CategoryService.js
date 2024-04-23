@@ -1,4 +1,4 @@
-const categoryRepository = require("../repositories/category_repository.js");
+const categoryRepository = require("../repositories/CategoryRepository.js");
 const { NotFoundException } = require("../utils/exceptions.js");
 
 class CategoryService {

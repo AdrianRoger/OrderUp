@@ -1,3 +1,4 @@
 src/database/database_test.js
 node_modules
 .env
+src/utils/exceptions
