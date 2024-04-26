@@ -1,5 +1,5 @@
-const categoryService = require("../services/category_service.js");
-const { BadRequestException } = require("../utils/exceptions.js");
+const categoryService = require("../services/CategoryService.js");
+const { BadRequestException } = require("../utils/Exception.js");
 const HttpResponse = require("../utils/HttpResponse.js");
 
 class CategoryController {

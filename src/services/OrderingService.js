@@ -1,8 +1,5 @@
 const orderingRepository = require("../repositories/OrderingRepository.js");
-const {
-  NotFoundException,
-  UnauthorizedException,
-} = require("../utils/exceptions.js");
+const {NotFoundException,UnauthorizedException} = require("../utils/Exception.js");
 
 class OrderingService {
   async getOrderingsByTable(dinningTableId) {
@@ -69,16 +66,13 @@ class OrderingService {
       const orderingToDelete = await orderingRepository.getOrderingById(
         orderingId
       );
-      console.log(orderingToDelete);
 
       if (!orderingToDelete) {
         throw new NotFoundException("ordering not found");
       }
 
-      if (orderingToDelete.finished === false) {
-        throw new UnauthorizedException(
-          "ordering not finished can't be deleted"
-        );
+      if (orderingToDelete.finished === true) {
+        throw new UnauthorizedException("ordering finished can't be deleted");
       }
 
       const deletedOrdering = await orderingRepository.deleteOrdering(

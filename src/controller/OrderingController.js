@@ -1,5 +1,5 @@
-const orderingService = require("../services/ordering_service.js");
-const { BadRequestException } = require("../utils/exceptions.js");
+const orderingService = require("../services/OrderingService.js");
+const { BadRequestException } = require("../utils/Exception.js");
 const HttpResponse = require("../utils/HttpResponse.js");
 
 class OrderingController {

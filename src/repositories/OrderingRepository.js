@@ -1,6 +1,6 @@
 const database = require("../database/database.js");
-const Ordering = require("../model/ordering_model.js");
-const { InternalServerException } = require("../utils/exceptions.js");
+const Ordering = require("../model/OrderingModel.js");
+const { InternalServerException } = require("../utils/Exception.js");
 
 class OrderingRepository {
   async getOrderingsByTable(dinningTableId) {
@@ -97,7 +97,6 @@ class OrderingRepository {
 
   async deleteOrdering(orderingId) {
     try {
-      console.log(orderingId);
       const result = await database.executeQuery({
         query: "DELETE FROM ordering WHERE id = $1 RETURNING *",
         args: [orderingId],

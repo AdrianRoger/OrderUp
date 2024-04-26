@@ -1,5 +1,5 @@
 const express = require("express");
-const orderingController = require("../controller/ordering_controller.js");
+const orderingController = require("../controller/OrderingController.js");
 
 const orderingRouter = express.Router();
 

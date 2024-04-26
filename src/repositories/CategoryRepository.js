@@ -1,6 +1,6 @@
 const database = require("../database/database.js");
-const Category = require("../model/category_model.js");
-const { InternalServerException } = require("../utils/exceptions.js");
+const Category = require("../model/CategoryModel.js");
+const { InternalServerException } = require("../utils/Exception.js");
 
 class CategoryRepository {
   async getCategories(categoryOrganizationId) {
@@ -102,7 +102,6 @@ class CategoryRepository {
 
   async deleteCategory(categoryId) {
     try {
-      console.log(categoryId);
       const result = await database.executeQuery({
         query: "DELETE FROM category WHERE id = $1 RETURNING *",
         args: [categoryId],
