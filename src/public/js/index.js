@@ -1,4 +1,4 @@
-import router from './router.js';
+import router from '../router.js';
 const root = document.querySelector('#root');
 
 const routes = router();
