@@ -5,6 +5,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE organization(
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   name VARCHAR(80) NOT NULL,
+  loginName VARCHAR(20) UNIQUE NOT NULL,
   cnpj VARCHAR(14) UNIQUE NOT NULL,
   email VARCHAR(80) UNIQUE NOT NULL,
   telephone VARCHAR(11) NOT NULL,
@@ -17,8 +18,6 @@ CREATE TABLE organization(
   CONSTRAINT valid_email CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$')
 );
 
-CREATE TYPE type_admin AS ENUM ('admin');
-
 CREATE TABLE admin(
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   name VARCHAR(80) NOT NULL,
@@ -26,8 +25,7 @@ CREATE TABLE admin(
   email VARCHAR(80) UNIQUE NOT NULL,
   telephone VARCHAR(11) NOT NULL,
   birth_date DATE NOT NULL,
-  password VARCHAR(32) NOT NULL,
-  type type_admin DEFAULT 'admin',
+  password VARCHAR(60) NOT NULL,
   fk_organization_id UUID NOT NULL REFERENCES organization(id),
   CONSTRAINT check_valid_email CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
   CONSTRAINT check_valid_cpf CHECK (cpf ~ '^\d{11}$')
@@ -38,8 +36,8 @@ CREATE TYPE type_enum AS ENUM ('mesa', 'cozinha', 'balcao');
 CREATE TABLE device(
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   type type_enum NOT NULL,
-  name VARCHAR(80) NOT NULL UNIQUE,
-  hashcode VARCHAR(32) UNIQUE DEFAULT uuid_generate_v4(),
+  name VARCHAR(80) NOT NULL,
+  hashcode VARCHAR(8) UNIQUE NOT NULL,
   fk_organization_id UUID NOT NULL REFERENCES organization(id)
 );
 
@@ -61,20 +59,14 @@ CREATE TABLE product(
   CONSTRAINT check_valid_price CHECK (price > '0'::MONEY)
 );
 
-CREATE TABLE dinning_table(
-  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  closed boolean DEFAULT false, 
-  fk_device_id UUID NOT NULL REFERENCES device(id)
-);
-
 CREATE TABLE ordering(
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   ordering_dt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   finished boolean DEFAULT false,
-  fk_dinning_table_id UUID NOT NULL REFERENCES dinning_table(id)
+  fk_device_id UUID NOT NULL REFERENCES device(id)
 );
 
-CREATE TYPE status_enum AS ENUM ('Em Espera', 'Em Preparo', 'Pronto');
+CREATE TYPE status_enum AS ENUM ('Em Espera', 'Em Preparo', 'Pronto', 'Cancelado');
 
 CREATE TABLE ordering_product(
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
