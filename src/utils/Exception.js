@@ -46,10 +46,24 @@ class ConflictException extends Exception {
   }
 }
 
+class PaymentRequiredException extends Exception{
+  constructor(error){
+      super({ error: error, statusCode: 402 });
+  }
+}
+
+class UnsuportedMediaTypeException extends Exception{
+  constructor(error){
+      super({ error: error, statusCode: 415 });
+  }
+}
+
 module.exports = {
   ConflictException,
   NotFoundException,
   UnauthorizedException,
   BadRequestException,
-  InternalServerException
+  InternalServerException,
+  PaymentRequiredException,
+  UnsuportedMediaTypeException
 }
