@@ -1,4 +1,4 @@
-const database = require('../database/Database.js');
+const database = require('../database/database.js');
 const device = require('../model/DeviceModel.js');
 const { InternalServerException } = require('../utils/Exception.js');
 
