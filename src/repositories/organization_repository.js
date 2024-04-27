@@ -4,11 +4,11 @@ const Organization = require('../model/Organization_model.js');
 class OrganizationRepository {
   async getOrganizations() {
     try {
-      const results = await database.executeQuery({
+      const result = await database.executeQuery({
         query: "SELECT * FROM organization"
       });
 
-      const organizations = results.map((result) => {
+      const organizations = result.map((result) => {
         return new Organization({
           id: result.id,
           name: result.name,
@@ -28,6 +28,7 @@ class OrganizationRepository {
 
     } catch (exception) {
       console.log(exception);
+      console.log("OrganizationRepository:getOrganizations");
     }
   }
 
@@ -59,7 +60,8 @@ class OrganizationRepository {
       return organization;
 
     } catch (exception) {
-      console.log("erro aqui");
+      console.log(exception);
+      console.log("OrganizationRepository:getOrganizationById");
     }
   }
 
@@ -73,6 +75,7 @@ class OrganizationRepository {
       });
 
       const createdOrganization = new Organization({
+        id: result[0].id,
         name: result[0].name,
         cnpj: result[0].cnpj,
         email: result[0].email,
@@ -87,7 +90,8 @@ class OrganizationRepository {
 
       return createdOrganization;
     } catch (exception) {
-      console.log("CreateOrganization error in organizationRepository.js", exception);
+      console.log(exception);
+      console.log("OrganizationRepository:createOrganization");
     }
   }
 
@@ -117,6 +121,7 @@ class OrganizationRepository {
       return updatedOrganization;
     } catch (exception) {
       console.log(exception);
+      console.log("OrganizationRepository:updateOrganization");
     }
   }
 
@@ -143,7 +148,7 @@ class OrganizationRepository {
 
       return deletedOrganization;
     } catch (exception) {
-      console.log("erro aqui");
+      console.log("OrganizationRepository:deleteOrganization");
     }
   }
 }
