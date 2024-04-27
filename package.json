@@ -1,13 +1,20 @@
 {
   "name": "orderup",
   "version": "1.0.0",
-  "description": "",
+  "description": "Plataforma de pedidos para restaurantes.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/app.js"
+    "start": "nodemon index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "order",
+    "restaurant",
+    "food",
+    "ordering",
+    "menu",
+    "customer"
+  ],
+  "author": "Adrian Roger, Cesar Faustino, Murilo Russo, Victor Revoredo",
   "license": "ISC",
   "dependencies": {
     "cookie-parser": "^1.4.6",

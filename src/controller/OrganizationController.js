@@ -1,4 +1,4 @@
-const organizationService = require('../services/organization_service.js');
+const organizationService = require('../services/OrganizationService.js');
 const HttpResponse = require('../utils/HttpResponse.js');
 
 class OrganizationController {
