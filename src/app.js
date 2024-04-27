@@ -14,7 +14,11 @@ app.use(cockieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 const router = require("./routes/index");
-app.use("/", router);
+app.use("/api", router);
+
+app.get("/*",(req,res)=> {
+  res.sendFile(path.join(__dirname,"public","index.html"))
+});
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando em:  http://localhost:${PORT}`);
