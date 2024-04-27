@@ -1,4 +1,4 @@
-const database = require('../database/database.js');
+const database = require('../database/Database.js');
 const Admin = require('../model/AdminModel.js');
 
 // class AdminRepository{
