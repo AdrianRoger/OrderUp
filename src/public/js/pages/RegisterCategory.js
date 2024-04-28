@@ -7,7 +7,7 @@ export default class extends AbstractPage {
   }
 
   async getHtml() {
-    const body = document.body;
+    const body = document.createElement('div');
     const div = document.createElement('div');
     const registerCategoryForm = document.createElement('form');
     const inputNameCategoryLabel = document.createElement('label');
