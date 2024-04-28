@@ -1,10 +1,37 @@
 /* Root Region */
-:root {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+:root {
+  --orderup-light-blue: #8ECAE6;
+  --orderup-medium-blue: #219EBC;
+  --orderup-dark-blue: #023047;
+  --orderup-light-grey: #E0E1DD;
+  --orderup-darkest-blue: #0D1B2A;
+  --orderup-white: #EBECFA;
+  
+  --orderup-poppins: 'Poppins', Arial, Helvetica, sans-serif;
+
+  --size-0: 14px;
+  --size-1: 18px;
+  --size-2: 24px;
+  --size-3: 32px;
+  --size-4: 42px;
 }
 /* End Root Region*/
 
 
-/* #Begin Region Cesar Faustino */
+/* #region Adrian */
 
-/* End Cesar Faustino Region */
+/* #endregion */
+
+/* #region Cesar */
+
+/* #endregion */
+
+/* #region Murilo */
+
+/* #endregion */
+
+/* #region Victor */
+
+/* #endregion */
