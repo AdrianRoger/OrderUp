@@ -1,12 +1,13 @@
-  class Product {
-    constructor({ id, organizationId, categoryId, name, price, description }) {
-      this.id = id;
-      this.organizationId = organizationId;
-      this.categoryId = categoryId;
-      this.name = name;
-      this.price = price;
-      this.description = description;
-    }
+class Product {
+  constructor({ id, name, price, description, imgName, categoryId, organizationId }) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.description = description;
+    this.imgName = imgName;
+    this.organizationId = organizationId;
+    this.categoryId = categoryId;
   }
+}
 
-  module.exports = Product;
+module.exports = Product;

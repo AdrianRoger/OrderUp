@@ -89,7 +89,7 @@ class LoginController {
           }
 
           //metodo getOrganizationByLoginName inexistente
-          const organizationFound = await organizationService.getOrganizationByLoginName({ orgLoginName });
+          const organizationFound = await organizationService.getOrganizationByLoginName({ loginName: orgLoginName });
           if (!organizationFound) {
             res.cookie('session_id', '', { expires: new Date(0) });
             throw new UnauthorizedException(error);
