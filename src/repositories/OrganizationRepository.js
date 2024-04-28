@@ -1,5 +1,5 @@
 const database = require('../database/database.js');
-const Organization = require('../model/Organization_model.js');
+const Organization = require('../model/OrganizationModel.js');
 
 class OrganizationRepository {
   async getOrganizations() {

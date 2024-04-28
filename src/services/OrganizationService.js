@@ -1,4 +1,4 @@
-const organizationRepository = require('../repositories/organization_repository.js');
+const organizationRepository = require('../repositories/OrganizationRepository.js');
 
 class OrganizationService {
   async getOrganizations() {

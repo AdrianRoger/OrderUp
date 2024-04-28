@@ -1,4 +1,4 @@
-const adminRepository = require('../repositories/admin_repository.js');
+const adminRepository = require('../repositories/AdminRepository.js');
 
 // class AdminService{
 //     async login({ name, password }){

@@ -1,5 +1,5 @@
 const deviceRepository = require('../repositories/DeviceRepository.js');
-const organizationRepository = require('../repositories/organization_repository.js');
+const organizationRepository = require('../repositories/OrganizationRepository.js');
 const { NotFoundException } = require('../utils/Exception.js');
 
 class DeviceService{
