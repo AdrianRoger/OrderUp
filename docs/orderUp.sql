@@ -37,7 +37,7 @@ CREATE TABLE device(
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   type type_enum NOT NULL,
   name VARCHAR(80) NOT NULL,
-  hashcode VARCHAR(8) UNIQUE NOT NULL,
+  hashcode VARCHAR(10) UNIQUE NOT NULL,
   fk_organization_id UUID NOT NULL REFERENCES organization(id)
 );
 
