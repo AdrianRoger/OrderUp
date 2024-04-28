@@ -18,6 +18,24 @@ class AdminController {
     }
   }
 
+  async getAdminByEmail (req, res) {
+    try {
+      const adminEmail = req.params.email;
+
+      const admin = await adminService.getAdminByEmail(adminEmail);
+
+      const response = new HttpResponse({
+        statusCode: 200,
+        data: admin
+      });
+
+      res.status(response.statusCode).json(response);
+    } catch (exception) {
+      const response = HttpResponse.fromException(exception);
+      res.status(response.statusCode).json(response);
+    }
+  }
+
   async getAdminById (req, res) {
     try {
       const adminId = req.params.id;

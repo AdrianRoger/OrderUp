@@ -16,5 +16,4 @@ router.use('/device', deviceRouter);
 router.use('/organization', organizationRouter);
 router.use('/admin', adminRouter);
 
-
 module.exports = router;
