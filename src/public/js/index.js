@@ -1,4 +1,5 @@
 import AdminOptions from "./pages/AdminOptions.js";
+import CategoryList from "./pages/mCategoryList.js";
 
 const navigateTo = url => {
   history.pushState(null, null, url);
@@ -8,6 +9,7 @@ const navigateTo = url => {
 const router = async () => {
   const routes = [
     { path: '/', view: AdminOptions },
+    { path: '/categories', view: CategoryList},
   ];
 
   const potentialMatches = routes.map(route => {

@@ -6,7 +6,7 @@ class CategoryController {
   async getCategories(req, res) {
     try {
       //const organizationId = String(req.cookies.organization_id ?? "");
-      const organizationId = String(req.params.id ?? "");
+      const organizationId = String(req.params.orgId ?? "");
       const categories = await categoryService.getCategories(organizationId);
 
       if (organizationId.length === 0) {

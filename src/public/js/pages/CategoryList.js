@@ -1,114 +1,64 @@
 import AbastractPage from "./AbastractPage.js";
 
+
 export default class extends AbastractPage {
   constructor() {
     super();
-    this.setTitle('Categories');
+    this.setTitle("Categories");
   }
 
   async getHtml() {
-    const categories = document.createElement('div');
-   //categories.classList.add('login-box');
+    const categories = document.createElement("body");
+    categories.id = "categories-list";
+    try {
+     
 
-     const header = new Headers();
-        header.append("Content-Type", "application/json");
-   
-   const content = JSON.stringify({
-     "organization_id": "a7930dec-36ea-4a8d-998e-be326acfddf6"
-   });
-   console.log(content);
-   const requestOptions = {
-     method: "GET",
-     headers: header,
-     body: content,
-     redirect: "follow"
-   };
-   
-   fetch("http://192.168.1.110:3000/categories/", requestOptions)
-     .then((response) => response.text())
-     .then((result) => {
-        const category = document.createElement('div');
-        category.classList.add('category-box');
-        const id = document.createElement('h2');
-        id.innerText = result.id;
-        const name = document.createElement('h2');
-        id.innerText = result.name;
-        const description = document.createElement('h2');
-        id.innerText = result.description;
-        // 2 buttons aqui
-        category.appendChild(id);
-        category.appendChild(name);
-        category.appendChild(description);
+      const response = await fetch(
+        "/api/categories/a7930dec-36ea-4a8d-998e-be326acfddf6"
+      );
+
+      const result = await response.json();
+      const data = result.data;
+
+      for (let d of data) {
+        const divName = document.createElement("div");
+        const divDescription = document.createElement("div");
+        const titleName = document.createElement("p");
+        titleName.classList.add("titleCategory");
+        titleName.innerText = "Nome";
+        const titleDescription = document.createElement("p");
+        titleDescription.classList.add("titleCategory");
+        titleDescription.innerText = "Descrição";
+        const category = document.createElement("div");
+        category.classList.add("category-box");
+        const icones = document.createElement("div");
+        const name = document.createElement("p");
+        name.innerText = d.name;
+        const description = document.createElement("p");
+        description.innerText = d.description;
+        const linkEditar = document.createElement("a"); 
+        //linkEditar.href = '/'
+        const linkDeletar = document.createElement("a");
+        //linkDeletar.href = 
+        const imgEditar = document.createElement("img");
+        imgEditar.src = "../../img/editar_icon.png";
+        const imgDeletar = document.createElement("img");
+        imgDeletar.src = "../../img/deletar_icon.png";
+        divName.appendChild(titleName);
+        divName.appendChild(name);
+        divDescription.appendChild(titleDescription);
+        divDescription.appendChild(description);
+        linkEditar.appendChild(imgEditar);
+        linkDeletar.appendChild(imgDeletar);
+        icones.appendChild(linkEditar);
+        icones.appendChild(linkDeletar);
+        category.appendChild(divName);
+        category.appendChild(divDescription);
+        category.appendChild(icones);
         categories.appendChild(category);
-        //console.log(result);
-    })
-     .catch((error) => console.error(error));
-
-
- 
-    // let input = document.createElement('input');
-    // input.type = 'text';
-    // input.name = 'username'
-    // input.required = true;
-
-    // let label = document.createElement('label');
-    // label.innerHTML = 'Username';
-
-    // div.appendChild(input);
-    // div.appendChild(label);
-
-    // form.appendChild(div);
-
-    // div = document.createElement('div');
-    // div.classList.add('user-box');
-
-    // input = document.createElement('input');
-    // input.type = 'password';
-    // input.name = 'password';
-    // input.required = true;
-
-    // label = document.createElement('label');
-    // label.innerHTML = 'Password';
-
-    // div.appendChild(input);
-    // div.appendChild(label);
-
-    // form.appendChild(div);
-    // form.addEventListener('submit', async (event) => {
-    //   event.preventDefault();
-    //   const username = form.username.value;
-    //   const password = form.password.value;
-    //   const response = await fetch('/api/login/', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ username, password }),
-    //   });
-    //   const data = await response.json();
-    //   if (data.error) {
-    //     alert(data.error);
-    //     document.cookie = "";
-    //   } else {
-    //     window.location.href = '/client';
-    //   }
-    // });
-
-    // const button = document.createElement('button');
-    // button.type = 'submit';
-    // // a.addEventListener('click', function (e) {
-    // //   e.preventDefault(); // Impede o comportamento padrão de redirecionamento do link
-    // //   const form = this.closest('form'); // Encontra o formulário mais próximo
-    // //   if (form) {
-    // //     form.submit(); // Envia o formulário
-    // //   }
-    // // });
-    // button.innerHTML = `SEND <span></span>`;
-
-    // form.appendChild(button);
-    // login.appendChild(form);
+      }
+    } catch (error) {}
 
     return categories;
   }
-
 }

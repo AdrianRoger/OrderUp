@@ -3,7 +3,7 @@ const categoryController = require("../controller/CategoryController.js");
 
 const categoryRouter = express.Router();
 
-categoryRouter.get("/:id", categoryController.getCategories);
+categoryRouter.get("/:orgId", categoryController.getCategories);
 //categoryRouter.get("/:id", categoryController.getCategoryById);
 categoryRouter.post("/", categoryController.createCategory);
 categoryRouter.put("/:id", categoryController.updateCategory);
