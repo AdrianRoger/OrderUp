@@ -1,7 +1,8 @@
 class Organization {
-  constructor({ id, name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate }) {
+  constructor({ id, name, loginName, cnpj, email, telephone, zipcode, street, number, city, state, expireDate }) {
     this.id = id;
     this.name = name;
+    this.loginName = loginName;
     this.cnpj = cnpj;
     this.email = email;
     this.telephone = telephone;

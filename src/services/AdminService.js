@@ -1,17 +1,4 @@
 const adminRepository = require('../repositories/AdminRepository.js');
-
-// class AdminService{
-//     async login({ name, password }){
-//         try {
-//             const user = await adminRepository.login({ name, password });
-
-//             return user;
-//         } catch (exception) {
-//             throw exception;
-//         }
-//     }
-// }
-
 class AdminService {
   async getAdmins() {
     try {
@@ -19,6 +6,17 @@ class AdminService {
     } catch (exception) {
       console.log(exception);
       console.log("AdminService:getAdmins");
+    }
+  }
+
+  async getAdminByEmail(email) {
+    try {
+      const admin = await adminRepository.getAdminByEmail(email);
+
+      return admin;
+    } catch (exception) {
+      console.log(exception);
+      console.log("AdminService:getAdminByEmail");
     }
   }
 
