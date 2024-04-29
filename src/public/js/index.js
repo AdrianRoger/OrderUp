@@ -1,7 +1,8 @@
+import Login from "./pages/Login.js";
 import AdminOptions from "./pages/AdminOptions.js";
 import AdminPage from "./pages/AdminPage.js";
-import Login from "./pages/Login.js";
 import RegisterCategory from "./pages/RegisterCategory.js";
+import CategoryList from "./pages/CategoryList.js";
 import RegisterProduct from "./pages/RegisterProduct.js";
 
 const navigateTo = url => {
@@ -11,6 +12,8 @@ const navigateTo = url => {
 
 const router = async () => {
   const routes = [
+    { path: '/', view: AdminOptions },
+    { path: '/categories', view: CategoryList},
     { path: '/login', view: Login },
     { path: '/admin-options', view: AdminOptions },
     { path: '/admin-page', view: AdminPage },

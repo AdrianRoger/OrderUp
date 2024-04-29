@@ -80,6 +80,41 @@ label:last-child span {
 /* #endregion */
 
 /* #region Murilo */
+  header{
+    background-color: var(--orderup-dark-blue);
+    height: 100px;
+  }
+  #categories-list{
+    font-family: var( --orderup-poppins);
+    color: var(--orderup-darkest-blue);
+    background-color: var(--orderup-white);
+    margin: 0px auto;
+    padding: 0px;
+    text-align: center;
+    padding-block:20px;
+  }
+  .category-box{
+    font-size: var(--size-1);
+    background-color: var(--orderup-light-grey);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 10px;
+    height: 100px;
+    justify-content: space-around;
+    align-items: center;
+    margin-inline: 80px;
+    border-radius: 10px;
+  }
+  .titleCategory{
+    font-size: var(--size-1);
+    font-weight: bold;
+    margin-bottom: -10px;
+  }
+  .category-box img{
+    cursor: pointer;
+    height: 30px;
+    margin: 20px;
+  }
 
 /* #endregion */
 
