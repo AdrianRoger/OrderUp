@@ -2,7 +2,7 @@
 
 
 -- Inserts para a tabela de organização
-INSERT INTO organization (name, loginName, cnpj, email, telephone, zipcode, street, number, city, state, expire_date)
+INSERT INTO organization (name, login_name, cnpj, email, telephone, zipcode, street, number, city, state, expire_date)
 VALUES 
   ('Restaurante ABC', 'restAbc', '12345678901234', 'restaurante@abc.com', '1122334455', '12345678', 'Rua Principal', 123, 'Cidade A', 'DF', '2024-12-31'),
   ('Café XYZ', 'cofexyz', '98765432109876', 'cafe@xyz.com', '9988776655', '87654321', 'Avenida Secundária', 456, 'Cidade B', 'CD', '2025-06-30'),
