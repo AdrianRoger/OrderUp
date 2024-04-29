@@ -1,7 +1,7 @@
-import AbastractPage from "./AbastractPage.js";
+import AbstractPage from "./AbstractPage.js";
 
 
-export default class extends AbastractPage {
+export default class extends AbstractPage {
   constructor() {
     super();
     this.setTitle("Categories");
