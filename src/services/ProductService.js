@@ -79,12 +79,3 @@ class ProductService {
     }
   }
 }
-
-// return new Product({
-//   id: result.id,
-//   name: result.name,
-//   price: result.price,
-//   description: result.description,
-//   imgName: result.img_name,
-//   categoryId: result.fk_category_id,
-// });
