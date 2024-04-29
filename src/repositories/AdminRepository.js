@@ -1,32 +1,5 @@
 const database = require('../database/database.js');
 const Admin = require('../model/AdminModel.js');
-
-// class AdminRepository{
-//   async login({ name, password }) { //trocar name para email
-//     try {
-//       const results = await database.excuteQuery({
-//           query: 'SELECT * FROM admin WHERE name = $1',
-//           args: [name]
-//       })
-
-//       if(results.length === 0){
-//           throw new Error('Username not found!')
-//       }
-
-//       const storedPassword = results[0].password;
-//       if(password !== storedPassword){
-//           throw new Error('Incorrect password!');
-//       }
-
-//       console.log('Successful login!');
-//       return results;
-//     } catch (error) {
-//         console.error('Error during login:', error);
-//         throw error;
-//     }
-//   }
-// }
-
 class AdminRepository {
   async getAdmins() {
     try {
@@ -56,6 +29,36 @@ class AdminRepository {
     }
   }
 
+  async getAdminByEmail(email) {
+    try {
+      const result = await database.executeQuery({
+        query: "SELECT * FROM admin WHERE email = $1",
+        args: [email]
+      });
+
+      if (result.lenght === 0) {
+        return null;
+      }
+
+      const admin = new Admin({
+        id: result[0].id,
+        name: result[0].name,
+        cpf: result[0].cpf,
+        email: result[0].email,
+        telephone: result[0].telephone,
+        birthDate: result[0].birth_date,
+        password: result[0].password,
+        organizationId: result[0].fk_organization_id
+      });
+
+      return admin;
+
+    } catch (exception) {
+      console.log(exception);
+      console.log("AdminRepository:getAdminByEmail");
+    }
+  }
+
   async getAdminById(adminId) {
     try {
       const result = await database.executeQuery({
@@ -75,7 +78,6 @@ class AdminRepository {
         telephone: result[0].telephone,
         birthDate: result[0].birth_date,
         password: result[0].password,
-        type: result[0].type,
         organizationId: result[0].fk_organization_id
       });
 
@@ -103,11 +105,11 @@ class AdminRepository {
         telephone: result[0].telephone,
         birthDate: result[0].birth_date,
         password: result[0].password,
-        type: result[0].type,
         organizationId: result[0].fk_organization_id
       });
 
       return createdAdmin;
+      
     } catch (exception) {
       console.log(exception);
       console.log("AdminRepository:createAdmin");
@@ -131,7 +133,6 @@ class AdminRepository {
         telephone: result[0].telephone,
         birthDate: result[0].birth_date,
         password: result[0].password,
-        type: result[0].type,
         organizationId: result[0].fk_organization_id
       });
 
@@ -157,11 +158,11 @@ class AdminRepository {
         telephone: result[0].telephone,
         birthDate: result[0].birth_date,
         password: result[0].password,
-        type: result[0].type,
         organizationId: result[0].fk_organization_id
       });
 
       return deletedAdmin;
+
     } catch (exception) {
       console.log(exception);
       console.log("AdminRepository:deleteAdmin");
