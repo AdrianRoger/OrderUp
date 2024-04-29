@@ -18,6 +18,24 @@ class OrganizationController {
     }
   }
 
+  async getOrganizationByLoginName (req, res) {
+    try {
+      const loginName = req.params.loginName;
+
+      const organization = await organizationService.getOrganizationByLoginName(loginName);
+
+      const response = new HttpResponse({
+        statusCode: 200,
+        data: organization
+      });
+
+      res.status(response.statusCode).json(response);
+    } catch (exception) {
+      const response = HttpResponse.fromException(exception);
+      res.status(response.statusCode).json(response);
+    }
+  }
+
   async getOrganizationById (req, res) {
     try {
       const organizationId = req.params.id;

@@ -9,11 +9,23 @@ class OrganizationService {
     }
   }
 
+  async getOrganizationByLoginName(loginName) {
+    try {
+      const organization = await organizationRepository.getOrganizationByLoginName(loginName);
+
+      return organization;
+
+    } catch (exception) {
+      throw exception;
+    }
+  }
+
   async getOrganizationById(organizationId) {
     try {
       const organization = await organizationRepository.getOrganizationById(organizationId);
 
       return organization;
+      
     } catch (exception) {
       throw exception;
     }
