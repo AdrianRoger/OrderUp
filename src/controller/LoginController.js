@@ -43,7 +43,7 @@ class LoginController {
           }
 
           //rota getAdminByEmail inexistente
-          const adminFound = await adminService.getAdminByEmail({ email });
+          const adminFound = await adminService.getAdminByEmail(email );
           if (!foundUser) {
             res.cookie('session_id', '', { expires: new Date(0) });
             throw new UnauthorizedException(error);
