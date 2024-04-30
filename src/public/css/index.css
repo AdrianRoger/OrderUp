@@ -84,7 +84,7 @@ label:last-child span {
     background-color: var(--orderup-dark-blue);
     height: 100px;
   }
-  #categories-list{
+  #list-items-container{
     font-family: var( --orderup-poppins);
     color: var(--orderup-darkest-blue);
     background-color: var(--orderup-white);
@@ -93,7 +93,7 @@ label:last-child span {
     text-align: center;
     padding-block:20px;
   }
-  .category-box{
+  .list-item-box{
     font-size: var(--size-1);
     background-color: var(--orderup-light-grey);
     display: grid;
@@ -105,12 +105,12 @@ label:last-child span {
     margin-inline: 80px;
     border-radius: 10px;
   }
-  .titleCategory{
+  .list-title{
     font-size: var(--size-1);
     font-weight: bold;
     margin-bottom: -10px;
   }
-  .category-box img{
+  .list-item-box img{
     cursor: pointer;
     height: 30px;
     margin: 20px;

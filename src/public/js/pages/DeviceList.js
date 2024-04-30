@@ -1,41 +1,41 @@
-import AbstractPage from "./AbstractPage.js";
+import AbastractPage from "./AbstractPage.js";
 
 
-export default class extends AbstractPage {
+export default class extends AbastractPage {
   constructor() {
     super();
-    this.setTitle("Categories");
+    this.setTitle("Devices");
   }
 
   async getHtml() {
-    const categories = document.createElement("body");
-    categories.id = "list-items-container";
+    const devices = document.createElement("body");
+    devices.id = "list-items-container";
     try {
      
 
       const response = await fetch(
-        "/api/categories/a7930dec-36ea-4a8d-998e-be326acfddf6"
+        "/api/device"
       );
 
       const result = await response.json();
-      const data = result.data;
-
+      const data = result;
+     console.log(result);
       for (let d of data) {
         const divName = document.createElement("div");
-        const divDescription = document.createElement("div");
+        const divType = document.createElement("div");
         const titleName = document.createElement("p");
         titleName.classList.add("list-title");
         titleName.innerText = "Nome";
-        const titleDescription = document.createElement("p");
-        titleDescription.classList.add("list-title");
-        titleDescription.innerText = "Descrição";
-        const category = document.createElement("div");
-        category.classList.add("list-item-box");
+        const titleType = document.createElement("p");
+        titleType.classList.add("list-title");
+        titleType.innerText = "Tipo";
+        const device = document.createElement("div");
+        device.classList.add("list-item-box");
         const icones = document.createElement("div");
         const name = document.createElement("p");
         name.innerText = d.name;
-        const description = document.createElement("p");
-        description.innerText = d.description;
+        const type = document.createElement("p");
+        type.innerText = d.type;
         const linkEditar = document.createElement("a"); 
         //linkEditar.href = '/'
         const linkDeletar = document.createElement("a");
@@ -46,19 +46,19 @@ export default class extends AbstractPage {
         imgDeletar.src = "../../img/deletar_icon.png";
         divName.appendChild(titleName);
         divName.appendChild(name);
-        divDescription.appendChild(titleDescription);
-        divDescription.appendChild(description);
+        divType.appendChild(titleType);
+        divType.appendChild(type);
         linkEditar.appendChild(imgEditar);
         linkDeletar.appendChild(imgDeletar);
         icones.appendChild(linkEditar);
         icones.appendChild(linkDeletar);
-        category.appendChild(divName);
-        category.appendChild(divDescription);
-        category.appendChild(icones);
-        categories.appendChild(category);
+        device.appendChild(divName);
+        device.appendChild(divType);
+        device.appendChild(icones);
+        devices.appendChild(device);
       }
     } catch (error) {}
 
-    return categories;
+    return devices;
   }
 }
