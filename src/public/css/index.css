@@ -16,6 +16,7 @@
   --size-2: 24px;
   --size-3: 32px;
   --size-4: 42px;
+ 
 }
 /* End Root Region*/
 
@@ -80,9 +81,15 @@ label:last-child span {
 /* #endregion */
 
 /* #region Murilo */
-  header{
+  .header{
+    display: block;
+    text-align: center;
+    align-content: center;
     background-color: var(--orderup-dark-blue);
     height: 100px;
+    width: 100%;
+    color: var(--orderup-light-blue);
+    font-size: var(--size-4);
   }
   #list-items-container{
     font-family: var( --orderup-poppins);

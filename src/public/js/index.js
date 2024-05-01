@@ -5,6 +5,7 @@ import RegisterCategory from "./pages/RegisterCategory.js";
 import CategoryList from "./pages/CategoryList.js";
 import RegisterProduct from "./pages/RegisterProduct.js";
 import DeviceList from "./pages/DeviceList.js";
+import Header from './components/Header.js';
 
 const navigateTo = url => {
   history.pushState(null, null, url);
@@ -37,8 +38,8 @@ const router = async () => {
   };
 
   const view = new match.route.view();
-
   document.querySelector('#root').innerHTML = '';
+  document.querySelector('#root').appendChild(Header);
   document.querySelector('#root').appendChild(await view.getHtml());
 }
 

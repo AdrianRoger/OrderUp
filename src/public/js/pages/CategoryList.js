@@ -8,7 +8,7 @@ export default class extends AbstractPage {
   }
 
   async getHtml() {
-    const categories = document.createElement("body");
+    const categories = document.createElement("div");
     categories.id = "list-items-container";
     try {
      
