@@ -3,14 +3,12 @@ const { BadRequestException } = require("../utils/Exception.js");
 const HttpResponse = require("../utils/HttpResponse.js");
 
 class OrderingController {
-  async getOrderingsByTable(req, res) {
+  async getOrderingsByDeviceId(req, res) {
     try {
-      const dinningTableId = String(req.body.dinning_table_id ?? "");
-      const orderings = await orderingService.getOrderingsByTable(
-        dinningTableId
-      );
+      const deviceId = String(req.body.deviceId ?? "");
+      const orderings = await orderingService.getOrderingsByDeviceId({ deviceId });
 
-      if (dinningTableId.length === 0) {
+      if (deviceId.length === 0) {
         throw new BadRequestException(
           "Dinning table id must be a non-empty string"
         );
@@ -35,9 +33,7 @@ class OrderingController {
           "Ordering id must be a non-empty string"
         );
       }
-      const ordering = await orderingService.getOrderingById(
-        orderingId
-      );
+      const ordering = await orderingService.getOrderingById({ orderingId });
       const response = new HttpResponse({
         statusCode: 200,
         data: ordering,
@@ -52,23 +48,23 @@ class OrderingController {
 
   async createOrdering(req, res) {
     try {
-        
-      const orderingDinningTableId = String(req.body.dinning_table_id ?? "");
+
+      const orderingDeviceId = String(req.body.dinning_table_id ?? "");
       const orderingDt = new Date();
       const orderingFinished = false;
 
-      if (orderingDinningTableId.length === 0) {
+      if (orderingDeviceId.length === 0) {
         throw new BadRequestException(
           "Organization id must be a non-empty string"
         );
       }
-     console.log(orderingFinished);
+      console.log(orderingFinished);
       const createdOrdering = await orderingService.createOrdering({
-        orderingDinningTableId,
+        deviceId,
         orderingDt,
         orderingFinished,
       });
-      
+
       const response = new HttpResponse({
         statusCode: 200,
         data: createdOrdering,
@@ -115,7 +111,7 @@ class OrderingController {
         throw new BadRequestException("Ordering id must be a non-empty string");
       }
 
-      const deletedOrdering = await orderingService.deleteOrdering(orderingId);
+      const deletedOrdering = await orderingService.deleteOrdering({ orderingId });
 
       const response = new HttpResponse({
         statusCode: 200,

@@ -1,54 +1,54 @@
 const categoryRepository = require("../repositories/CategoryRepository.js");
-const { NotFoundException } = require("../utils/Exception.js");
+const { NotFoundException } = require("../utils");
 
 class CategoryService {
-  async getCategories(organizationId) {
+  async getCategories({ organizationId }) {
     try {
-      return await categoryRepository.getCategories(organizationId);
+      return await categoryRepository.getCategories({ organizationId });
     } catch (exception) {
       throw exception;
     }
   }
 
-  async getCategoryById(categoryId) {
+  async getCategoryById({ id }) {
     try {
-      return await categoryRepository.getCategoryById(categoryId);
+      return await categoryRepository.getCategoryById({ id });
     } catch (exception) {
       throw exception;
     }
   }
 
   async createCategory({
-    categoryOrganizationId,
-    categoryName,
-    categoryDescription,
+    organizationId,
+    name,
+    description,
   }) {
     try {
 
       const createdCategory = await categoryRepository.createCategory({
-        categoryOrganizationId,
-        categoryName,
-        categoryDescription,
+        organizationId,
+        name,
+        description
       });
-      
+
       return createdCategory;
     } catch (exception) {
       throw exception;
     }
   }
 
-  async updateCategory({ categoryId, categoryName, categoryDescription }) {
+  async updateCategory({ id, name, description }) {
     try {
-      const categoryToUpdate = await categoryRepository.getCategoryById(categoryId);
+      const categoryToUpdate = await categoryRepository.getCategoryById({ id });
 
       if (!categoryToUpdate) {
         throw new NotFoundException("category not found");
       }
 
       const updatedCategory = await categoryRepository.updateCategory({
-        categoryId,
-        categoryName,
-        categoryDescription,
+        id,
+        name,
+        description
       });
 
       return updatedCategory;
@@ -57,21 +57,21 @@ class CategoryService {
     }
   }
 
-  async deleteCategory(categoryId) {
+  async deleteCategory({ id }) {
     try {
-      const categoryToDelete = await categoryRepository.getCategoryById(categoryId);
+      const categoryToDelete = await categoryRepository.getCategoryById({ id });
       if (!categoryToDelete) {
         throw new NotFoundException("category not found");
       }
 
-      const deletedCategory = await categoryRepository.deleteCategory(categoryId);
+      const deletedCategory = await categoryRepository.deleteCategory({ id });
 
       return deletedCategory;
     } catch (exception) {
       throw exception;
     }
   }
-  
+
 }
 
 const categoryService = new CategoryService();

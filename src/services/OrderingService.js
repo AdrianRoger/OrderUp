@@ -1,31 +1,31 @@
 const orderingRepository = require("../repositories/OrderingRepository.js");
-const {NotFoundException,UnauthorizedException} = require("../utils/Exception.js");
+const { NotFoundException, UnauthorizedException } = require("../utils");
 
 class OrderingService {
-  async getOrderingsByTable(dinningTableId) {
+  async getOrderingsByDeviceId({ deviceId }) {
     try {
-      return await orderingRepository.getOrderingsByTable(dinningTableId);
+      return await orderingRepository.getOrderingsByDeviceId({ deviceId });
     } catch (exception) {
       throw exception;
     }
   }
 
-  async getOrderingById(orderingId) {
+  async getOrderingById({ orderingId }) {
     try {
-      return await orderingRepository.getOrderingById(orderingId);
+      return await orderingRepository.getOrderingById({ orderingId });
     } catch (exception) {
       throw exception;
     }
   }
 
   async createOrdering({
-    orderingDinningTableId,
+    deviceId,
     orderingDt,
     orderingFinished,
   }) {
     try {
       const createdOrdering = await orderingRepository.createOrdering({
-        orderingDinningTableId,
+        deviceId,
         orderingDt,
         orderingFinished,
       });
@@ -61,11 +61,9 @@ class OrderingService {
     }
   }
 
-  async deleteOrdering(orderingId) {
+  async deleteOrdering({ orderingId }) {
     try {
-      const orderingToDelete = await orderingRepository.getOrderingById(
-        orderingId
-      );
+      const orderingToDelete = await orderingRepository.getOrderingById({ orderingId });
 
       if (!orderingToDelete) {
         throw new NotFoundException("ordering not found");

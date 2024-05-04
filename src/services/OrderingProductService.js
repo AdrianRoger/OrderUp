@@ -1,10 +1,10 @@
 const orderingProductRepository = require("../repositories/OrderingProductRepository.js");
-const {NotFoundException,UnauthorizedException} = require("../utils/Exception.js");
+const { NotFoundException, UnauthorizedException } = require("../utils");
 
 class OrderingProductService {
-  async getOrderingProduct(orderingId) {
+  async getOrderingProduct({ orderingId }) {
     try {
-      return await orderingProductRepository.getOrderingProducts(orderingId);
+      return await orderingProductRepository.getOrderingProducts({ orderingId });
     } catch (exception) {
       throw exception;
     }
@@ -15,18 +15,18 @@ class OrderingProductService {
     productId,
   }) {
     try {
-     
-     let createdOrderingProduct = [];
-     for(const id of productId){
-       let productId = id;
-       createdOrderingProduct.push(
-        await orderingProductRepository.createOrderingProduct({
-          status,
-          orderingId,
-          productId,
-        }));
+
+      let createdOrderingProduct = [];
+      for (const id of productId) {
+        let productId = id;
+        createdOrderingProduct.push(
+          await orderingProductRepository.createOrderingProduct({
+            status,
+            orderingId,
+            productId,
+          }));
       }
-     
+
       return createdOrderingProduct;
     } catch (exception) {
       throw exception;
@@ -44,14 +44,14 @@ class OrderingProductService {
       if (!orderingProductToUpdate) {
         throw new NotFoundException("OrderingProduct not found");
       }
-      
-       orderingProductToUpdate.map((orderingProduct) => {
-         if (orderingProduct.statusId === "Pronto") {
-           throw new UnauthorizedException(
-             "OrderingProduct is ready and cannot be updated"
-           );
-         }
-       });
+
+      orderingProductToUpdate.map((orderingProduct) => {
+        if (orderingProduct.statusId === "Pronto") {
+          throw new UnauthorizedException(
+            "OrderingProduct is ready and cannot be updated"
+          );
+        }
+      });
 
       const updatedOrderingProduct =
         await orderingProductRepository.updateOrderingProduct({
@@ -66,9 +66,9 @@ class OrderingProductService {
     }
   }
 
-  async deleteAllOrderingProduct(orderingId,productId) {
+  async deleteAllOrderingProduct({ orderingId, productId }) {
     try {
-      const orderingProductToDelete = await orderingProductRepository.getOrderingProductByProduct(orderingId,productId);
+      const orderingProductToDelete = await orderingProductRepository.getOrderingProductByProduct({ orderingId, productId });
       if (!orderingProductToDelete) {
         throw new NotFoundException("orderingProduct not found");
       }
@@ -81,7 +81,7 @@ class OrderingProductService {
         }
       });
 
-      const deletedOrderingProduct = await orderingProductRepository.deleteAllOrderingProduct(orderingId,productId);
+      const deletedOrderingProduct = await orderingProductRepository.deleteAllOrderingProduct({ orderingId, productId });
 
       return deletedOrderingProduct;
     } catch (exception) {
@@ -89,14 +89,14 @@ class OrderingProductService {
     }
   }
 
-  async deleteOrderingProduct(orderingId,productId,qtd) {
+  async deleteOrderingProduct({ orderingId, productId, qtd }) {
     try {
-      const orderingProductToDelete = await orderingProductRepository.getOrderingProductByProduct(orderingId,productId);
-      
+      const orderingProductToDelete = await orderingProductRepository.getOrderingProductByProduct({ orderingId, productId });
+
       if (!orderingProductToDelete) {
         throw new NotFoundException("orderingProduct not found");
       }
-      
+
       orderingProductToDelete.map((orderingProduct) => {
         if (orderingProduct.statusId !== "Em Espera") {
           throw new UnauthorizedException(
@@ -106,10 +106,10 @@ class OrderingProductService {
       });
 
       let deletedOrderingProduct;
-      
-       for(let i = 0;i< qtd;i++){
-         deletedOrderingProduct = await orderingProductRepository.deleteOrderingProduct(orderingProductToDelete[i].id);
-       }
+
+      for (let i = 0; i < qtd; i++) {
+        deletedOrderingProduct = await orderingProductRepository.deleteOrderingProduct(orderingProductToDelete[i].id);
+      }
 
       return deletedOrderingProduct;
     } catch (exception) {

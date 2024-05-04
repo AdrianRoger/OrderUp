@@ -3,16 +3,16 @@ const Category = require("../model/CategoryModel.js");
 const { InternalServerException } = require("../utils/Exception.js");
 
 class CategoryRepository {
-  async getCategories(categoryOrganizationId) {
+  async getCategories({ organizationId }) {
     try {
       const results = await database.executeQuery({
         query: `SELECT * FROM category WHERE fk_organization_id = $1`,
-        args: [categoryOrganizationId],
+        args: [organizationId],
       });
       const categories = results.map((result) => {
         return new Category({
           id: result.id,
-          organizationID: result.fk_organization_id,
+          organizationId: result.fk_organization_id,
           name: result.name,
           description: result.description,
         });
@@ -26,11 +26,11 @@ class CategoryRepository {
     }
   }
 
-  async getCategoryById(categoryId) {
+  async getCategoryById({ id }) {
     try {
       const result = await database.executeQuery({
         query: "SELECT * FROM category WHERE id = $1",
-        args: [categoryId],
+        args: [id],
       });
 
       if (result.length === 0) {
@@ -53,16 +53,12 @@ class CategoryRepository {
     }
   }
 
-  async createCategory({
-    categoryOrganizationId,
-    categoryName,
-    categoryDescription,
-  }) {
+  async createCategory({ organizationId, name, description }) {
     try {
       const result = await database.executeQuery({
         query:
           "INSERT INTO category(name,description,fk_organization_id) VALUES ($1, $2, $3) RETURNING *",
-        args: [categoryName, categoryDescription, categoryOrganizationId],
+        args: [name, description, organizationId],
       });
 
       const createdCategory = new Category({
@@ -78,12 +74,12 @@ class CategoryRepository {
     }
   }
 
-  async updateCategory({ categoryId, categoryName, categoryDescription }) {
+  async updateCategory({ id, name, description }) {
     try {
       const result = await database.executeQuery({
         query:
           "UPDATE category SET name = $2, description = $3 WHERE id = $1 RETURNING *",
-        args: [categoryId, categoryName, categoryDescription],
+        args: [id, name, description],
       });
 
       const updatedCategory = new Category({
@@ -100,11 +96,11 @@ class CategoryRepository {
     }
   }
 
-  async deleteCategory(categoryId) {
+  async deleteCategory({ id }) {
     try {
       const result = await database.executeQuery({
         query: "DELETE FROM category WHERE id = $1 RETURNING *",
-        args: [categoryId],
+        args: [id],
       });
 
       const deletedCategory = new Category({

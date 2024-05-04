@@ -1,13 +1,13 @@
 const categoryService = require("../services/CategoryService.js");
 const { BadRequestException } = require("../utils/Exception.js");
-const HttpResponse = require("../utils/HttpResponse.js");
+const { HttpResponse } = require("../utils");
 
 class CategoryController {
   async getCategories(req, res) {
     try {
       //const organizationId = String(req.cookies.organization_id ?? "");
       const organizationId = String(req.params.orgId ?? "");
-      const categories = await categoryService.getCategories(organizationId);
+      const categories = await categoryService.getCategories({ organizationId });
 
       if (organizationId.length === 0) {
         throw new BadRequestException(
@@ -32,7 +32,7 @@ class CategoryController {
       if (categoryId.length === 0) {
         throw new BadRequestException("category id must be a non-empty string");
       }
-      const category = await categoryService.getCategoryById(categoryId);
+      const category = await categoryService.getCategoryById({ id: categoryId });
       const response = new HttpResponse({
         statusCode: 200,
         data: category,
@@ -70,9 +70,9 @@ class CategoryController {
       }
 
       const createdCategory = await categoryService.createCategory({
-        categoryOrganizationId,
-        categoryName,
-        categoryDescription,
+        organizationId: categoryOrganizationId,
+        name: categoryName,
+        description: categoryDescription,
       });
 
       const response = new HttpResponse({
@@ -110,9 +110,9 @@ class CategoryController {
       }
 
       const updatedCategory = await categoryService.updateCategory({
-        categoryId,
-        categoryName,
-        categoryDescription,
+        id: categoryId,
+        name: categoryName,
+        description: categoryDescription,
       });
 
       const response = new HttpResponse({
@@ -135,7 +135,7 @@ class CategoryController {
         throw new BadRequestException("category id must be a non-empty string");
       }
 
-      const deletedCategory = await categoryService.deleteCategory(categoryId);
+      const deletedCategory = await categoryService.deleteCategory({ id: categoryId });
 
       const response = new HttpResponse({
         statusCode: 200,

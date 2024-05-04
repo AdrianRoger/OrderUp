@@ -1,104 +1,103 @@
 const deviceRepository = require('../repositories/DeviceRepository.js');
 const organizationRepository = require('../repositories/OrganizationRepository.js');
-const { NotFoundException } = require('../utils/Exception.js');
+const { NotFoundException } = require('../utils');
 
-class DeviceService{
-    async getDevices(){
-        try {
-            const device = await deviceRepository.getDevices();
+class DeviceService {
+  async getDevices() {
+    try {
+      const device = await deviceRepository.getDevices();
 
-            return device;
-        } catch (exception) {
-            console.error(exception);
-            throw exception;
-        }
+      return device;
+    } catch (exception) {
+      console.error(exception);
+      throw exception;
     }
+  }
 
-    async getDeviceById(id){
-        try {
-            const device = await deviceRepository.getDeviceById(id);
+  async getDeviceById({ id }) {
+    try {
+      const device = await deviceRepository.getDeviceById(id);
 
-            if(!device){
-                throw new NotFoundException();
-            }
+      if (!device) {
+        throw new NotFoundException();
+      }
 
-            return device;
-        } catch (exception) {
-            throw exception;
-        }
+      return device;
+    } catch (exception) {
+      throw exception;
     }
+  }
 
-    async getDeviceByOrganizationId(id){
-        try {
-            const organization = await organizationRepository.getOrganizationById(id);
+  async getDeviceByOrganizationId({ id }) {
+    try {
+      const organization = await organizationRepository.getOrganizationById({ id });
+      if (!organization) {
+        throw new NotFoundException();
+      }
 
-            if(!organization){
-                throw new NotFoundException();
-            }
+      const device = await deviceRepository.getDeviceByOrganizationId({ id });
 
-            const device = await deviceRepository.getDeviceByOrganizationId(id);
-
-            return device;
-        } catch (exception) {
-            console.error(exception);
-            throw exception;
-        }
+      return device;
+    } catch (exception) {
+      console.error(exception);
+      throw exception;
     }
+  }
 
-    async createDevice({ type, name, hashcode, organizationId }){
-        try {
-            const organization = organizationRepository.getOrganizationById(organizationId);
+  async createDevice({ type, name, hashcode, organizationId }) {
+    try {
+      const organization = organizationRepository.getOrganizationById({ id: organizationId });
 
-            if(!organization){
-                throw new NotFoundException();
-            }
+      if (!organization) {
+        throw new NotFoundException();
+      }
 
-            const createDevice = deviceRepository.createDevice({ type, name, hashcode, organizationId });
+      const createDevice = deviceRepository.createDevice({ type, name, hashcode, organizationId });
 
-            return createDevice;
-        } catch (exception) {
-            console.log(exception);
-            throw new Error(exception);
-        }
+      return createDevice;
+    } catch (exception) {
+      console.log(exception);
+      throw new Error(exception);
     }
+  }
 
-    async updateDevice({ type, name, organizationId, id }){
-        try {
-            const deviceUpdate = await deviceRepository.getDeviceById(id);
-            if(!deviceUpdate){
-                throw new NotFoundException();
-            }
+  async updateDevice({ type, name, organizationId, id }) {
+    try {
+      const deviceToUpdate = await deviceRepository.getDeviceById({ id });
+      if (!deviceUpdate) {
+        throw new NotFoundException();
+      }
 
-            const organization = await organizationRepository.getOrganizationById(deviceUpdate.organizationId);
-            if(!organization){
-                throw new NotFoundException();
-            }
+      const organization = await organizationRepository.getOrganizationById({ id: deviceToUpdate.organizationId });
+      if (!organization) {
+        throw new NotFoundException();
+      }
 
-            const updateDevice = await deviceRepository.updateDevice({ type, name, organizationId, id });
+      const updatedDevice = await deviceRepository.updateDevice({ type, name, organizationId, id });
 
-            return updateDevice;
-        } catch (exception) {
-            console.error(exception);
-            throw exception;
-        }
+      return updateDevice;
+    } catch (exception) {
+      console.error(exception);
+      throw exception;
     }
+  }
 
-    async deleteDevice(id){
-        try {
-            const device = await deviceRepository.getDeviceById(id);
-            
-            if(!device){
-                throw new NotFoundException();
-            }
+  async deleteDevice({ id }) {
+    try {
+      const device = await deviceRepository.getDeviceById({ id });
 
-            const deleteDevice = await deviceRepository.deleteDevice(id);
+      if (!device) {
+        throw new NotFoundException();
+      }
 
-            return deleteDevice;
-        } catch (exception) {
-            console.error(exception);
-            throw exception;
-        }
+      const deleteDevice = await deviceRepository.deleteDevice({ id });
+
+      return deleteDevice;
+    } catch (exception) {
+      console.error(exception);
+      throw exception;
     }
+  }
 }
 
 const deviceService = new DeviceService();

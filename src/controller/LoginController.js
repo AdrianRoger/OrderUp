@@ -72,7 +72,7 @@ class LoginController {
             statusCode: 200,
             data: session,
           });
-
+          console.log(response)
           sessionToken = await jwt.sign({ session }, this.secretKey);
 
           res.cookie('session_id', sessionToken, { maxAge: 30 * 60 * 1000, httpOnly: true });
@@ -121,8 +121,7 @@ class LoginController {
             data: session,
           });
 
-          sessionToken = await jwt.sign({ user }, this.secretKey);
-
+          sessionToken = await jwt.sign({ session }, this.secretKey);
           res.cookie('session_id', sessionToken, { maxAge: 8 * 60 * 60 * 1000, httpOnly: true });
           res.status(response.statusCode).json(response);
 
