@@ -14,7 +14,7 @@ class MulterMiddleware {
     cb(null, 'src/public/uploads');
   }
 
-  filename(req, res, cb){
+  filename(req, file, cb){
     const ext = file.originalname.split('.')[1];
     const newName = Crypto.randomBytes(16).toString('hex') + '-' + Date.now();
 
