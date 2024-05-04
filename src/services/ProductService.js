@@ -13,9 +13,9 @@ class ProductService {
     }
   }
 
-  async getProductsByOrganizationId({ id }) {
+  async getProductsByOrganizationId({ organizationId }) {
     try {
-      return await productRepository.getProductsByOrganizationId({ id });
+      return await productRepository.getProductsByOrganizationId({ organizationId });
     } catch (exception) {
       throw exception;
     }
@@ -51,7 +51,7 @@ class ProductService {
 
       await fileDeleter.deleteFileByName(productToUpdate.imgName);
 
-      const updatedProduct = await productRepository({
+      const updatedProduct = await productRepository.updateProduct({
         id, name, price, description, imgName, categoryId, organizationId
       });
 
@@ -79,3 +79,6 @@ class ProductService {
     }
   }
 }
+
+const productService = new ProductService();
+module.exports = productService;
