@@ -1,9 +1,9 @@
 class Ordering {
-  constructor({id, orderingDt, finished, diningTableId}){
+  constructor({id, orderingDt, finished, deviceId}){
     this.id = id;
     this.orderingDt = orderingDt;
     this.finished = finished;
-    this.diningTableId = diningTableId;
+    this.deviceId = deviceId;
   }
 }
 

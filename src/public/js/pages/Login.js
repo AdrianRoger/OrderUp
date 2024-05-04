@@ -97,6 +97,9 @@ export default class extends AbstractPage {
         const type = "admin";
         const response = await fetch("/api/login", {
           method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
           body: JSON.stringify({ type, username, password })
         });
         
@@ -112,6 +115,9 @@ export default class extends AbstractPage {
         const type = "device";
         const response = await fetch("/api/login", {
           method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
           body: JSON.stringify({ type, username, password })
         }); 
 

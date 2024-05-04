@@ -6,9 +6,7 @@ class OrderingProductController {
   async getOrderingProducts(req, res) {
     try {
       const orderingId = String(req.body.ordering_id ?? "");
-      const orderingProducts = await orderingProductService.getOrderingProduct(
-        orderingId
-      );
+      const orderingProducts = await orderingProductService.getOrderingProduct({ orderingId });
 
       if (orderingId.length === 0) {
         throw new BadRequestException("Ordering id must be a non-empty string");
@@ -30,7 +28,7 @@ class OrderingProductController {
       const orderingId = String(req.body.ordering_id ?? "");
       const productId = req.body.product_id;
       const status = String(req.body.status ?? "");
-     
+
       if (orderingId.length === 0) {
         throw new BadRequestException("Ordering id must be a non-empty string");
       }
@@ -122,17 +120,17 @@ class OrderingProductController {
       if (productId.length === 0) {
         throw new BadRequestException("Products id must be a non-empty string");
       }
-      
+
       let deletedOrderingProduct;
-      
+
       if (Number.isNaN(qtd)) {
         deletedOrderingProduct =
-          await orderingProductService.deleteAllOrderingProduct(orderingId,productId);
+          await orderingProductService.deleteAllOrderingProduct({ orderingId, productId });
       } else {
         deletedOrderingProduct =
-          await orderingProductService.deleteOrderingProduct(orderingId,productId,qtd);
+          await orderingProductService.deleteOrderingProduct({ orderingId, productId, qtd });
       }
-     
+
       const response = new HttpResponse({
         statusCode: 200,
         data: deletedOrderingProduct,

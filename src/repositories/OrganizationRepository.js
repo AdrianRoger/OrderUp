@@ -33,7 +33,7 @@ class OrganizationRepository {
     }
   }
 
-  async getOrganizationByLoginName(loginName) {
+  async getOrganizationByLoginName({ loginName }) {
     try {
       const result = await database.executeQuery({
         query: `SELECT * FROM organization WHERE login_name = $1`,
@@ -45,21 +45,21 @@ class OrganizationRepository {
       }
 
       const organization = new Organization({
-          id: result[0].id,
-          name: result[0].name,
-          loginName: result[0].login_name,
-          cnpj: result[0].cnpj,
-          email: result[0].email,
-          telephone: result[0].telephone,
-          zipcode: result[0].zipcode,
-          street: result[0].street,
-          number: result[0].number,
-          city: result[0].city,
-          state: result[0].state,
-          expireDate: result[0].expire_date
-        });
-        console.log(result[0]);
-        return organization;
+        id: result[0].id,
+        name: result[0].name,
+        loginName: result[0].login_name,
+        cnpj: result[0].cnpj,
+        email: result[0].email,
+        telephone: result[0].telephone,
+        zipcode: result[0].zipcode,
+        street: result[0].street,
+        number: result[0].number,
+        city: result[0].city,
+        state: result[0].state,
+        expireDate: result[0].expire_date
+      });
+      console.log(result[0]);
+      return organization;
 
     } catch (exception) {
       console.log(exception);
@@ -67,11 +67,11 @@ class OrganizationRepository {
     }
   }
 
-  async getOrganizationById(organizationId) {
+  async getOrganizationById({ id }) {
     try {
       const result = await database.executeQuery({
         query: `SELECT * FROM organization WHERE id = $1`,
-        args: [organizationId]
+        args: [id]
       });
 
       if (result.lenght === 0) {
@@ -79,19 +79,19 @@ class OrganizationRepository {
       }
 
       const organization = new Organization({
-          id: result[0].id,
-          name: result[0].name,
-          loginName: result[0].login_name,
-          cnpj: result[0].cnpj,
-          email: result[0].email,
-          telephone: result[0].telephone,
-          zipcode: result[0].zipcode,
-          street: result[0].street,
-          number: result[0].number,
-          city: result[0].city,
-          state: result[0].state,
-          expireDate: result[0].expire_date
-        });
+        id: result[0].id,
+        name: result[0].name,
+        loginName: result[0].login_name,
+        cnpj: result[0].cnpj,
+        email: result[0].email,
+        telephone: result[0].telephone,
+        zipcode: result[0].zipcode,
+        street: result[0].street,
+        number: result[0].number,
+        city: result[0].city,
+        state: result[0].state,
+        expireDate: result[0].expire_date
+      });
 
       return organization;
 
@@ -101,10 +101,10 @@ class OrganizationRepository {
     }
   }
 
-  async createOrganization(name, loginName, cnpj, email, telephone, zipcode, street, number, city, state, expireDate) {
+  async createOrganization({ name, loginName, cnpj, email, telephone, zipcode, street, number, city, state, expireDate }) {
     try {
       const result = await database.executeQuery({
-        query: 
+        query:
           `INSERT INTO organization (name, login_name, cnpj, email, telephone, zipcode, street, number, city, state, expire_date) 
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`,
         args: [name, loginName, cnpj, email, telephone, zipcode, street, number, city, state, expireDate]
@@ -132,15 +132,15 @@ class OrganizationRepository {
     }
   }
 
-  async updateOrganization(organizationId, name, loginName, email, telephone, zipcode, street, number, city, state, expireDate) {
+  async updateOrganization({ organizationId, name, loginName, email, telephone, zipcode, street, number, city, state, expireDate }) {
     try {
       const result = await database.executeQuery({
         query:
-        `UPDATE organization SET name = $2, login_name = $3, email = $4, telephone = $5, zipcode = $6, street = $7, 
+          `UPDATE organization SET name = $2, login_name = $3, email = $4, telephone = $5, zipcode = $6, street = $7, 
           number = $8, city = $9, state = $10, expire_date = $11 WHERE id = $1 RETURNING *`,
         args: [organizationId, name, loginName, email, telephone, zipcode, street, number, city, state, expireDate]
       });
-      
+
       const updatedOrganization = new Organization({
         id: result[0].id,
         name: result[0].name,
@@ -155,7 +155,7 @@ class OrganizationRepository {
         state: result[0].state,
         expireDate: result[0].expire_date
       });
-      
+
       return updatedOrganization;
     } catch (exception) {
       console.log(exception);
@@ -163,7 +163,7 @@ class OrganizationRepository {
     }
   }
 
-  async deleteOrganization(organizationId) {
+  async deleteOrganization({ organizationId }) {
     try {
       const result = await database.executeQuery({
         query: `DELETE FROM organization WHERE id = $1 RETURNING *`,

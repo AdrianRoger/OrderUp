@@ -1,9 +1,9 @@
 const database = require("../database/Database.js");
 const OrderingProduct = require("../model/OrderingProductModel.js");
-const { InternalServerException } = require("../utils/Exception.js");
+const { InternalServerException } = require("../utils");
 
 class OrderingProductRepository {
-  async getOrderingProducts(orderingId) {
+  async getOrderingProducts({ orderingId }) {
     try {
       const results = await database.executeQuery({
         query: `SELECT fk_ordering_id, string_agg(cast(fk_product_id as varchar), ', ') AS products FROM ordering_product WHERE fk_ordering_id = $1 GROUP BY fk_ordering_id`,
@@ -26,7 +26,7 @@ class OrderingProductRepository {
       throw new InternalServerException();
     }
   }
-  async getOrderingProductByProduct(orderingId, productId) {
+  async getOrderingProductByProduct({ orderingId, productId }) {
     try {
       const results = await database.executeQuery({
         query: `SELECT * FROM ordering_product WHERE fk_ordering_id = $1 AND fk_product_id = $2`,
@@ -100,7 +100,7 @@ class OrderingProductRepository {
     }
   }
 
-  async deleteAllOrderingProduct(orderingId, productId) {
+  async deleteAllOrderingProduct({ orderingId, productId }) {
     try {
       const results = await database.executeQuery({
         query:
@@ -125,11 +125,11 @@ class OrderingProductRepository {
     }
   }
 
-  async deleteOrderingProduct(orderingProductId) {
+  async deleteOrderingProduct({ id }) {
     try {
       const results = await database.executeQuery({
         query: "DELETE FROM ordering_product WHERE id = $1 RETURNING *",
-        args: [orderingProductId],
+        args: [id],
       });
 
       const deletedOrderingProduct = results.map((result) => {

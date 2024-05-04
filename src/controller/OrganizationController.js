@@ -1,8 +1,8 @@
 const organizationService = require('../services/OrganizationService.js');
-const HttpResponse = require('../utils/HttpResponse.js');
+const { HttpResponse } = require('../utils');
 
 class OrganizationController {
-  async getOrganizations (req, res) {
+  async getOrganizations(req, res) {
     try {
       const organizations = await organizationService.getOrganizations();
 
@@ -18,11 +18,11 @@ class OrganizationController {
     }
   }
 
-  async getOrganizationByLoginName (req, res) {
+  async getOrganizationByLoginName(req, res) {
     try {
       const loginName = req.params.loginName;
 
-      const organization = await organizationService.getOrganizationByLoginName(loginName);
+      const organization = await organizationService.getOrganizationByLoginName({ loginName });
 
       const response = new HttpResponse({
         statusCode: 200,
@@ -36,17 +36,17 @@ class OrganizationController {
     }
   }
 
-  async getOrganizationById (req, res) {
+  async getOrganizationById(req, res) {
     try {
       const organizationId = req.params.id;
 
-      const organization = await organizationService.getOrganizationById(organizationId);
-      
+      const organization = await organizationService.getOrganizationById({ organizationId });
+
       const response = new HttpResponse({
         statusCode: 200,
         data: organization
       });
-      
+
       res.status(response.statusCode).json(response);
     } catch (exception) {
       const response = HttpResponse.fromException(exception);
@@ -54,7 +54,7 @@ class OrganizationController {
     }
   }
 
-  async createOrganization (req, res) {
+  async createOrganization(req, res) {
     try {
       const name = req.body.name;
       const cnpj = req.body.cnpj;
@@ -66,9 +66,9 @@ class OrganizationController {
       const city = req.body.city;
       const state = req.body.state;
       const expireDate = req.body.expireDate;
-     
-      const createdOrganization = await organizationService.createOrganization(name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate);
-      
+
+      const createdOrganization = await organizationService.createOrganization({ name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate });
+
       const response = new HttpResponse({
         statusCode: 200,
         data: createdOrganization
@@ -81,10 +81,10 @@ class OrganizationController {
     }
   }
 
-  async updateOrganization (req, res) {
+  async updateOrganization(req, res) {
     try {
       const organizationId = req.params.id;
-      
+
       const name = req.body.name;
       const email = req.body.email;
       const telephone = req.body.telephone;
@@ -94,8 +94,8 @@ class OrganizationController {
       const city = req.body.city;
       const state = req.body.state;
       const expireDate = req.body.expireDate;
-      
-      const updatedOrganization = await organizationService.updateOrganization(organizationId, name, email, telephone, zipcode, street, number, city, state, expireDate);
+
+      const updatedOrganization = await organizationService.updateOrganization({ organizationId, name, email, telephone, zipcode, street, number, city, state, expireDate });
 
       const response = new HttpResponse({
         statusCode: 200,
@@ -109,11 +109,11 @@ class OrganizationController {
     }
   }
 
-  async deleteOrganization (req, res) {
+  async deleteOrganization(req, res) {
     try {
       const organizationId = req.params.id;
 
-      const deletedOrganization = await organizationService.deleteOrganization(organizationId);
+      const deletedOrganization = await organizationService.deleteOrganization({ organizationId });
 
       const response = new HttpResponse({
         statusCode: 200,

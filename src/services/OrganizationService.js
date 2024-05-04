@@ -9,9 +9,9 @@ class OrganizationService {
     }
   }
 
-  async getOrganizationByLoginName(loginName) {
+  async getOrganizationByLoginName({ loginName }) {
     try {
-      const organization = await organizationRepository.getOrganizationByLoginName(loginName);
+      const organization = await organizationRepository.getOrganizationByLoginName({ loginName });
 
       return organization;
 
@@ -20,20 +20,20 @@ class OrganizationService {
     }
   }
 
-  async getOrganizationById(organizationId) {
+  async getOrganizationById({ id }) {
     try {
-      const organization = await organizationRepository.getOrganizationById(organizationId);
+      const organization = await organizationRepository.getOrganizationById({ id });
 
       return organization;
-      
+
     } catch (exception) {
       throw exception;
     }
   }
 
-  async createOrganization(name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate) {
+  async createOrganization({ name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate }) {
     try {
-      const createdOrganization = await organizationRepository.createOrganization(name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate);
+      const createdOrganization = await organizationRepository.createOrganization({ name, cnpj, email, telephone, zipcode, street, number, city, state, expireDate });
 
       return createdOrganization;
     } catch (exception) {
@@ -41,15 +41,15 @@ class OrganizationService {
     }
   }
 
-  async updateOrganization(organizationId, name, email, telephone, zipcode, street, number, city, state, expireDate) {
+  async updateOrganization({ organizationId, name, email, telephone, zipcode, street, number, city, state, expireDate }) {
     try {
-      const organizationToUpdate = await organizationRepository.getOrganizationById(organizationId);
-      
+      const organizationToUpdate = await organizationRepository.getOrganizationById({ organizationId });
+
       if (!organizationToUpdate) {
         throw console.log("Organization not found"); //NotFoundException("Recipe Not Found");
       }
 
-      const updatedOrganization = await organizationRepository.updateOrganization(organizationId, name, email, telephone, zipcode, street, number, city, state, expireDate);
+      const updatedOrganization = await organizationRepository.updateOrganization({ organizationId, name, email, telephone, zipcode, street, number, city, state, expireDate });
 
       return updatedOrganization;
     } catch (exception) {
@@ -57,15 +57,15 @@ class OrganizationService {
     }
   }
 
-  async deleteOrganization(organizationId) {
+  async deleteOrganization({ organizationId }) {
     try {
-      const organizationToDelete = await organizationRepository.getOrganizationById(organizationId);
+      const organizationToDelete = await organizationRepository.getOrganizationById({ organizationId });
 
       if (!organizationToDelete) {
         throw console.log("Organization not found"); //NotFoundException("Recipe Not Found");
       }
 
-      const deletedOrganization = await organizationRepository.deleteOrganization(organizationId);
+      const deletedOrganization = await organizationRepository.deleteOrganization({ organizationId });
 
       return deletedOrganization;
     } catch (exception) {

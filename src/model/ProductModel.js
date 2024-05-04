@@ -5,8 +5,8 @@ class Product {
     this.price = price;
     this.description = description;
     this.imgName = imgName;
-    this.organizationId = organizationId;
     this.categoryId = categoryId;
+    this.organizationId = organizationId;
   }
 }
 

@@ -6,6 +6,7 @@ const orderingRouter = require("./orderingRoutes.js");
 const orderingProductsRouter = require("./orderingProductsRoutes.js");
 const organizationRouter = require("./organizationRoutes.js");
 const loginRouter = require('./loginRoutes.js');
+const productRouter = require('./productRoutes.js');
 
 const router = express.Router();
 
@@ -16,5 +17,6 @@ router.use('/orderings', orderingRouter);
 router.use('/device', deviceRouter);
 router.use('/organization', organizationRouter);
 router.use('/admin', adminRouter);
+router.use('/product', productRouter)
 
 module.exports = router;

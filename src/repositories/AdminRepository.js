@@ -29,7 +29,7 @@ class AdminRepository {
     }
   }
 
-  async getAdminByEmail(email) {
+  async getAdminByEmail({ email }) {
     try {
       const result = await database.executeQuery({
         query: "SELECT * FROM admin WHERE email = $1",
@@ -59,11 +59,11 @@ class AdminRepository {
     }
   }
 
-  async getAdminById(adminId) {
+  async getAdminById({ id }) {
     try {
       const result = await database.executeQuery({
         query: `SELECT * FROM admin WHERE id = $1`,
-        args: [adminId]
+        args: [id]
       });
 
       if (result.lenght === 0) {
@@ -88,11 +88,11 @@ class AdminRepository {
     }
   }
 
-  async createAdmin(name, cpf, email, telephone, birthDate, password, organizationId) {
+  async createAdmin({ name, cpf, email, telephone, birthDate, password, organizationId }) {
     try {
       const result = await database.executeQuery({
-        query: 
-        `INSERT INTO admin (name, cpf, email, telephone, birth_date, password, fk_organization_id)
+        query:
+          `INSERT INTO admin (name, cpf, email, telephone, birth_date, password, fk_organization_id)
           VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
         args: [name, cpf, email, telephone, birthDate, password, organizationId]
       });
@@ -109,20 +109,20 @@ class AdminRepository {
       });
 
       return createdAdmin;
-      
+
     } catch (exception) {
       console.log(exception);
       console.log("AdminRepository:createAdmin");
     }
   }
 
-  async updateAdmin(adminId, name, email, telephone, birthDate, password) {
+  async updateAdmin({ id, name, email, telephone, birthDate, password }) {
     try {
       const result = await database.executeQuery({
         query:
-        `UPDATE admin SET name = $2, email = $3, telephone = $4, birth_date = $5, 
+          `UPDATE admin SET name = $2, email = $3, telephone = $4, birth_date = $5, 
           password = $6 WHERE id = $1 RETURNING *`,
-        args: [adminId, name, email, telephone, birthDate, password]
+        args: [id, name, email, telephone, birthDate, password]
       });
 
       const updatedAdmin = new Admin({
@@ -143,11 +143,11 @@ class AdminRepository {
     }
   }
 
-  async deleteAdmin(adminId) {
+  async deleteAdmin({ id }) {
     try {
       const result = await database.executeQuery({
         query: `DELETE FROM admin WHERE id = $1 RETURNING *`,
-        args: [adminId]
+        args: [id]
       });
 
       const deletedAdmin = new Admin({

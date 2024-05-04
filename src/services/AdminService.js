@@ -9,9 +9,9 @@ class AdminService {
     }
   }
 
-  async getAdminByEmail(email) {
+  async getAdminByEmail({ email }) {
     try {
-      const admin = await adminRepository.getAdminByEmail(email);
+      const admin = await adminRepository.getAdminByEmail({ email });
 
       return admin;
     } catch (exception) {
@@ -20,9 +20,9 @@ class AdminService {
     }
   }
 
-  async getAdminById(adminId) {
+  async getAdminById({ id }) {
     try {
-      const admin = await adminRepository.getAdminById(adminId);
+      const admin = await adminRepository.getAdminById({ id });
 
       return admin;
     } catch (exception) {
@@ -31,9 +31,9 @@ class AdminService {
     }
   }
 
-  async createAdmin(name, cpf, email, telephone, birthDate, password, organizationId) {
+  async createAdmin({ name, cpf, email, telephone, birthDate, password, organizationId }) {
     try {
-      const createdAdmin = await adminRepository.createAdmin(name, cpf, email, telephone, birthDate, password, organizationId);
+      const createdAdmin = await adminRepository.createAdmin({ name, cpf, email, telephone, birthDate, password, organizationId });
 
       return createdAdmin;
     } catch (exception) {
@@ -42,7 +42,7 @@ class AdminService {
     }
   }
 
-  async updateAdmin(adminId, name, email, telephone, birthDate, password) {
+  async updateAdmin({ id, name, email, telephone, birthDate, password }) {
     try {
       const adminToUpdate = await adminRepository.getAdminById(adminId);
 
@@ -50,7 +50,7 @@ class AdminService {
         throw console.log("Admin not found"); //NotFoundException
       }
 
-      const updatedAdmin = await adminRepository.updateAdmin(adminId, name, email, telephone, birthDate, password);
+      const updatedAdmin = await adminRepository.updateAdmin({ id, name, email, telephone, birthDate, password });
 
       return updatedAdmin;
     } catch (exception) {
@@ -59,15 +59,15 @@ class AdminService {
     }
   }
 
-  async deleteAdmin(adminId) {
+  async deleteAdmin({ id }) {
     try {
-      const adminToDelete = await adminRepository.getAdminById(adminId);
+      const adminToDelete = await adminRepository.getAminById({ id });
 
       if (!adminToDelete) {
         throw console.log("Admin not found"); //NotFoundException
       }
 
-      const deletedAdmin = await adminRepository.deleteAdmin(adminId);
+      const deletedAdmin = await adminRepository.deleteAdmin({ id });
 
       return deletedAdmin;
     } catch (exceptino) {
