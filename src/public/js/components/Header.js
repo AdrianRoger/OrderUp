@@ -3,7 +3,6 @@ class Header extends HTMLElement {
     super();
     this.classList.add("header");
     this.innerText = "OrderUp";
-    this.style.width = "100%"
   }
 }
 

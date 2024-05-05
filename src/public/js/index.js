@@ -5,7 +5,7 @@ import RegisterCategory from "./pages/RegisterCategory.js";
 import CategoryList from "./pages/CategoryList.js";
 import RegisterProduct from "./pages/RegisterProduct.js";
 import DeviceList from "./pages/DeviceList.js";
-import Header from './components/Header.js';
+import Header from "./components/Header.js";
 
 const navigateTo = url => {
   history.pushState(null, null, url);
