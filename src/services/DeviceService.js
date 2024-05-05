@@ -28,15 +28,14 @@ class DeviceService {
     }
   }
 
-  async getDeviceByOrganizationId({ id }) {
+  async getDeviceByOrganizationId({ organizationId }) {
     try {
-      const organization = await organizationRepository.getOrganizationById({ id });
+      const organization = await organizationRepository.getOrganizationById({ id: organizationId });
       if (!organization) {
         throw new NotFoundException();
       }
 
-      const device = await deviceRepository.getDeviceByOrganizationId({ id });
-
+      const device = await deviceRepository.getDeviceByOrganizationId({ organizationId });
       return device;
     } catch (exception) {
       console.error(exception);
@@ -64,7 +63,7 @@ class DeviceService {
   async updateDevice({ type, name, organizationId, id }) {
     try {
       const deviceToUpdate = await deviceRepository.getDeviceById({ id });
-      if (!deviceUpdate) {
+      if (!deviceToUpdate) {
         throw new NotFoundException();
       }
 
@@ -75,7 +74,7 @@ class DeviceService {
 
       const updatedDevice = await deviceRepository.updateDevice({ type, name, organizationId, id });
 
-      return updateDevice;
+      return updatedDevice;
     } catch (exception) {
       console.error(exception);
       throw exception;
