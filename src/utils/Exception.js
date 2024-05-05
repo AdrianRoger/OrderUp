@@ -58,6 +58,12 @@ class UnsuportedMediaTypeException extends Exception{
   }
 }
 
+class ForbiddenException extends Exception{
+  constructor(error){
+    super({ error: error, statusCode: 403 });
+  }
+}
+
 module.exports = {
   ConflictException,
   NotFoundException,
@@ -65,5 +71,6 @@ module.exports = {
   BadRequestException,
   InternalServerException,
   PaymentRequiredException,
-  UnsuportedMediaTypeException
+  UnsuportedMediaTypeException,
+  ForbiddenException
 }
