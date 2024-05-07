@@ -2,8 +2,8 @@ const { productService } = require('../services');
 const { BadRequestException, HttpResponse, ValidateUuidV4 } = require('../utils');
 
 class ProductController {
-  async getProducts(req, res){
-    try{
+  async getProducts(req, res) {
+    try {
       const products = await productService.getProducts();
 
       const response = new HttpResponse({
@@ -12,16 +12,16 @@ class ProductController {
       });
 
       res.status(response.statusCode).json(response);
-    }catch(exception){
+    } catch (exception) {
       const response = HttpResponse.fromException(exception);
       res.status(response.statusCode).json(response);
     }
   }
 
-  async getProductsByOrganizationId(req, res){
-    try{
+  async getProductsByOrganizationId(req, res) {
+    try {
       const organizationId = String((req.params.organizationId).trim());
-      if(!ValidateUuidV4.isValidUuidV4(organizationId)){
+      if (!ValidateUuidV4.isValidUuidV4({ uuid: organizationId })) {
         throw new BadRequestException('The id parameter not a valid uuid.');
       }
 
@@ -33,16 +33,16 @@ class ProductController {
       });
 
       res.status(response.statusCode).json(response);
-    }catch(exception){
+    } catch (exception) {
       const response = HttpResponse.fromException(exception);
       res.status(response.statusCode).json(response);
     }
   }
 
-  async getProductById(req, res){
-    try{
+  async getProductById(req, res) {
+    try {
       const id = String((req.params.id).trim());
-      if(!ValidateUuidV4.isValidUuidV4(id)){
+      if (!ValidateUuidV4.isValidUuidV4({ uuid: id })) {
         throw new BadRequestException('The id parameter not a valid uuid.');
       }
 
@@ -54,30 +54,30 @@ class ProductController {
       });
 
       res.status(response.statusCode).json(response);
-    }catch(exception){
+    } catch (exception) {
       const response = HttpResponse.fromException(exception);
       res.status(response.statusCode).json(response);
     }
   }
 
-  async createProduct(req, res){
-    try{
+  async createProduct(req, res) {
+    try {
       const name = req.body.name;
       const price = req.body.price;
       const description = req.body.description;
       const imgName = req.file.filename;
       const categoryId = req.body.categoryId;
-      const organizationId = req.body.organizationId;      
+      const organizationId = req.body.organizationId;
 
-      if(!name || !price || !description || !imgName || !organizationId || !categoryId){
+      if (!name || !price || !description || !imgName || !organizationId || !categoryId) {
         throw new BadRequestException('invalid attibutes.');
       }
 
-      if(!ValidateUuidV4.isValidUuidV4(organizationId)){
+      if (!ValidateUuidV4.isValidUuidV4({ uuid: organizationId })) {
         throw new BadRequestException('The organizationId is not a valid uuid.');
       }
 
-      if(!ValidateUuidV4.isValidUuidV4(categoryId)){
+      if (!ValidateUuidV4.isValidUuidV4({ uuid: categoryId })) {
         throw new BadRequestException('The categoryId is not a valid uuid.');
       }
 
@@ -87,18 +87,18 @@ class ProductController {
 
       const response = new HttpResponse({
         statusCode: 201,
-        data : createdProduct
+        data: createdProduct
       });
 
       res.status(response.statusCode).json(response);
-    }catch(exception){
+    } catch (exception) {
       const response = HttpResponse.fromException(exception);
       res.status(response.statusCode).json(response);
     }
   }
 
-  async updateProduct(req, res){
-    try{
+  async updateProduct(req, res) {
+    try {
       const id = String((req.params.id).trim());
       const name = req.body.name;
       const price = req.body.price;
@@ -107,11 +107,11 @@ class ProductController {
       const categoryId = req.body.categoryId;
       const organizationId = req.body.organizationId;
 
-      if(!ValidateUuidV4.isValidUuidV4(id)){
+      if (!ValidateUuidV4.isValidUuidV4({ uuid: id })) {
         throw new BadRequestException('The id parameter not a valid uuid.');
       }
 
-      if(!name || !price || !description || !imgName || !organizationId || !categoryId){
+      if (!name || !price || !description || !imgName || !organizationId || !categoryId) {
         throw new BadRequestException('invalid attibutes.');
       }
 
@@ -125,17 +125,17 @@ class ProductController {
       });
 
       res.status(response.statusCode).json(response);
-    }catch(exception){
+    } catch (exception) {
       const response = HttpResponse.fromException(exception);
       res.status(response.statusCode).json(response);
     }
   }
 
-  async deleteProduct(req, res){
-    try{
+  async deleteProduct(req, res) {
+    try {
       const id = String((req.params.id).trim());
 
-      if(!ValidateUuidV4.isValidUuidV4(id)){
+      if (!ValidateUuidV4.isValidUuidV4({ uuid: id })) {
         throw new BadRequestException('The id parameter not a valid uuid.');
       }
 
@@ -147,7 +147,7 @@ class ProductController {
       });
 
       res.status(response.statusCode).json(response);
-    }catch(exception){
+    } catch (exception) {
       const response = HttpResponse.fromException(exception);
       res.status(response.statusCode).json(response);
     }

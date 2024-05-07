@@ -1,5 +1,5 @@
 const adminService = require('../services/AdminService.js');
-const { HttpResponse, passwordUtils } = require('../utils');
+const { HttpResponse, BadRequestException, ValidateUuidV4 } = require('../utils');
 
 class AdminController {
   async getAdmins(req, res) {
@@ -20,9 +20,12 @@ class AdminController {
 
   async getAdminByEmail(req, res) {
     try {
-      const adminEmail = req.params.email;
+      const email = req.params.email;
+      if (!email) {
+        throw new BadRequestException('Invalid parameter for email');
+      }
 
-      const admin = await adminService.getAdminByEmail(adminEmail);
+      const admin = await adminService.getAdminByEmail({ email });
 
       const response = new HttpResponse({
         statusCode: 200,
@@ -38,9 +41,13 @@ class AdminController {
 
   async getAdminById(req, res) {
     try {
-      const adminId = req.params.id;
+      const id = req.params.id;
 
-      const admin = await adminService.getAdminById({ id: adminId });
+      if (!ValidateUuidV4.isValidUuidV4({ uuid: id })) {
+        throw new BadRequestException('The parameter ID is not a valid uuid');
+      }
+
+      const admin = await adminService.getAdminById({ id });
 
       const response = new HttpResponse({
         statusCode: 200,
@@ -64,9 +71,7 @@ class AdminController {
       const password = req.body.password;
       const organizationId = req.body.organizationId;
 
-      const hashedPassword = await passwordUtils.hashPassword(password);
-
-      const createdAdmin = await adminService.createAdmin({ name, cpf, email, telephone, birthDate, password: hashedPassword, organizationId });
+      const createdAdmin = await adminService.createAdmin({ name, cpf, email, telephone, birthDate, password, organizationId });
 
       const response = new HttpResponse({
         statusCode: 200,
@@ -82,17 +87,18 @@ class AdminController {
 
   async updateAdmin(req, res) {
     try {
-      const adminId = req.params.id;
+      const id = req.params.id;
+
+      if (!ValidateUuidV4.isValidUuidV4({ uuid: id })) {
+        throw new BadRequestException('The parameter ID is not a valid uuid');
+      }
 
       const name = req.body.name;
       const email = req.body.email;
       const telephone = req.body.telephone;
       const birthDate = req.body.birthDate;
-      const password = req.body.password;
 
-      const hashedPassword = await passwordUtils.hashedPassword(password)
-
-      const updatedAdmin = await adminService.updateAdmin({ id: adminId, name, email, telephone, birthDate, password: hashedPassword });
+      const updatedAdmin = await adminService.updateAdmin({ id, name, email, telephone, birthDate });
 
       const response = new HttpResponse({
         statusCode: 200,
@@ -106,11 +112,42 @@ class AdminController {
     }
   }
 
+  async updateAdminPassword(req, res){
+    try{
+      const id = req.params.id;
+
+      if (!ValidateUuidV4.isValidUuidV4({ uuid: id })) {
+        throw new BadRequestException('The parameter ID is not a valid uuid');
+      }
+
+      const oldPassword = req.body.oldPassword;
+      const newPassword = req.body.newPassword;
+      //precisa ter no body para a atualização, mas será validade pela joi
+      //const confirmPassword = req.body.machPassword; 
+
+      const updated = await adminService.updateAdminPassword({id, oldPassword, password: newPassword});
+
+      const response = new HttpResponse({
+        statusCode: 200,
+        message: updated.message
+      });
+
+      res.status(response.statusCode).json(response);
+    } catch (exception) {
+      const response = HttpResponse.fromException(exception);
+      res.status(response.statusCode).json(response);
+    }
+  }
+
   async deleteAdmin(req, res) {
     try {
-      const adminId = req.params.id;
+      const id = req.params.id;
 
-      const deletedAdmin = await adminService.deleteAdmin({ id: adminId });
+      if (!ValidateUuidV4.isValidUuidV4({ uuid: id })) {
+        throw new BadRequestException('The parameter ID is not a valid uuid');
+      }
+
+      const deletedAdmin = await adminService.deleteAdmin({ id });
 
       const response = new HttpResponse({
         statusCode: 200,

@@ -4,7 +4,8 @@ const { ConflictException,
   BadRequestException,
   InternalServerException,
   PaymentRequiredException,
-  UnsuportedMediaTypeException } = require('./Exception');
+  UnsuportedMediaTypeException,
+  ForbiddenException } = require('./Exception');
 
 const HttpResponse = require('./HttpResponse');
 const passwordUtils = require('./PasswordUtils');
@@ -19,6 +20,7 @@ module.exports = {
   InternalServerException,
   PaymentRequiredException,
   UnsuportedMediaTypeException,
+  ForbiddenException,
   HttpResponse,
   passwordUtils,
   fileDeleter,

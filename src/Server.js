@@ -3,7 +3,6 @@ const { config } = require('dotenv');
 const path = require('path');
 const router = require("./routes");
 const cookieParser = require('cookie-parser');
-const { corsMiddleware } = require('./middlewares');
 
 class Server{
   constructor(){
@@ -21,7 +20,6 @@ class Server{
     this.#configEnvironment();
     this.app.use(express.json());
     this.app.use(cookieParser());
-    this.app.use(corsMiddleware);
 
     //Router for api
     this.app.use('/api', router);

@@ -56,7 +56,7 @@ export default class extends AbstractPage {
 
     const nameInput = document.createElement("input");
     nameInput.type = "text";
-    nameInput.name = "username"
+    nameInput.name = "username";
     nameInput.required = true;
 
     const passwordBox = document.createElement("div");
@@ -102,10 +102,10 @@ export default class extends AbstractPage {
           },
           body: JSON.stringify({ type, username, password })
         });
-        
-        const data = response.json();
 
-        if (data.type === "admin") {
+        const data = await response.json();
+
+        if (data['data'].user_type === "admin") {
           window.location.href = "/admin-page";
         } else {
           console.error("Falha ao enviar os dados para o backend (colocar exception aqui)")
@@ -124,7 +124,7 @@ export default class extends AbstractPage {
         const data = await response.json();
 
         if (response.ok) {
-          switch (data.device_type) {
+          switch (data['data'].device_type) {
             case "cozinha":
               window.location.href = "/cozinha";
               break;

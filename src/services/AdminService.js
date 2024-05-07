@@ -1,11 +1,12 @@
-const adminRepository = require('../repositories/AdminRepository.js');
+const { adminRepository } = require('../repositories');
+const { passwordUtils, NotFoundException, UnauthorizedException, BadRequestException } = require('../utils')
+
 class AdminService {
   async getAdmins() {
     try {
       return await adminRepository.getAdmins();
     } catch (exception) {
-      console.log(exception);
-      console.log("AdminService:getAdmins");
+      throw exception;
     }
   }
 
@@ -13,10 +14,13 @@ class AdminService {
     try {
       const admin = await adminRepository.getAdminByEmail({ email });
 
+      if (!admin) {
+        throw new NotFoundException('Admin not found.');
+      }
+
       return admin;
     } catch (exception) {
-      console.log(exception);
-      console.log("AdminService:getAdminByEmail");
+      throw exception;
     }
   }
 
@@ -24,38 +28,64 @@ class AdminService {
     try {
       const admin = await adminRepository.getAdminById({ id });
 
+      if (!admin) {
+        throw new NotFoundException('Admin not found.');
+      }
+
       return admin;
     } catch (exception) {
-      console.log(exception);
-      console.log("AdminService:getAdminById");
+      throw exception;
     }
   }
 
   async createAdmin({ name, cpf, email, telephone, birthDate, password, organizationId }) {
     try {
-      const createdAdmin = await adminRepository.createAdmin({ name, cpf, email, telephone, birthDate, password, organizationId });
+
+      const hashedPassword = await passwordUtils.hashPassword(password);
+
+      const createdAdmin = await adminRepository.createAdmin({ name, cpf, email, telephone, birthDate, password: hashedPassword, organizationId });
 
       return createdAdmin;
     } catch (exception) {
-      console.log(exception);
-      console.log("AdminService:createAdmin");
+      throw exception;
     }
   }
 
-  async updateAdmin({ id, name, email, telephone, birthDate, password }) {
+  async updateAdmin({ id, name, email, telephone, birthDate }) {
     try {
-      const adminToUpdate = await adminRepository.getAdminById(adminId);
+      const adminToUpdate = await adminRepository.getAdminById({ id });
 
       if (!adminToUpdate) {
-        throw console.log("Admin not found"); //NotFoundException
+        throw new NotFoundException('Admin not Found');
       }
 
-      const updatedAdmin = await adminRepository.updateAdmin({ id, name, email, telephone, birthDate, password });
+      const updatedAdmin = await adminRepository.updateAdmin({ id, name, email, telephone, birthDate });
 
       return updatedAdmin;
     } catch (exception) {
-      console.log(exception);
-      console.log("AdminService:updateAdmin");
+      throw exception;
+    }
+  }
+
+  async updateAdminPassword({ id, oldPassword, password }) {
+    try {
+      const adminToUpdate = await adminRepository.getAdminById({ id });
+
+      if (!adminToUpdate) {
+        throw new NotFoundException('Admin not Found');
+      }
+
+      const match = await passwordUtils.comparePassword(oldPassword, adminToUpdate.password);
+
+      if (!match) {
+        throw new BadRequestException('Invalid current password provided.');
+      }
+
+      const updated = await adminRepository.updateAdminPassword({ id, password });
+
+      return updated;
+    } catch (exception) {
+      throw exception;
     }
   }
 
@@ -64,15 +94,14 @@ class AdminService {
       const adminToDelete = await adminRepository.getAminById({ id });
 
       if (!adminToDelete) {
-        throw console.log("Admin not found"); //NotFoundException
+        throw new NotFoundException("Admin not found");
       }
 
       const deletedAdmin = await adminRepository.deleteAdmin({ id });
 
       return deletedAdmin;
-    } catch (exceptino) {
-      console.log(exceptino);
-      console.log("AdminService:deleteAdmin");
+    } catch (exception) {
+      throw exception;
     }
   }
 }
