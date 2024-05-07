@@ -8,14 +8,29 @@
   --orderup-light-grey: #e0e1dd;
   --orderup-darkest-blue: #0d1b2a;
   --orderup-white: #ebecfa;
+
+  /*Colors for customer-visible screens*/
+  --orderup-light-red: #f62913;
+  --orderup-medium-red: #d01f0e;
+  --orderup-dark-red: #a91509;
+  --orderup-darkest-red: #830a05;
+
   --orderup-poppins: "Poppins", Arial, Helvetica, sans-serif;
-  --important:tomato;
+
   --size-0: 14px;
   --size-1: 18px;
   --size-2: 24px;
   --size-3: 32px;
   --size-4: 42px;
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--orderup-poppins);
+}
+
 /* End Root Region*/
 
 /* #region Adrian */
@@ -46,7 +61,7 @@
   width: 1px;
 }
 
-.mydict input[type="radio"]:checked + span {
+.mydict input[type="radio"]:checked+span {
   box-shadow: 0 0 0 0.0625em #0043ed;
   background-color: #dee7ff;
   z-index: 1;
@@ -88,6 +103,7 @@ label:last-child span {
   color: var(--orderup-light-blue);
   font-size: var(--size-4);
 }
+
 #list-items-container {
   font-family: var(--orderup-poppins);
   color: var(--orderup-darkest-blue);
@@ -97,6 +113,7 @@ label:last-child span {
   text-align: center;
   padding-block: 20px;
 }
+
 .list-item-box {
   font-size: var(--size-0);
   background-color: var(--orderup-light-grey);
@@ -109,11 +126,13 @@ label:last-child span {
   margin-inline: 80px;
   border-radius: 10px;
 }
+
 .list-title {
   font-size: var(--size-0);
   font-weight: bold;
   margin-bottom: -10px;
 }
+
 .list-item-box input {
   cursor: pointer;
   height: 30px;
@@ -151,27 +170,31 @@ label:last-child span {
   color: var(--orderup-darkest-blue);
 }
 
-#question{
+#question {
   font-size: var(--size-2);
 }
-form{
+
+form {
   font-size: var(--size-1);
   text-align: center;
 }
-#form-update input{
-  margin-right: 75px; 
+
+#form-update input {
+  margin-right: 75px;
   margin-top: 20px;
 }
-#label-description{
+
+#label-description {
   display: block;
   margin-top: 10px;
   margin-bottom: 5px;
- }
+}
 
-#important{
+#important {
   color: var(--important);
   font-size: var(--size-3);
 }
+
 .modal-close {
   position: absolute;
   top: 10px;
@@ -180,6 +203,7 @@ form{
   width: 20px;
   height: 20px;
 }
+
 .modal-button {
   cursor: pointer;
   height: 40px;
@@ -192,5 +216,10 @@ form{
   font-family: var(--orderup-poppins);
   font-size: var(--size-1);
 }
+
+/* #endregion */
+
+/* #region Victor */
+
 
 /* #endregion */
