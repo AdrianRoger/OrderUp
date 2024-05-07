@@ -1,9 +1,11 @@
-const corsMiddleware = require('./corsMiddleware');
+const authMiddleware = require('./AuthMiddleware');
 const upload = require('./MulterMiddleware');
-const authMiddleware = require('./AuthMiddleware')
+const joiSchemas = require('./JoiSchemas');
+const joiValidate = require('./JoiValidateEntries')
 
 module.exports = {
-  corsMiddleware,
   authMiddleware,
   upload,
+  joiSchemas,
+  joiValidate
 }
