@@ -4,6 +4,7 @@ import AdminPage from "./pages/AdminPage.js";
 import RegisterCategory from "./pages/RegisterCategory.js";
 import CategoryList from "./pages/CategoryList.js";
 import RegisterProduct from "./pages/RegisterProduct.js";
+import MenuPage from "./pages/MenuPage.js";
 
 const navigateTo = url => {
   history.pushState(null, null, url);
@@ -19,6 +20,7 @@ const router = async () => {
     { path: '/admin-page', view: AdminPage },
     { path: '/register-category', view: RegisterCategory },
     { path: '/register-product', view: RegisterProduct },
+    { path: '/menu', view: MenuPage },
   ];
 
   const potentialMatches = routes.map(route => {

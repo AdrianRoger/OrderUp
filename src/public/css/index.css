@@ -17,6 +17,12 @@
   --size-3: 32px;
   --size-4: 42px;
 }
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 /* End Root Region*/
 
 
