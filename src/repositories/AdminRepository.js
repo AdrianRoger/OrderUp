@@ -1,5 +1,6 @@
 const database = require('../database/Database.js');
 const Admin = require('../model/AdminModel.js');
+const { InternalServerException, NotFoundException } = require('../utils');
 class AdminRepository {
   async getAdmins() {
     try {
@@ -15,17 +16,15 @@ class AdminRepository {
           email: result.email,
           telephone: result.telephone,
           birthDate: result.birth_date,
-          password: result.password,
-          type: result.type,
           organizationId: result.fk_organization_id
         });
       });
 
       return admins ?? [];
 
-    } catch (exception) {
-      console.log(exception);
-      console.log("AdminRepository:getAdmins");
+    } catch (error) {
+      console.error(`AdminRepository:getAdmins error: [${error}]`);
+      throw new InternalServerException();
     }
   }
 
@@ -36,10 +35,6 @@ class AdminRepository {
         args: [email]
       });
 
-      if (result.lenght === 0) {
-        return null;
-      }
-
       const admin = new Admin({
         id: result[0].id,
         name: result[0].name,
@@ -53,9 +48,9 @@ class AdminRepository {
 
       return admin;
 
-    } catch (exception) {
-      console.log(exception);
-      console.log("AdminRepository:getAdminByEmail");
+    } catch (error) {
+      console.error(`AdminRepository:getAdminByEmail error [${error}]`);
+      throw new NotFoundException();
     }
   }
 
@@ -66,10 +61,6 @@ class AdminRepository {
         args: [id]
       });
 
-      if (result.lenght === 0) {
-        return null;
-      }
-
       const admin = new Admin({
         id: result[0].id,
         name: result[0].name,
@@ -82,9 +73,9 @@ class AdminRepository {
       });
 
       return admin;
-    } catch (exception) {
-      console.log(exception);
-      console.log("AdminRepository:getAdminById");
+    } catch (error) {
+      console.error(`AdminRepository:getAdminById error [${error}]`);
+      throw new NotFoundException();
     }
   }
 
@@ -104,25 +95,24 @@ class AdminRepository {
         email: result[0].email,
         telephone: result[0].telephone,
         birthDate: result[0].birth_date,
-        password: result[0].password,
         organizationId: result[0].fk_organization_id
       });
 
       return createdAdmin;
 
-    } catch (exception) {
-      console.log(exception);
-      console.log("AdminRepository:createAdmin");
+    } catch (error) {
+      console.error(`AdminRepository:createAdmin error [${error}]`);
+      throw new InternalServerException();
     }
   }
 
-  async updateAdmin({ id, name, email, telephone, birthDate, password }) {
+  async updateAdmin({ id, name, email, telephone, birthDate }) {
     try {
       const result = await database.executeQuery({
         query:
-          `UPDATE admin SET name = $2, email = $3, telephone = $4, birth_date = $5, 
-          password = $6 WHERE id = $1 RETURNING *`,
-        args: [id, name, email, telephone, birthDate, password]
+          `UPDATE admin SET name = $2, email = $3, telephone = $4, birth_date = $5 
+           WHERE id = $1 RETURNING *`,
+        args: [id, name, email, telephone, birthDate]
       });
 
       const updatedAdmin = new Admin({
@@ -132,14 +122,31 @@ class AdminRepository {
         email: result[0].email,
         telephone: result[0].telephone,
         birthDate: result[0].birth_date,
-        password: result[0].password,
         organizationId: result[0].fk_organization_id
       });
 
       return updatedAdmin;
-    } catch (exception) {
-      console.log(exception);
-      console.log("AdminRepository:updateAdmin");
+    } catch (error) {
+      console.error(`AdminRepository:updateAdmin error [${error}]`);
+      throw new InternalServerException();
+    }
+  }
+
+  async updateAdminPassword({ id, password }) {
+    try{
+      const result = await database.executeQuery({
+        query: `UPDATE admin SET password = $2 WHERE id = $1 RETURNING *`,
+        args: [id, password]
+      });
+
+      const updated = {
+        message: `Password for admin ${result[0].name} updated.`
+      }
+
+      return updated;
+    }catch(error){
+      console.error(`AdminRepository:updateAdminPassword error [${error}]`);
+      throw new InternalServerException();
     }
   }
 
@@ -157,15 +164,14 @@ class AdminRepository {
         email: result[0].email,
         telephone: result[0].telephone,
         birthDate: result[0].birth_date,
-        password: result[0].password,
         organizationId: result[0].fk_organization_id
       });
 
       return deletedAdmin;
 
-    } catch (exception) {
-      console.log(exception);
-      console.log("AdminRepository:deleteAdmin");
+    } catch (error) {
+      console.error(`AdminRepository:deleteAdmin error [${error}]`);
+      throw new InternalServerException();
     }
   }
 }
