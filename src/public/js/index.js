@@ -4,6 +4,8 @@ import AdminPage from "./pages/AdminPage.js";
 import RegisterCategory from "./pages/RegisterCategory.js";
 import CategoryList from "./pages/CategoryList.js";
 import RegisterProduct from "./pages/RegisterProduct.js";
+import DeviceList from "./pages/DeviceList.js";
+import Header from "./components/Header.js";
 
 const navigateTo = url => {
   history.pushState(null, null, url);
@@ -19,6 +21,7 @@ const router = async () => {
     { path: '/admin-page', view: AdminPage },
     { path: '/register-category', view: RegisterCategory },
     { path: '/register-product', view: RegisterProduct },
+    { path: '/device', view: DeviceList },
   ];
 
   const potentialMatches = routes.map(route => {
@@ -35,8 +38,8 @@ const router = async () => {
   };
 
   const view = new match.route.view();
-
   document.querySelector('#root').innerHTML = '';
+  document.querySelector('#root').appendChild(Header);
   document.querySelector('#root').appendChild(await view.getHtml());
 }
 
