@@ -98,10 +98,11 @@ label:last-child span {
   text-align: center;
   align-content: center;
   background-color: var(--orderup-dark-blue);
-  height: 100px;
+  height: 40px;
   width: 100%;
-  color: var(--orderup-light-blue);
-  font-size: var(--size-4);
+  color: var(--orderup-white);
+  font-size: var(--size-2);
+  font-weight: 600;
 }
 
 #list-items-container {
