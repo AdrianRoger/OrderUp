@@ -35,6 +35,10 @@ class AdminRepository {
         args: [email]
       });
 
+      if (result.length === 0) {
+        return null;
+      }
+      
       const admin = new Admin({
         id: result[0].id,
         name: result[0].name,
@@ -50,7 +54,7 @@ class AdminRepository {
 
     } catch (error) {
       console.error(`AdminRepository:getAdminByEmail error [${error}]`);
-      throw new NotFoundException();
+      throw new InternalServerException();
     }
   }
 
@@ -60,6 +64,10 @@ class AdminRepository {
         query: `SELECT * FROM admin WHERE id = $1`,
         args: [id]
       });
+
+      if (result.length === 0) {
+        return null;
+      }
 
       const admin = new Admin({
         id: result[0].id,
@@ -75,7 +83,7 @@ class AdminRepository {
       return admin;
     } catch (error) {
       console.error(`AdminRepository:getAdminById error [${error}]`);
-      throw new NotFoundException();
+      throw new InternalServerException();
     }
   }
 

@@ -1,16 +1,8 @@
 const { config } = require('dotenv');
-const jwt = require('jsonwebtoken');
 const {
   passwordUtils,
   HttpResponse,
-  UnauthorizedException,
-  BadRequestException,
-  InternalServerException,
-  PaymentRequiredException } = require('../utils');
-const { 
-  adminService, 
-  organizationService, 
-  deviceService } = require('../services');
+  InternalServerException } = require('../utils');
 
 class LoginController {
   constructor() {
@@ -22,109 +14,23 @@ class LoginController {
     try {
       const type = String(req.body.type);
 
-      if (!type) {
-        throw new BadRequestException('Login type must be informed.');
-      }
+      const { response, sessionToken } = req.body;
 
-      if (type !== 'admin' && type !== 'device') {
-        throw new BadRequestException('Login type must be informed.');
+      if (response.error) {
+        const loginError = new Error(response.message);
+        loginError.name = response.error;
+        loginError.status = response.statusCode;
+        //loginError = { name, status, message }
+        throw loginError;
       }
-
-      let session;
-      let response;
-      let sessionToken;
-      let error;
 
       switch (type) {
         case 'admin':
-          const email = String(req.body.username);
-          const password = String(req.body.password);
-
-          error = 'Invalid email or password.';
-          if (!email || !password) {
-            throw new BadRequestException(error);
-          }
-
-          const adminFound = await adminService.getAdminByEmail({ email });
-          if (!adminFound) {
-            res.cookie('session_id', '', { expires: new Date(0) });
-            throw new UnauthorizedException(error);
-          }
-
-          const match = await passwordUtils.comparePassword(password, adminFound.password);
-          if (!match) {
-            res.cookie('session_id', '', { expires: new Date(0) });
-            throw new UnauthorizedException(error);
-          }
-
-          const org = await organizationService.getOrganizationById({ id: adminFound.organizationId });
-          if (org.expireDate < Date.now()) {
-            res.cookie('session_id', '', { expires: new Date(0) });
-            throw new PaymentRequiredException('License expired, contact your administrator.');
-          }
-
-          session = {
-            organization_id: adminFound.organizationId,
-            username: adminFound.email,
-            user_type: 'admin',
-            device_type: '',
-          }
-
-          response = new HttpResponse({
-            statusCode: 200,
-            data: session,
-          });
-
-          sessionToken = await jwt.sign({ session }, this.secretKey);
-
           res.cookie('session_id', sessionToken, { maxAge: 30 * 60 * 1000, httpOnly: true });
           res.status(response.statusCode).json(response);
-
           break;
 
         case 'device':
-          const orgLoginName = String(req.body.username);
-          const hashcode = String(req.body.password);
-
-          error = 'Invalid Organization username or Device hashcode.';
-          if (!orgLoginName || hashcode.length !== 10) {
-            throw new BadRequestException(error);
-          }
-
-          //metodo getOrganizationByLoginName inexistente
-          const organizationFound = await organizationService.getOrganizationByLoginName({ loginName: orgLoginName });
-          if (!organizationFound) {
-            res.cookie('session_id', '', { expires: new Date(0) });
-            throw new UnauthorizedException(error);
-          }
-          
-          const devices = await deviceService.getDeviceByOrganizationId({ organizationId: organizationFound.id });
-          const device = devices.find(dev => dev.hashcode === hashcode);
-          if (device === undefined) {
-            res.cookie('session_id', '', { expires: new Date(0) });
-            throw new UnauthorizedException(error);
-          }
-
-          const orgDevice = await organizationService.getOrganizationById({ id: device.organizationId });
-          if (orgDevice.expireDate < Date.now()) {
-            res.cookie('session_id', '', { expires: new Date(0) });
-            throw new PaymentRequiredException(error);
-          }
-
-          session = {
-            organization_id: organizationFound.id,
-            username: organizationFound.loginName,
-            user_type: 'device',
-            device_type: device.type,
-            device_name: device.name,
-          }
-
-          response = new HttpResponse({
-            statusCode: 200,
-            data: session,
-          });
-
-          sessionToken = await jwt.sign({ session }, this.secretKey);
           res.cookie('session_id', sessionToken, { maxAge: 8 * 60 * 60 * 1000, httpOnly: true });
           res.status(response.statusCode).json(response);
 
@@ -135,8 +41,20 @@ class LoginController {
       }
 
     } catch (exception) {
-      const response = HttpResponse.fromException(exception);
-      res.status(response.statusCode).json(response);
+      if (exception instanceof InternalServerException) {
+        const response = new HttpResponse.fromException(exception);
+        return res.status(response.statusCode).json(response);
+      }
+      //{ name, status, message }
+      
+      const response = {
+        name: exception.name,
+        status: exception.status,
+        message: exception.message
+      }
+      
+      res.cookie('session_id', '', { expires: new Date(0) });
+      res.status(response.status).json(response);
     }
   }
 
