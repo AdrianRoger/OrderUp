@@ -11,6 +11,15 @@ export default class extends AbstractPage {
     const page = document.createElement('div');
     page.classList.add('page');
 
+    const modalMessage = document.createElement('div');
+    modalMessage.classList.add('msg-modal');
+
+    const msg = document.createElement('p');
+    msg.classList.add('msg-modal-text');
+
+    modalMessage.appendChild(msg);
+    page.appendChild(modalMessage);
+
     const container = document.createElement('div');
     container.classList.add('container');
 
@@ -32,7 +41,7 @@ export default class extends AbstractPage {
     const inputUsername = document.createElement('input');
     inputUsername.type = 'text';
     inputUsername.name = 'username';
-    inputUsername.placeholder = 'Nome de usuário';
+    inputUsername.placeholder = 'Email';
     inputUsername.required = true;
 
     divUsername.appendChild(inputUsername);
@@ -129,13 +138,13 @@ export default class extends AbstractPage {
 
     let radioInput = document.createElement('input');
     radioInput.type = 'radio';
-    radioInput.name = 'radio';
+    radioInput.name = 'type';
     radioInput.checked = true;
     radioInput.value = 'admin';
     label.appendChild(radioInput);
 
     let span = document.createElement('span');
-    span.classList.add('name');
+    span.classList.add('user-type');
     span.innerText = 'Administrador';
     label.appendChild(span);
 
@@ -158,12 +167,12 @@ export default class extends AbstractPage {
 
     radioInput = document.createElement('input');
     radioInput.type = 'radio';
-    radioInput.name = 'radio';
+    radioInput.name = 'type';
     radioInput.value = 'device';
     label.appendChild(radioInput);
 
     span = document.createElement('span');
-    span.classList.add('name');
+    span.classList.add('user-type');
     span.innerText = 'Dispositivos';
     label.appendChild(span);
     //End Type Seletion Bottun 
@@ -173,6 +182,87 @@ export default class extends AbstractPage {
     form.appendChild(entrar);
 
     //adicionar lógica do form aqui
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const username = inputUsername.value;
+      const password = inputPassword.value;
+      const type = form.querySelector('input[name="type"]:checked').value;
+      
+      if (type === 'admin') {
+        const response = await fetch("/api/login/", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ type, username, password })
+        });
+
+        const data = await response.json();
+
+        //Show error message on screen
+        if(response.status !== 200){
+          msg.innerText = data.message;
+          modalMessage.classList.remove('hide-message');
+          modalMessage.classList.add('show-message');
+          modalMessage.classList.add('error');
+          
+          setTimeout(()=>{
+            modalMessage.classList.remove('show-message');
+            modalMessage.classList.add('hide-message');
+          }, 5000);
+
+          return
+        }
+        
+        if (data['data'].user_type === "admin") {
+          window.location.href = "/admin-page";
+        } else {
+          console.error(data);
+        }
+
+      } else if(type === 'device'){
+        const response = await fetch("/api/login/", {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ type, username, password })
+        }); 
+
+        const data = await response.json();
+
+        //Show error message on screen
+        if(response.status !== 200){
+          msg.innerText = data.message;
+          modalMessage.classList.remove('hide-message');
+          modalMessage.classList.add('show-message');
+          modalMessage.classList.add('error');
+          
+          setTimeout(()=>{
+            modalMessage.classList.remove('show-message');
+            modalMessage.classList.add('hide-message');
+          }, 5000);
+
+          return
+        }
+
+        if (response.ok) {
+          switch (data['data'].device_type) {
+            case "cozinha":
+              window.location.href = "/cozinha";
+              break;
+            case "balcao":
+              window.location.href = "/balcao";
+              break;
+            case "mesa":
+              window.location.href = "/mesa";
+              break;
+          }
+        } else {
+          console.error(data);
+        }
+      }
+    });
 
     formContainer.appendChild(form);
     container.appendChild(imgContainer);

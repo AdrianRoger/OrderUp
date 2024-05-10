@@ -58,7 +58,7 @@ class OrganizationRepository {
         state: result[0].state,
         expireDate: result[0].expire_date
       });
-      console.log(result[0]);
+
       return organization;
 
     } catch (exception) {
