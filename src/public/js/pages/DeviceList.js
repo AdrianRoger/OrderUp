@@ -1,5 +1,6 @@
 import AbastractPage from "./AbstractPage.js";
-
+import deleteModal from "../components/DeleteModalPage.js";
+import device from "../components/Device.js";
 
 export default class extends AbastractPage {
   constructor() {
@@ -11,37 +12,50 @@ export default class extends AbastractPage {
     
     try {
       const response = await fetch(
-        "/api/categories/a7930dec-36ea-4a8d-998e-be326acfddf6"
+        "/api/device/"
       );
 
       const result = await response.json();
       const data = result.data;
+      
       const divList = document.createElement("div");
       divList.id = "list-container";
+     
       const inputSearch = document.createElement("input"); 
       inputSearch.id = "search-input";
       inputSearch.addEventListener("input",search);
+      
       const h1 = document.createElement("h1");
       h1.id = "list-title";
-      h1.innerText = "Lista de Categorias";
+      h1.innerText = "Lista de Dispositivos";
+      
       const table = document.createElement("table");
       table.id = "list-table";
+      
       const thead = document.createElement("thead");
+      
       const trTitles = document.createElement("tr");
       trTitles.id = "table-titles";
+      
       const thName = document.createElement("th");
       thName.innerText = "Nome";
-      const thDescription = document.createElement("th");
-      thDescription.innerText = "Descrição";
+      
+      const thTipo = document.createElement("th");
+      thTipo.innerText = "Tipo";
+      
+      const thHashcode = document.createElement("th");
+      thHashcode.innerText = "Hashcode";
+      
       const btnNew = document.createElement("button");
       btnNew.id = "button-new";
-      btnNew.innerText = "Nova Categoria";
-      btnNew.addEventListener("click",category.create);
+      btnNew.innerText = "Novo Dispositivo";
+      btnNew.addEventListener("click",device.create);
       const thNew = document.createElement("th");
       
       thNew.appendChild(btnNew);
       trTitles.appendChild(thName);
-      trTitles.appendChild(thDescription);
+      trTitles.appendChild(thTipo);
+      trTitles.appendChild(thHashcode);
       trTitles.appendChild(thNew);
       thead.appendChild(trTitles);
       table.appendChild(thead);
@@ -58,20 +72,29 @@ export default class extends AbastractPage {
         const tdNome = document.createElement("td");
         tdNome.id = `${d.name}`;
         tdNome.innerText = d.name;
-        const tdDescription = document.createElement("td");
-        tdDescription.innerText = d.description;
-        tdDescription.id = `${d.description}`;
+        
+        const tdTipo = document.createElement("td");
+        tdTipo.innerText = d.type;
+        tdTipo.id = `${d.type}`;
+        
+        const tdHashcode = document.createElement("td");
+        tdHashcode.innerText = d.hashcode;
+        tdHashcode.id = `${d.hashcode}`;
+        
         const imgUpdate = document.createElement("img");
         imgUpdate.src = "../../img/editar_icon.png";
-        imgUpdate.addEventListener("click",() => category.update(d));
+        imgUpdate.addEventListener("click",() => device.update(d));
+        
         const tdIcons = document.createElement("td");
         tdIcons.appendChild(imgUpdate);
+        
         const imgDelete = document.createElement("img");
         imgDelete.src = "../../img/deletar_icon.png";
         imgDelete.addEventListener("click",() => deleteModal.getHtml(d));
         tdIcons.appendChild(imgDelete);
         trItem.appendChild(tdNome);
-        trItem.appendChild(tdDescription);
+        trItem.appendChild(tdTipo);
+        trItem.appendChild(tdHashcode);
         trItem.appendChild(tdIcons);
         tbody.appendChild(trItem);
         lineCont++;
@@ -84,9 +107,9 @@ export default class extends AbastractPage {
         
         for(let i = 1; i < lines.length; i++){
           const inputValue = inputSearch.value.toLowerCase();
-          const categoryName = lines[i].getElementsByTagName('td')[0].textContent.toLowerCase();
-          const categoryDescription = lines[i].getElementsByTagName('td')[1].textContent.toLowerCase();
-          if(categoryName.includes(inputValue) || categoryDescription.includes(inputValue)){
+          const deviceName = lines[i].getElementsByTagName('td')[0].textContent.toLowerCase();
+          const deviceTipo = lines[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+          if(deviceName.includes(inputValue) || deviceTipo.includes(inputValue)){
               lines[i].style.display = "table-row";
             } else {
                lines[i].style.display = "none";

@@ -6,7 +6,7 @@ class DeviceService {
   async getDevices() {
     try {
       const device = await deviceRepository.getDevices();
-
+     
       return device;
     } catch (exception) {
       console.error(exception);
