@@ -52,24 +52,20 @@
 
 @keyframes showMessage {
   from {
-    /* transform: translateY(0); */
     opacity: 0;
   }
 
   to {
-    /* transform: translateY(100%); */
     opacity: 0.8;
   }
 }
 
 @keyframes hideMessage {
   from {
-    /* transform: translateY(100%); */
     opacity: 0.8;
   }
 
   to {
-    /* transform: translateY(0); */
     opacity: 0;
   }
 }
@@ -309,7 +305,6 @@ input::placeholder {
   width: 25px;
   margin-right: 7px;
   color: grey;
-  /* filter:drop-shadow( 1px 1px 2px rgba(0, 0, 0, 0.5)); */
   cursor: pointer;
 }
 
@@ -333,7 +328,6 @@ input::placeholder {
 }
 
 .msg-modal-text{
-  /* text-shadow: var(--text-shadow); */
   font-weight: 600;
 }
 
@@ -360,39 +354,70 @@ input::placeholder {
 /* #endregion */
 
 /* #region Murilo */
-#list-items-container {
-  font-family: var(--orderup-poppins);
-  color: var(--orderup-darkest-blue);
-  background-color: var(--orderup-white);
-  margin: 0px auto;
-  padding: 0px;
+#important{
+  color:var(--orderup-light-red);
+  font-size: var(--size-3);
+}
+
+#list-container{
+  width: 100%;
   text-align: center;
+}
+
+#list-table{
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 50px;
+}
+
+#list-title{
+  margin-top: 40px;
+  font-size: var(--size-3);
+  color: var(--orderup-darkest-blue);
+}
+
+#table-titles{
+  background-color: var(--orderup-dark-blue);
+  height: 50px;
+  width: 100%;
+  color: var(--orderup-white);
+}
+
+#button-new{
+  cursor: pointer;
+  background-color: var(--orderup-medium-blue);
+  color: var(--orderup-white);
+  border: 0px;
+  border-radius: 5px;
+  width: 150px;
+  height: 40px;
+  font-weight: 600;
+}
+
+#search-input{
+  height: 30px;
+  width: 25%;
+  padding-inline: 50px;
+  border-radius: 10px;
+  margin-top: 40px;
+  border: 0px;
+  background: var(--orderup-light-grey) url("../img/lupa_icon.png") no-repeat left center / 15px;
+  background-position: 20px;
+}
+
+td{
   padding-block: 20px;
 }
 
-.list-item-box {
-  font-size: var(--size-0);
-  background-color: var(--orderup-light-grey);
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin: 10px;
-  height: 100px;
-  justify-content: space-around;
-  align-items: center;
-  margin-inline: 80px;
-  border-radius: 10px;
-}
-
-.list-title {
-  font-size: var(--size-0);
-  font-weight: bold;
-  margin-bottom: -10px;
-}
-
-.list-item-box input {
+td img{
   cursor: pointer;
   height: 30px;
-  margin: 20px;
+  width: 30px;
+  margin-inline: 20px;
+}
+
+.tr-grey{
+  background-color: var(--orderup-light-grey);
 }
 
 /*Modal*/
@@ -402,7 +427,17 @@ input::placeholder {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.background{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../img/Hero_OrderUp.jpg");
+  filter: blur(10px);
+  background-size: cover;
   display: block;
 }
 
@@ -411,47 +446,45 @@ input::placeholder {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
+  width: 500px;
   height: 300px;
-  background-color: white;
+  background-color: var(--orderup-dark-blue);
   border-radius: 10px;
   padding: 20px;
   text-align: center;
   align-content: center;
-}
-
-
-.modal-text {
   font-family: var(--orderup-poppins);
-  color: var(--orderup-darkest-blue);
+  color: var(--orderup-white);
 }
+
 
 #question {
   font-size: var(--size-2);
 }
 
-form {
+#form-update {
   font-size: var(--size-1);
-  text-align: center;
-}
-
-#form-update input {
-  margin-right: 75px;
   margin-top: 20px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  
 }
 
-#label-description {
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 5px;
+#form-update input, #form-update textarea{
+  border-radius: 5px;
+  background-color: var(--orderup-light-grey);
+  margin-block: 5px;
+  color: var(--orderup-dark-blue);
 }
-
-#important {
-  color: var(--important);
-  font-size: var(--size-3);
+#form-update input{
+  width: 215px;
 }
 
 .modal-close {
+  color: var(--orderup-white);
+  font-size: var(--size-1);
+  font-weight: 600;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -462,15 +495,16 @@ form {
 
 .modal-button {
   cursor: pointer;
-  height: 40px;
-  width: 120px;
+  height: 30px;
+  width: 150px;
   border-radius: 10px;
   border: 0px;
-  background-color: var(--orderup-light-blue);
+  background-color: var(--orderup-medium-blue);
   font-weight: 500;
-  color: var(--orderup-darkest-blue);
+  color: var(--orderup-white);
   font-family: var(--orderup-poppins);
-  font-size: var(--size-1);
+  font-size: var(--size-0);
+  margin-top: 20px;
 }
 
 /* #endregion */

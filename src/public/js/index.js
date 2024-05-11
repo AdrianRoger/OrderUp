@@ -1,9 +1,7 @@
 import Login from "./pages/Login.js";
 import AdminOptions from "./pages/AdminOptions.js";
 import AdminPage from "./pages/AdminPage.js";
-import RegisterCategory from "./pages/RegisterCategory.js";
 import CategoryList from "./pages/CategoryList.js";
-import RegisterProduct from "./pages/RegisterProduct.js";
 import MenuPage from "./pages/MenuPage.js";
 import DeviceList from "./pages/DeviceList.js";
 import Header from "./components/Header.js";
@@ -20,8 +18,6 @@ const router = async () => {
     { path: '/login', view: Login },
     { path: '/admin-options', view: AdminOptions },
     { path: '/admin-page', view: AdminPage },
-    { path: '/register-category', view: RegisterCategory },
-    { path: '/register-product', view: RegisterProduct },
     { path: '/menu', view: MenuPage },
     { path: '/device', view: DeviceList },
   ]

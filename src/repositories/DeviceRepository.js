@@ -8,13 +8,13 @@ class DeviceRepository {
       const result = await database.executeQuery({
         query: 'SELECT * FROM device'
       })
-
+     
       const devices = result.map((result) => {
         return new device({
           id: result.id,
           type: result.type,
           name: result.name,
-          hashCode: result.hashCode,
+          hashcode: result.hashcode,
           organizationId: result.fk_organization_id
         });
       })

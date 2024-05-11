@@ -47,10 +47,10 @@ class CategoryController {
 
   async createCategory(req, res) {
     try {
-      const categoryOrganizationId = String(req.body.organization_id ?? "");
+      //const organizationId = String(req.cookies.organization_id ?? "");
+      const categoryOrganizationId = String(req.body.orgId ?? "");
       const categoryName = String(req.body.name ?? "");
       const categoryDescription = String(req.body.description ?? "");
-
       if (categoryOrganizationId.length === 0) {
         throw new BadRequestException(
           "Organization id must be a non-empty string"
