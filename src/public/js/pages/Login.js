@@ -215,7 +215,7 @@ export default class extends AbstractPage {
         }
         
         if (data['data'].user_type === "admin") {
-          window.location.href = "/admin-page";
+          window.location.href = "/admin";
         } else {
           console.error(data);
         }
