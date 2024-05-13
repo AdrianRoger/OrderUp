@@ -18,12 +18,12 @@ VALUES
 -- Inserts para a tabela de dispositivo (device)
 INSERT INTO device (type, name, hashcode, fk_organization_id)
 VALUES 
-  ('mesa', 'Mesa 1', 'hash123', (SELECT id FROM organization WHERE name = 'Restaurante ABC')),
-  ('mesa', 'Mesa 2', 'hash234', (SELECT id FROM organization WHERE name = 'Restaurante ABC')),
-  ('mesa', 'Mesa 3', 'hash345', (SELECT id FROM organization WHERE name = 'Restaurante ABC')),
-  ('cozinha', 'Cozinha Principal', 'hash456', (SELECT id FROM organization WHERE name = 'Restaurante ABC')),
-  ('balcao', 'Atendimento', 'hash256', (SELECT id FROM organization WHERE name = 'Restaurante ABC')),
-  ('balcao', 'Balcão de Atendimento', 'hash789', (SELECT id FROM organization WHERE name = 'Café XYZ'));
+  ('mesa', 'Mesa 1', 'hash123456', (SELECT id FROM organization WHERE name = 'Restaurante ABC')),
+  ('mesa', 'Mesa 2', 'hash234567', (SELECT id FROM organization WHERE name = 'Restaurante ABC')),
+  ('mesa', 'Mesa 3', 'hash345678', (SELECT id FROM organization WHERE name = 'Restaurante ABC')),
+  ('cozinha', 'Cozinha Principal', 'hash456789', (SELECT id FROM organization WHERE name = 'Restaurante ABC')),
+  ('balcao', 'Atendimento', 'hash256789', (SELECT id FROM organization WHERE name = 'Restaurante ABC')),
+  ('balcao', 'Balcão de Atendimento', 'hash789000', (SELECT id FROM organization WHERE name = 'Café XYZ'));
 
 -- Inserts para a tabela de categoria
 INSERT INTO category (name, description, fk_organization_id)
